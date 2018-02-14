@@ -1,0 +1,52 @@
+package:
+  name: fermi-glast-scons
+  version: "v11r5p3"
+
+source:
+  git_url: https://github.com/fermi-lat/ScienceTools.git
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - repoman
+    - heacore
+    - f2c
+    - minuit2
+    - python
+    - astropy
+    - cppunit
+    - clhep
+    - distribute
+    - fftw
+    - gsl
+    - matplotlib
+    - numpy
+    - pmw
+    - scipy
+    - swig
+    - xerces-c
+    - healpix_cxx
+    - wcslib
+
+  run:
+    - heacore
+    - f2c
+    - minuit2
+    - python
+    - astropy
+    - cppunit
+    - clhep
+    - distribute
+    - fftw
+    - gsl
+    - matplotlib
+    - numpy
+    - pmw
+    - scipy
+    - swig
+    - xerces-c
+    - healpix_cxx
+    - wcslib
+
