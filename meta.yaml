@@ -1,6 +1,6 @@
 package:
-  name: fermi-glast-scons
-  version: "v11r5p3"
+  name: ScienceTools-scons
+  version: "0test"
 
 source:
   git_url: https://github.com/fermi-lat/ScienceTools.git
@@ -10,10 +10,10 @@ build:
 
 requirements:
   build:
-    - repoman
-    - heacore
+    - fermi-repoman
+    - ape
     - f2c
-    - minuit2
+    - root5
     - python
     - astropy
     - cppunit
@@ -31,7 +31,8 @@ requirements:
     - wcslib
 
   run:
-    - heacore
+    - ape
+    - root5
     - f2c
     - minuit2
     - python
