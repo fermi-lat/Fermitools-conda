@@ -1,5 +1,5 @@
 package:
-  name: sciencetools-scons
+  name: fermitools
   version: "0test"
 
 source:

@@ -1,26 +1,28 @@
 #!/bin/bash
 
+export condaname="fermitools"
+
 function string_replace {
     echo "${1/\*/$2}"
 }
 
 # This instructs the Fermi ST where to find their data
 
-export INST_DIR=$CONDA_PREFIX/share/fermist
+export INST_DIR=$CONDA_PREFIX/share/${condaname}
 export BASE_DIR=$INST_DIR
 
 # Keep a copy of the current path so we can restore 
 # upon deactivation
-export FERMIST_OLD_PATH=$PATH
+export FERMI_OLD_PATH=$PATH
 
 # Add path for the ST binaries
-export PATH=$CONDA_PREFIX/bin/fermist:${PATH}
+export PATH=$CONDA_PREFIX/bin/${condaname}:${PATH}
 
 # Setup PFILES
 
 # Save old value (this will be the empty string if
 # PFILES is not set)
-export FERMIST_OLD_PFILES=$PFILES
+export FERMI_OLD_PFILES=$PFILES
 
 if [ -z ${PFILES+x} ]; then 
     
@@ -62,9 +64,9 @@ cat << EOF | root -b -l
 
 TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "hey");
 
-if(!old_value.Contains("lib/fermist")) 
+if(!old_value.Contains("lib/${condaname}")) 
 { 
-    TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/fermist/");
+    TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/");
 
     gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
 
@@ -79,16 +81,16 @@ EOF
 # Add aliases for python executables
 sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-alias gtburst="python $sitepackagesdir/fermist/gtburst.py"
-alias ModelEditor="python $sitepackagesdir/fermist/ModelEditor.py"
-alias ObsSim="python $sitepackagesdir/fermist/ObsSim.py"
+alias gtburst="python $sitepackagesdir/${condaname}/gtburst.py"
+alias ModelEditor="python $sitepackagesdir/${condaname}/ModelEditor.py"
+alias ObsSim="python $sitepackagesdir/${condaname}/ObsSim.py"
 
 # These aliases are a convenience to activates the compatibility mode
 # for python scripts and packages written for the old system (before conda)
 # where packages are imported as "import UnbinnedAnalysis" instead of
-# "from fermist import UnbinnedAnalysis"
-alias fermist_compatibility_mode_on="export PYTHONPATH=${sitepackagesdir}/fermist:${PYTHONPATH}"
-alias fermist_compatibility_mode_off='export PYTHONPATH=${PYTHONPATH/"${sitepackagesdir}/fermist"/}'
+# "from ${condaname} import UnbinnedAnalysis"
+alias ${condaname}_compatibility_mode_on="export PYTHONPATH=${sitepackagesdir}/${condaname}:${PYTHONPATH}"
+alias ${condaname}_compatibility_mode_off="export PYTHONPATH=${PYTHONPATH}"
 
 # Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
 
