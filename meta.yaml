@@ -10,12 +10,13 @@ build:
 
 requirements:
   build:
-    - scons 2.*
+    - scons 2.3.0
+    - git
     - fermi-repoman
     - ape
     - f2c
     - root5
-    - python
+    - python 2.*
     - astropy
     - cppunit
     - clhep
