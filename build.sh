@@ -5,13 +5,11 @@ repoman --remote-base https://github.com/fermi-lat checkout --force --develop Sc
 mkdir ${PREFIX}/include/fftw
 ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
 
-
+# link to tinfo instead of termcap (provides the same functions)
+ln -s ${PREFIX}/lib/libtermcap.so ${PREFIX}/lib/libtinfo.so
 
 scons -C ScienceTools --site-dir=../SConsShared/site_scons --conda=${PREFIX} \
   --with-cxx=`which gcc`\
   --with-cc= `which gcc`\
   all
 
-
-# link to tinfo instead of termcap (provides the same functions)
-# add
