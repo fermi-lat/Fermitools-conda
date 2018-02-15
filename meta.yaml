@@ -10,6 +10,7 @@ build:
 
 requirements:
   build:
+    - toolchain
     - scons 2.3.0
     - git
     - fermi-repoman
