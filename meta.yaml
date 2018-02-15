@@ -37,7 +37,6 @@ requirements:
     - ape
     - root5
     - f2c
-    - minuit2
     - python
     - astropy
     - cppunit
