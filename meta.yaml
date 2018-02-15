@@ -10,6 +10,7 @@ build:
 
 requirements:
   build:
+    - scons=2.*
     - fermi-repoman
     - ape
     - f2c
