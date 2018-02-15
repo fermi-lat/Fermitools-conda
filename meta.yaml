@@ -7,17 +7,19 @@ source:
 
 build:
   number: 1
+  skip: true  # [win]
+  skip: true  # [py3k]
 
 requirements:
   build:
     - toolchain
-    - scons 2.3.0
+    - scons 2.*
     - git
     - fermi-repoman
     - ape
     - f2c
     - root5
-    - python 2.*
+    - python
     - astropy
     - cppunit
     - clhep
