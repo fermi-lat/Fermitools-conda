@@ -1,6 +1,6 @@
 export condaname="fermitools"
 
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda
+repoman --remote-base https://github.com/fermi-lat checkout --force ScienceTools conda
 
 # condaforge fftw is in a different spot
 mkdir ${PREFIX}/include/fftw
@@ -8,7 +8,7 @@ ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
 
 # link to tinfo instead of termcap (provides the same functions)
 # FIXME
-ln -s ${PREFIX}/lib/libtinfo.so ${PREFIX}/lib/libtermcap.so
+#ln -s ${PREFIX}/lib/libtinfo.so ${PREFIX}/lib/libtermcap.so
 
 # Add optimization
 export CFLAGS="-O2 ${CFLAGS}"
