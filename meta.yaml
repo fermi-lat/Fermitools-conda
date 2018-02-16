@@ -1,41 +1,45 @@
+{% set name = "fermitools" %}
+{% set version = "0.0.1b" %}
+
 package:
-  name: fermitools
-  version: "0test"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
   git_url: https://github.com/fermi-lat/ScienceTools.git
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   skip: true  # [py3k]
 
 requirements:
   build:
+    - matplotlib
+    - root5 
+    - readline 6.2
     - toolchain
     - scons 2.*
     - git
     - fermi-repoman
     - ape
     - f2c
-    - root5
     - python
     - astropy
     - cppunit
     - clhep
-    - distribute
     - fftw
     - gsl
-    - matplotlib
-    - numpy
     - pmw
-    - scipy
     - swig
-    - xerces-c
+    - xerces-c 
     - healpix_cxx
     - wcslib
+    - blas
+    - openblas 0.2.19|0.2.19.*
 
   run:
+    - numpy >=1.11
     - ape
     - root5
     - f2c
@@ -43,7 +47,6 @@ requirements:
     - astropy
     - cppunit
     - clhep
-    - distribute
     - fftw
     - gsl
     - matplotlib
@@ -54,4 +57,10 @@ requirements:
     - xerces-c
     - healpix_cxx
     - wcslib
+    - openblas 0.2.19|0.2.19.*
+    - readline 6.2
 
+test:
+  commands:
+    - conda inspect linkages -p $PREFIX {{ name }}  # [not win]
+    - conda inspect objects -p $PREFIX {{ name }}  # [osx]
