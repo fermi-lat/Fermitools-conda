@@ -85,13 +85,6 @@ alias gtburst="python $sitepackagesdir/${condaname}/gtburst.py"
 alias ModelEditor="python $sitepackagesdir/${condaname}/ModelEditor.py"
 alias ObsSim="python $sitepackagesdir/${condaname}/ObsSim.py"
 
-# These aliases are a convenience to activates the compatibility mode
-# for python scripts and packages written for the old system (before conda)
-# where packages are imported as "import UnbinnedAnalysis" instead of
-# "from ${condaname} import UnbinnedAnalysis"
-alias ${condaname}_compatibility_mode_on="export PYTHONPATH=${sitepackagesdir}/${condaname}:${PYTHONPATH}"
-alias ${condaname}_compatibility_mode_off="export PYTHONPATH=${PYTHONPATH}"
-
 # Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
 
 if [ -z ${LD_LIBRARY_PATH+x} ]; then 

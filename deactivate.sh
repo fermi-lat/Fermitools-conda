@@ -34,8 +34,6 @@ fi
 unalias gtburst
 unalias ModelEditor
 unalias ObsSim
-unalias ${condaname}_compatibility_mode_on
-unalias ${condaname}_compatibility_mode_off
 
 # We need to remove the path to the ST library dir from the 
 # path that ROOT will search for libraries
