@@ -15,52 +15,55 @@ build:
 
 requirements:
   build:
-    - matplotlib
-    - root5 
-    - readline 6.2
-    - toolchain
-    - scons 2.*
-    - git
-    - fermi-repoman
     - ape
-    - f2c
-    - python
+    - aplpy
     - astropy
-    - cppunit
-    - clhep
-    - fftw
-    - gsl
-    - pmw
-    - swig
-    - xerces-c 
-    - healpix_cxx
-    - wcslib
     - blas
+    - clhep
+    - cppunit
+    - f2c
+    - fermi-repoman
+    - fftw
+    - git
+    - gsl
+    - healpix_cxx
+    - matplotlib
+    - numpy 1.11.*
     - openblas 0.2.19|0.2.19.*
+    - pmw
+    - python
+    - readline 6.2
+    - root5
+    - scons 2.*
+    - swig
+    - toolchain
+    - wcslib
+    - xerces-c
 
   run:
-    - numpy >=1.11
     - ape
-    - root5
-    - f2c
-    - python
+    - aplpy
     - astropy
-    - cppunit
+    - blas
     - clhep
+    - cppunit
+    - f2c
     - fftw
     - gsl
-    - matplotlib
-    - numpy
-    - pmw
-    - scipy
-    - swig
-    - xerces-c
     - healpix_cxx
-    - wcslib
+    - matplotlib
+    - numpy >=1.11
     - openblas 0.2.19|0.2.19.*
+    - pmw
+    - python
     - readline 6.2
+    - root5
+    - wcslib
+    - xerces-c
 
 test:
   commands:
-    - conda inspect linkages -p $PREFIX {{ name }}  # [not win]
-    - conda inspect objects -p $PREFIX {{ name }}  # [osx]
+    # These tests inspect linkages and libraries. They are very slow, so comment them out
+    # for a quicker turnaround when testing
+    #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
+    #- conda inspect objects -p $PREFIX {{ name }}  # [osx]
