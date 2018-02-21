@@ -10,7 +10,10 @@ repoman --remote-base https://github.com/fermi-lat checkout --force ScienceTools
 
 # condaforge fftw is in a different spot
 mkdir -p ${PREFIX}/include/fftw
-ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
+if [ ! -e ${PREFIX}/include/fftw3.h ]
+  then
+    ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
+fi
 
 # link to tinfo instead of termcap (provides the same functions)
 # FIXME
