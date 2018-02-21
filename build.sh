@@ -3,7 +3,7 @@ export condaname="fermitools"
 repoman --remote-base https://github.com/fermi-lat checkout --force ScienceTools conda
 
 # condaforge fftw is in a different spot
-mkdir ${PREFIX}/include/fftw
+mkdir -p ${PREFIX}/include/fftw
 ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
 
 # link to tinfo instead of termcap (provides the same functions)
