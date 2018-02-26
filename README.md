@@ -1,11 +1,7 @@
-# fermi-glast-conda-recipe
+# Fermitools-conda-recipe
 
-The conda recipe to build fermi-glast
+The conda recipe to build Fermi ScienceTools
 
 ```
-> git clone https://github.com/Areustle/fermi-glast-conda-recipe.git
-
-cd fermi-glast-conda-recipe
-
-conda build -c fermi_dev_externals .
+conda build -c conda-forge -c fermi_dev_externals
 ```

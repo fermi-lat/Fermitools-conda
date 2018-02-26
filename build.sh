@@ -1,10 +1,19 @@
 export condaname="fermitools"
 
+# REPOMAN! #
+# Syntax Help:
+# To checkout master instead of the release tag add '--develop' after checkout
+# To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
+#   delimited list after 'conda' in the order of priority.
+#   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
 repoman --remote-base https://github.com/fermi-lat checkout --force ScienceTools conda
 
 # condaforge fftw is in a different spot
-mkdir ${PREFIX}/include/fftw
-ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
+mkdir -p ${PREFIX}/include/fftw
+if [ ! -e ${PREFIX}/include/fftw3.h ]
+  then
+    ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
+fi
 
 # link to tinfo instead of termcap (provides the same functions)
 # FIXME
