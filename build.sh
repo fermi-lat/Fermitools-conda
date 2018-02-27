@@ -81,7 +81,7 @@ echo "$PREFIX/lib/${condaname}" > $sitepackagesdir/${condaname}.pth
 # In order to support things like "import UnbinnedAnalysis" instead of
 # "from fermitools import UnbinnedAnalysis" we need to
 # also add the path to the fermitools package
-echo "${sitepackagesdir}/fermitools" > $sitepackagesdir/${condaname}.pth
+echo "${sitepackagesdir}/fermitools" >> $sitepackagesdir/${condaname}.pth
 
 # Pfiles
 mkdir -p $PREFIX/share/${condaname}/syspfiles
