@@ -8,22 +8,45 @@ export condaname="fermitools"
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
 repoman --remote-base https://github.com/fermi-lat checkout --force ScienceTools conda
 
+# repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-178
+
+
 # condaforge fftw is in a different spot
 mkdir -p ${PREFIX}/include/fftw
-if [ ! -e ${PREFIX}/include/fftw3.h ]
-  then
-    ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
-fi
+if [ ! -e ${PREFIX}/include/fftw/fftw3.h ] ; then
 
-# link to tinfo instead of termcap (provides the same functions)
-# FIXME
-#ln -s ${PREFIX}/lib/libtinfo.so ${PREFIX}/lib/libtermcap.so
+    ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
+
+fi
 
 # Add optimization
 export CFLAGS="-O2 ${CFLAGS}"
 export CXXFLAGS="-O2 ${CXXFLAGS}"
 
-scons -C ScienceTools --site-dir=../SConsShared/site_scons --conda=${PREFIX} --use-path -j ${CPU_COUNT} --rpath="${PREFIX}/lib:${PREFIX}/lib/root:${PREFIX}/lib/${condaname}" --ccflags="${CFLAGS}" --cxxflags="${CXXFLAGS}" all
+# Add rpaths needed for our compilation
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib:${PREFIX}/lib/root:${PREFIX}/lib/${condaname}"
+
+if [ "$(uname)" == "Darwin" ]; then
+    
+    echo "Compiling without openMP, not supported on Mac"
+    
+else
+    
+    # This is needed on Linux
+    
+    export LDFLAGS="${LDFLAGS} -fopenmp"
+
+fi
+
+scons -C ScienceTools \
+      --site-dir=../SConsShared/site_scons \
+      --conda=${PREFIX} \
+      --use-path \
+      -j ${CPU_COUNT} \
+      --ccflags="${CFLAGS}" \
+      --cxxflags="${CXXFLAGS}" \
+      --ldflags="${LDFLAGS}" \
+      all
 
 # Remove the links to fftw3
 rm -rf ${PREFIX}/include/fftw
