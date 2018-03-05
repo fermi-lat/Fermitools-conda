@@ -35,8 +35,8 @@ manager.
    miniconda.sh`
 1. Decide on a home location for your anaconda install. A good choice is your
    home directory.
-1. Execute the install script and install to your home like so: `bash -b -p
-   $HOME/anaconda`
+1. Execute the install script and install to your home like so: `bash
+   miniconda.sh -b -p $HOME/anaconda`
 1. Add the executables in this new directory to your path. In bash this is
    `export PATH=$HOME/anaconda/bin:$PATH`.  In tcsh this is `setenv PATH
    $HOME/anaconda/bin:$PATH`. It is a good idea to add this to your personal
