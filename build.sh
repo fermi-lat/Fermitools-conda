@@ -28,6 +28,7 @@ export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib:${PREFIX}/lib/root:${PREFIX}
 
 if [ "$(uname)" == "Darwin" ]; then
     
+    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
     echo "Compiling without openMP, not supported on Mac"
     
 else
