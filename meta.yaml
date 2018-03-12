@@ -58,6 +58,7 @@ requirements:
     - python
     - readline 6.2
     - root5
+    - scipy
     - wcslib
     - xerces-c
 

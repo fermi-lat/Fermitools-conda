@@ -24,14 +24,12 @@ export CFLAGS="-O2 ${CFLAGS}"
 export CXXFLAGS="-O2 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib:${PREFIX}/lib/root:${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
 
 if [ "$(uname)" == "Darwin" ]; then
     
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
     export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
-    #Need @executable_path/@loader_path reference to properly populate rpath at runtime on Macs
-    export LDFLAGS="${LDFLAGS} -rpath @executable_path/../../lib/root"
     echo "Compiling without openMP, not supported on Mac"
     
 else
