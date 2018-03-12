@@ -36,7 +36,7 @@ if [ "$(uname)" == "Darwin" ]; then
 else
     
     # This is needed on Linux
-    
+    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
     export LDFLAGS="${LDFLAGS} -fopenmp"
 
 fi
