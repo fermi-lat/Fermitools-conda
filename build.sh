@@ -89,6 +89,10 @@ echo "${sitepackagesdir}/fermitools" >> $sitepackagesdir/${condaname}.pth
 mkdir -p $PREFIX/share/${condaname}/syspfiles
 cp -R syspfiles/* $PREFIX/share/${condaname}/syspfiles
 
+# Xml
+mkdir -p $PREFIX/share/${condaname}/xml
+cp -R syspfiles/* $PREFIX/share/${condaname}/xml
+
 # Data
 mkdir -p $PREFIX/share/${condaname}/data
 cp -R data/* $PREFIX/share/${condaname}/data
