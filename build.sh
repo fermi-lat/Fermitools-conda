@@ -91,7 +91,7 @@ cp -R syspfiles/* $PREFIX/share/${condaname}/syspfiles
 
 # Xml
 mkdir -p $PREFIX/share/${condaname}/xml
-cp -R syspfiles/* $PREFIX/share/${condaname}/xml
+cp -R xml/* $PREFIX/share/${condaname}/xml
 
 # Data
 mkdir -p $PREFIX/share/${condaname}/data
