@@ -20,7 +20,7 @@ requirements:
     - astropy
     - blas
     - clhep
-    - cppunit
+    - cppunit 1.13.*
     - f2c
     - fermi-repoman
     - fftw
