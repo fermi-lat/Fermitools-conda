@@ -10,6 +10,7 @@ function string_replace {
 
 export INST_DIR=$CONDA_PREFIX/share/${condaname}
 export BASE_DIR=$INST_DIR
+export EXTFILESSYS=$CONDA_PREFIX/share/${condaname}/refdata/fermi
 
 # Keep a copy of the current path so we can restore 
 # upon deactivation
