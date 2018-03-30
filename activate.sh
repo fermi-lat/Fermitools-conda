@@ -12,6 +12,8 @@ export INST_DIR=$CONDA_PREFIX/share/${condaname}
 export BASE_DIR=$INST_DIR
 export EXTFILESSYS=$CONDA_PREFIX/share/${condaname}/refdata/fermi
 export GENERICSOURCESDATAPATH=$CONDA_PREFIX/share/${condaname}/data/genericSources
+export TIMING_DIR=$CONDA_PREFIX/share/${condaname}/refdata/fermi/jplephem
+#export PFILES=$CONDA_PREFIX/share/${condaname}/syspfiles
 
 # Keep a copy of the current path so we can restore 
 # upon deactivation

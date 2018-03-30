@@ -32,7 +32,7 @@ requirements:
     - openblas 0.2.19|0.2.19.*
     - pmw
     - python
-    - readline 6.2
+    - readline 6.2.*
     - root5
     - scons 2.*
     - swig
@@ -49,6 +49,7 @@ requirements:
     - cppunit 1.13.*
     - f2c
     - fftw
+    - fermitools-data
     - gsl
     - healpix_cxx
     - matplotlib
@@ -56,7 +57,7 @@ requirements:
     - openblas 0.2.19|0.2.19.*
     - pmw
     - python
-    - readline 6.2
+    - readline 6.2.*
     - root5
     - scipy
     - wcslib
