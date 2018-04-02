@@ -46,6 +46,6 @@ manager.
 1. Respond `y` for yes when prompted to proceed.
 1. Activate this environment with `source activate fermi`.
 1. Now you should have access to the Sciencetools!
-1. If you want to install conflicting packages you can 
+1. If you want to install conflicting packages you can `source deactivate` your environment and `conda create` a new one.
 
 
