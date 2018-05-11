@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "0.0.2b" %}
+{% set version = "0.0.6" %}
 
 package:
   name: {{ name|lower }}
@@ -21,7 +21,7 @@ requirements:
     - blas
     - clhep
     - cppunit 1.13.*
-    - f2c
+    #- f2c
     - fermi-repoman
     - fftw
     - git
