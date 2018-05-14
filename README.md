@@ -1,5 +1,7 @@
 # Fermitools-conda-recipe
 
+## [Quickstart](https://github.com/fermi-lat/ScienceTools-conda-recipe/wiki/Quickstart-Guide) ##
+
 The conda recipe to build Fermi ScienceTools
 
 ```
@@ -7,6 +9,8 @@ conda build -c conda-forge -c fermi_dev_externals .
 ```
 
 ## Documentation
+
+For additional information please see the ScienceTools-conda-recipe wiki located [here](https://github.com/fermi-lat/ScienceTools-conda-recipe/wiki)
 
 ### Tutorial
 ---------
@@ -47,5 +51,4 @@ manager.
 1. Activate this environment with `source activate fermi`.
 1. Now you should have access to the Sciencetools!
 1. If you want to install conflicting packages you can `source deactivate` your environment and `conda create` a new one.
-
 
