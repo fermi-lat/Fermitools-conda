@@ -2,7 +2,7 @@
 
 ## [Quickstart](https://github.com/fermi-lat/ScienceTools-conda-recipe/wiki/Quickstart-Guide) ##
 
-The conda recipe to build Fermi ScienceTools
+To get started using the Fermitools package as quick as possible follow the instructions linked above ^.  Otherwise, to build the Fermitools from source using this recipe use the following command (not recommended unless you are a developer):
 
 ```
 conda build -c conda-forge -c fermi_dev_externals .
