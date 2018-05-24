@@ -33,7 +33,7 @@ if [ -z ${PFILES+x} ]; then
     # PFILES is unset, set it appropriately
     mkdir -p $HOME/pfiles
     
-    export PFILES=".:${HOME}/pfiles;${INST_DIR}/syspfiles"
+    export PFILES=".:${HOME}/pfiles:${INST_DIR}/syspfiles"
     
 else 
     
