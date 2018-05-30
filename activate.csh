@@ -64,6 +64,21 @@ unset ROOTSYS
 # path that ROOT will search for libraries, because ROOT
 # does not honor RPATH
 
+cat << EOF | root -b -l
+TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "hey");
+if(!old_value.Contains("lib/${condaname}")) 
+{ 
+    TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/");
+    gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
+    gEnv->SaveLevel(kEnvGlobal);
+}
+exit();
+EOF
+
+# We need to add the path to the ST library dir to the 
+# path that ROOT will search for libraries, because ROOT
+# does not honor RPATH
+
 # Add aliases for python executables
 set sitepackagesdir=`python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
 
