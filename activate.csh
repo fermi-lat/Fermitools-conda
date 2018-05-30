@@ -29,20 +29,15 @@ if (! $?PFILES) then
     `mkdir -p $HOME/pfiles`
      setenv PFILES ".:${HOME}/pfiles;${INST_DIR}/syspfiles"
 else 
-    if ($PFILES =~ *;*) then
-        
-        # current value already contains a ';', which
-        # separates read-write pfiles path to read-only
-        # pfiles path. Just add the ST one
-        
-        setenv PFILES "${PFILES}:${INST_DIR}/syspfiles"
-    
+    if ("$PFILES" =~ "*;*") then
+	# current value already contains a ';', which
+	# separates read-write pfiles path to read-only
+	# pfiles path. Just add the ST one
+	setenv PFILES "${PFILES}:${INST_DIR}/syspfiles"
     else
-        
-        # Current value doesn't have any read-only
-        # pfiles path. Add the ST one.
-        
-        setenv PFILES "${PFILES};${INST_DIR}/syspfiles"
+	# Current value doesn't have any read-only
+	# pfiles path. Add the ST one.
+	setenv PFILES "${PFILES};${INST_DIR}/syspfiles"
     endif
 endif
 
