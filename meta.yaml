@@ -21,7 +21,7 @@ requirements:
     - blas
     - clhep
     - cppunit 1.13.*
-    #- f2c
+    - f2c
     - fermi-repoman
     - fftw
     - git
