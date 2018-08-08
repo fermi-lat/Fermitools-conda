@@ -34,7 +34,7 @@ if [ -z ${PFILES+x} ]; then
     # PFILES is unset, set it appropriately
     mkdir -p $HOME/pfiles
     
-    export PFILES=".:${HOME}/pfiles:${INST_DIR}/syspfiles"
+    export PFILES=".:${HOME}/pfiles;${INST_DIR}/syspfiles"
     
 else 
     
@@ -44,7 +44,7 @@ else
         # separates read-write pfiles path to read-only
         # pfiles path. Just add the ST one
         
-        export PFILES="${PFILES};${INST_DIR}/syspfiles"
+        export PFILES="${PFILES}:${INST_DIR}/syspfiles"
     
     else
         
