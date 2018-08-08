@@ -18,53 +18,53 @@ build:
 
 requirements:
   build:
-    - ape
-    - aplpy
+    - ape 2.9
+    - aplpy 
     - astropy
-    - blas
-    - clhep
-    - cppunit 1.13.*
-    - f2c 0.0.1
+    - blas 1.1
+    - clhep 2.1.4.0
+    - cppunit 1.14.0
+    - f2c 20160103
     - fermi-repoman
-    - fftw
+    - fftw 3.3.8
     - git
-    - gsl
-    - healpix_cxx
+    - gsl 2.2
+    - healpix_cxx 3.31
     - matplotlib
-    - numpy 1.11.*
-    - openblas 0.2.19|0.2.19.*
-    - pmw
-    - python
-    - readline 6.2.*
-    - root5
+    - numpy
+    - openblas 0.3.2
+    - pmw 2.0.1
+    - python 2.7
+    - readline 7.0
+    - root5 5.34.38
     - scons 2.*
-    - swig
+    - swig 3.0.12
     - toolchain
-    - wcslib
-    - xerces-c
+    - wcslib 5.18
+    - xerces-c 3.2.0
 
   run:
-    - ape
+    - ape 2.9
     - aplpy
     - astropy
-    - blas
-    - clhep
-    - cppunit 1.13.*
-    - f2c 0.0.1
-    - fftw
+    - blas 1.1
+    - clhep 2.4.1.0
+    - cppunit 1.14.0
+    - f2c 20160103
+    - fftw 3.3.8
     - fermitools-data
-    - gsl
-    - healpix_cxx
+    - gsl 2.2
+    - healpix_cxx 3.31
     - matplotlib
-    - numpy >=1.11
-    - openblas 0.2.19|0.2.19.*
-    - pmw
-    - python
-    - readline 6.2.*
-    - root5
+    - numpy
+    - openblas 0.3.2
+    - pmw 2.0.1
+    - python 2.7
+    - readline 7.0
+    - root5 5.34.38
     - scipy
-    - wcslib
-    - xerces-c
+    - wcslib 5.18
+    - xerces-c 3.2.0
 
 test:
   imports:
