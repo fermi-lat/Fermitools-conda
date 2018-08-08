@@ -5,6 +5,7 @@ set condaname="fermitools"
 # This instructs the Fermi ST where to find their data
 
 setenv INST_DIR ${CONDA_PREFIX}/share/$condaname
+setenv FERMI_DIR ${INST_DIR}
 setenv BASE_DIR ${INST_DIR}
 setenv EXTFILESSYS ${CONDA_PREFIX}/share/$condaname/refdata/fermi
 setenv GENERICSOURCESDATAPATH ${CONDA_PREFIX}/share/$condaname/data/genericSources
