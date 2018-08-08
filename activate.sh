@@ -9,6 +9,7 @@ function string_replace {
 # This instructs the Fermi ST where to find their data
 
 export INST_DIR=$CONDA_PREFIX/share/${condaname}
+export FERMI_DIR=$INST_DIR
 export BASE_DIR=$INST_DIR
 export EXTFILESSYS=$CONDA_PREFIX/share/${condaname}/refdata/fermi
 export GENERICSOURCESDATAPATH=$CONDA_PREFIX/share/${condaname}/data/genericSources
