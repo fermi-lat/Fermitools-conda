@@ -11,10 +11,10 @@ repoman --remote-base https://github.com/fermi-lat checkout --force --develop Sc
 
 
 # condaforge fftw is in a different spot
-mkdir -p ${PREFIX}/include/fftw
-if [ ! -e ${PREFIX}/include/fftw/fftw3.h ] ; then
+mkdir -p ${PREFIX}/../_build_env/include/fftw
+if [ ! -e ${PREFIX}/../_build_env/include/fftw/fftw3.h ] ; then
 
-    ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
+    ln -s ${PREFIX}/../_build_env/include/fftw3.* ${PREFIX}/../_build_env/include/fftw
 
 fi
 
@@ -23,7 +23,7 @@ export CFLAGS="-O2 ${CFLAGS}"
 export CXXFLAGS="-O2 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/../_build_env/lib,-rpath,${PREFIX}/../_build_env/lib/root,-rpath,${PREFIX}/../_build_env/lib/${condaname}"
 
 if [ "$(uname)" == "Darwin" ]; then
     
@@ -41,7 +41,7 @@ fi
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
-      --conda=${PREFIX} \
+      --conda=${PREFIX}../_build_env \
       --use-path \
       -j ${CPU_COUNT} \
       --ccflags="${CFLAGS}" \
@@ -50,7 +50,7 @@ scons -C ScienceTools \
       all
 
 # Remove the links to fftw3
-rm -rf ${PREFIX}/include/fftw
+rm -rf ${PREFIX}/../_build_env/include/fftw
 
 # Install in a place where conda will find the ST
 
