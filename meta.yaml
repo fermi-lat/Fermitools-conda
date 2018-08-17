@@ -18,53 +18,53 @@ build:
 
 requirements:
   build:
-    - ape 2.9
-    - aplpy 
-    - astropy
-    - blas 1.1
-    - clhep 2.1.4.0
-    - cppunit 1.14.0
-    - f2c 20160103
-    - fermi-repoman
-    - fftw 3.3.8
-    - git
-    - gsl 2.2
-    - healpix_cxx 3.31
-    - matplotlib
-    - numpy
-    - openblas 0.3.2
-    - pmw 2.0.1
-    - python 2.7
-    - readline 7.0
-    - root5 5.34.38
-    - scons 2.*
-    - swig 3.0.12
-    - toolchain
-    - wcslib 5.18
-    - xerces-c 3.2.0
-
-  run:
-    - ape 2.9
+    - ape
     - aplpy
     - astropy
-    - blas 1.1
-    - clhep 2.4.1.0
-    - cppunit 1.14.0
-    - f2c 20160103
-    - fftw 3.3.8
-    - fermitools-data
-    - gsl 2.2
-    - healpix_cxx 3.31
+    - blas
+    - clhep
+    - cppunit 1.13.*
+    - f2c 0.0.1
+    - fermi-repoman
+    - fftw
+    - git
+    - gsl
+    - healpix_cxx
     - matplotlib
-    - numpy
-    - openblas 0.3.2
-    - pmw 2.0.1
-    - python 2.7
-    - readline 7.0
-    - root5 5.34.38
+    - numpy 1.11.*
+    - openblas 0.2.19|0.2.19.*
+    - pmw
+    - python
+    - readline 6.2.*
+    - root5
+    - scons 2.*
+    - swig
+    - toolchain
+    - wcslib
+    - xerces-c
+
+  run:
+    - ape
+    - aplpy
+    - astropy
+    - blas
+    - clhep
+    - cppunit 1.13.*
+    - f2c 0.0.1
+    - fftw
+    - fermitools-data
+    - gsl
+    - healpix_cxx
+    - matplotlib
+    - numpy >=1.11
+    - openblas 0.2.19|0.2.19.*
+    - pmw
+    - python
+    - readline 6.2.*
+    - root5
     - scipy
-    - wcslib 5.18
-    - xerces-c 3.2.0
+    - wcslib
+    - xerces-c
 
 test:
   imports:
