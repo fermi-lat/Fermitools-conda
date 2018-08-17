@@ -1,4 +1,4 @@
-A{% set name = "fermitools" %}
+{% set name = "fermitools" %}
 {% set version = "0.1.3" %}
 
 package:
