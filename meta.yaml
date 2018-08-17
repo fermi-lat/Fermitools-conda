@@ -1,4 +1,4 @@
-{% set name = "fermitools" %}
+A{% set name = "fermitools" %}
 {% set version = "0.1.3" %}
 
 package:
@@ -12,9 +12,9 @@ build:
   number: 0
   skip: true  # [win]
   skip: true  # [py3k]
-  - {{ compiler('c') }}
-  - {{ compiler('cxx') }}
-  - {{ compiler('fortran') }}
+  #- {{ compiler('c') }}
+  #- {{ compiler('cxx') }}
+  #- {{ compiler('fortran') }}
 
 requirements:
   build:
