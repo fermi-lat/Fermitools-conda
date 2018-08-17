@@ -41,7 +41,7 @@ fi
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
-      --conda=${PREFIX}/../_build_env \
+      --conda=${PREFIX}../_build_env \
       --use-path \
       -j ${CPU_COUNT} \
       --ccflags="${CFLAGS}" \
