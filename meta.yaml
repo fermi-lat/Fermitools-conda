@@ -12,12 +12,12 @@ build:
   number: 0
   skip: true  # [win]
   skip: true  # [py3k]
-  
+  - {{ compiler('c') }}
+  - {{ compiler('cxx') }}
+  - {{ compiler('fortran') }}
+
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ compiler('fortran') }}
     - ape 2.9
     - aplpy 
     - astropy
