@@ -9,7 +9,7 @@ source:
   git_url: https://github.com/fermi-lat/ScienceTools.git
 
 build:
-  number: 0
+  number: {{ environ.get('BUILD_NUMBER', 0)}}
   skip: true  # [win]
   skip: true  # [py3k]
   #- {{ compiler('c') }}
@@ -70,10 +70,10 @@ test:
   imports:
     - UnbinnedAnalysis
     - pyLikelihood
-  
+
   commands:
     # These tests inspect linkages and libraries. They are very slow, so comment them out
     # for a quicker turnaround when testing
     #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
     #- conda inspect objects -p $PREFIX {{ name }}  # [osx]
-    
+
