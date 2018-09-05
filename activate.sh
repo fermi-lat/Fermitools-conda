@@ -94,7 +94,7 @@ fi
 
 cat <<- EOF | root -b -l
 
-TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "hey");
+TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
 
 // The formatting with the { at the end of the line is NECESSARY
 // for this to work properly (as this is input for the stdin of
