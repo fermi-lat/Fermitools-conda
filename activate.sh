@@ -48,7 +48,7 @@ if [ -z ${PFILES+x} ]; then
 
 else
 
-    if [[ $1 == *[';']* ]]; then
+    if [[ ${PFILES} == *[';']* ]]; then
 
         # current value already contains a ';', which
         # separates read-write pfiles path to read-only
