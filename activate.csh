@@ -45,24 +45,42 @@ endif
 # Make sure there is no ROOTSYS (which would confuse ROOT)
 unsetenv ROOTSYS
 
-# We need to add the path to the ST library dir to the 
-# path that ROOT will search for libraries, because ROOT
-# does not honor RPATH
+# Check whether the .rootrc file exists in the user home,
+# if not create it
 
-cat << EOF | root -b -l
+if ( -f ${HOME}/.rootrc ) then
+
+    # Make it read/write
+    chmod u+rw ${HOME}/.rootrc
+
+else
+
+    # File does not exist. Copy the system.rootrc file
+    cp ${CONDA_PREFIX}/etc/root/system.rootrc ${HOME}/.rootrc
+    
+    # Make it read/write
+    chmod u+rw ${HOME}/.rootrc
+
+endif
+
+# We need to make sure that the path to the ST library dir is
+# contained in the paths that ROOT will search for libraries, 
+# because the dynamic loader of ROOT does not honor RPATH
+
+cat <<- EOF | root -b -l
 TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "hey");
-if(!old_value.Contains("lib/${condaname}")) 
-{ 
+
+# The formatting with the { at the end of the line is NECESSARY
+# for this to work properly (as this is input for the stdin of
+# root)
+
+if(!old_value.Contains("lib/${condaname}")) { 
     TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/");
     gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
-    gEnv->SaveLevel(kEnvGlobal);
+    gEnv->SaveLevel(kEnvUser);
 }
 exit();
 EOF
-
-# We need to add the path to the ST library dir to the 
-# path that ROOT will search for libraries, because ROOT
-# does not honor RPATH
 
 # Add aliases for python executables
 set sitepackagesdir=`python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
