@@ -68,7 +68,9 @@ endif
 # because the dynamic loader of ROOT does not honor RPATH
 
 cat <<- EOF | root -b -l
-TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "hey");
+// I am using "default" as default value because I was having problems
+// using the empty string.
+TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
 
 // The formatting with the { at the end of the line is NECESSARY
 // for this to work properly (as this is input for the stdin of
