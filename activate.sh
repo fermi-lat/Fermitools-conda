@@ -71,27 +71,46 @@ fi
 # Make sure there is no ROOTSYS (which would confuse ROOT)
 unset ROOTSYS
 
-# We need to add the path to the ST library dir to the
-# path that ROOT will search for libraries, because ROOT
-# does not honor RPATH
+# Check whether the .rootrc file exists in the user home,
+# if not create it
+if [ -f "${HOME}/.rootrc" ]; then
+        
+    # Make it read/write
+    chmod u+rw ${HOME}/.rootrc
 
-cat << EOF | root -b -l
+else
+        
+    # File does not exist. Copy the system.rootrc file
+    cp ${CONDA_PREFIX}/etc/root/system.rootrc ${HOME}/.rootrc
+    
+    # Make it read/write
+    chmod u+rw ${HOME}/.rootrc
 
-TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "hey");
+fi
 
-if(!old_value.Contains("lib/${condaname}"))
-{
+# We need to make sure that the path to the ST library dir is
+# contained in the paths that ROOT will search for libraries, 
+# because the dynamic loader of ROOT does not honor RPATH
+
+cat <<- EOF | root -b -l
+// I am using "default" as default value because I was having problems
+// using the empty string.
+TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
+
+// The formatting with the { at the end of the line is NECESSARY
+// for this to work properly (as this is input for the stdin of
+// root)
+if(!old_value.Contains("lib/${condaname}")) { 
     TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/");
 
     gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
 
-    gEnv->SaveLevel(kEnvGlobal);
+    gEnv->SaveLevel(kEnvUser);
 }
 
 exit();
 
 EOF
-
 
 # Add aliases for python executables
 sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
