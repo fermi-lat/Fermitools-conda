@@ -58,6 +58,7 @@ requirements:
     - gsl 2.2
     - healpix_cxx 3.31
     - matplotlib
+    - ncurses 5.0
     - numpy 
     - openblas 0.2.19|0.2.19.*
     - pmw 2.0.1
