@@ -96,6 +96,11 @@ cp -R xml/* $PREFIX/share/${condaname}/xml
 mkdir -p $PREFIX/share/${condaname}/data
 cp -R data/* $PREFIX/share/${condaname}/data
 
+# fhelp
+mkdir -p $PREFIX/share/${condaname}/help
+cp -R fermitools-fhelp/* $PREFIX/share/${condaname}/help
+rm -f $PREFIX/share/${condaname}/help/README.md #Remove the git repo README
+
 # Copy also the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d
 mkdir -p $PREFIX/etc/conda/deactivate.d
