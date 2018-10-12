@@ -21,6 +21,16 @@ else
     unset PFILES
 endif
 
+if ($?CALDB_OLD_PATH) then
+    setenv CALDB $CALDB_OLD_PATH
+else
+    unset CALDB
+endif
+
+unset CALDBALIAS
+unset CALDBCONFIG
+unset CALDBROOT
+
 unalias gtburst
 unalias ModelEditor
 unalias ObsSim

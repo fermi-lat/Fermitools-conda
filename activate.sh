@@ -20,6 +20,19 @@ export TIMING_DIR=$CONDA_PREFIX/share/${condaname}/refdata/fermi/jplephem
 # upon deactivation
 export FERMI_OLD_PATH=$PATH
 
+# Keep a copy of the CALDB path if it exists so                                                                                                                                   
+# we can restore upon deactivation                                                                                                                                                 
+if [ "CALDB" ]; then
+    setenv CALDB_OLD_PATH $CALDB
+fi
+
+# Set necessary CALDB variables                                                                                                                                                    
+export CALDBALIAS=$FERMI_DIR/data/caldb/software/tools/alias_config.fits
+export CALDBCONFIG=$FERMI_DIR/data/caldb/software/tools/caldb.config
+export CALDBROOT=$FERMI_DIR/data/caldb
+export CALDB=$FERMI_DIR/data/caldb
+
+
 # The new path to check or add
 NEW_FERMI_PATH=$CONDA_PREFIX/bin/${condaname}
 
