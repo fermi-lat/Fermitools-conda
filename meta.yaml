@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "0.2.8" %}
+{% set version = "1.0.1" %}
 
 package:
   name: {{ name|lower }}
@@ -26,7 +26,7 @@ requirements:
     - blas 1.1
     - clhep 2.4.1.0
     - cppunit 1.14.0
-    - f2c 20160103
+    - f2c 0.0.1
     - fermi-repoman
     - fftw 3.3.8
     - git
@@ -52,9 +52,9 @@ requirements:
     - blas 1.1
     - clhep 2.4.1.0
     - cppunit 1.14.0
-    - f2c 20160103
+    - f2c 0.0.1
     - fftw 3.3.8
-    - fermitools-data 0.11 # This must be updated with every model release
+    - fermitools-data >=0.11 # This must be updated with every model release
     - gsl 2.2
     - healpix_cxx 3.31
     - matplotlib

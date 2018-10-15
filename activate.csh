@@ -16,6 +16,19 @@ setenv PFILES ${CONDA_PREFIX}/share/$condaname/syspfiles
 # upon deactivation
 setenv FERMI_OLD_PATH $PATH
 
+# Keep a copy of the CALDB path if it exists so
+# we can restore upon deactivation
+if ($?CALDB) then
+    setenv CALDB_OLD_PATH $CALDB
+endif
+
+# Set necessary CALDB variables
+setenv CALDBALIAS $FERMI_DIR/data/caldb/software/tools/alias_config.fits
+setenv CALDBCONFIG $FERMI_DIR/data/caldb/software/tools/caldb.config
+setenv CALDBROOT $FERMI_DIR/data/caldb
+setenv CALDB $FERMI_DIR/data/caldb
+
+
 # Add path for the ST binaries
 setenv PATH ${CONDA_PREFIX}/bin/${condaname}:${PATH}
 

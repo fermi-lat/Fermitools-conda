@@ -30,6 +30,15 @@ else
 
 fi
 
+if [ -z ${CALDB_OLD_PATH} ]; then
+    unset CALDB
+else
+    export CALDB=$CALDB_OLD_PATH
+fi
+
+unset CALDBALIAS
+unset CALDBCONFIG
+unset CALDBROOT
 
 unalias gtburst
 unalias ModelEditor
