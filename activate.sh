@@ -23,7 +23,7 @@ export FERMI_OLD_PATH=$PATH
 # Keep a copy of the CALDB path if it exists so                                                                                                                                   
 # we can restore upon deactivation                                                                                                                                                 
 if [ "CALDB" ]; then
-    setenv CALDB_OLD_PATH $CALDB
+    export CALDB_OLD_PATH=$CALDB
 fi
 
 # Set necessary CALDB variables                                                                                                                                                    
