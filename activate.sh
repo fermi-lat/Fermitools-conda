@@ -86,20 +86,20 @@ unset ROOTSYS
 
 # Check whether the .rootrc file exists in the user home,
 # if not create it
-if [ -f "${HOME}/.rootrc" ]; then
+#if [ -f "${HOME}/.rootrc" ]; then
         
     # Make it read/write
-    chmod u+rw ${HOME}/.rootrc
+#    chmod u+rw ${HOME}/.rootrc
 
-else
+#else
         
     # File does not exist. Copy the system.rootrc file
-    cp ${CONDA_PREFIX}/etc/root/system.rootrc ${HOME}/.rootrc
+#    cp ${CONDA_PREFIX}/etc/root/system.rootrc ${HOME}/.rootrc
     
     # Make it read/write
-    chmod u+rw ${HOME}/.rootrc
+#    chmod u+rw ${HOME}/.rootrc
 
-fi
+#fi
 
 # We need to make sure that the path to the ST library dir is
 # contained in the paths that ROOT will search for libraries, 
