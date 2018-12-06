@@ -105,7 +105,7 @@ unset ROOTSYS
 # contained in the paths that ROOT will search for libraries, 
 # because the dynamic loader of ROOT does not honor RPATH
 
-cat <<- EOF | root -b -l
+cat << EOF | root -b -l
 // I am using "default" as default value because I was having problems
 // using the empty string.
 TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
