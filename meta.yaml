@@ -63,6 +63,7 @@ requirements:
     - openblas 0.2.19|0.2.19.*
     - pmw 2.0.1
     - python 2.7
+    - pyyaml
     - readline 6.2
     - root5 5.34.38
     - scipy
