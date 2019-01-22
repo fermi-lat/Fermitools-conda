@@ -33,7 +33,7 @@ requirements:
     - gsl 2.2
     - healpix_cxx 3.31
     - matplotlib >=2.2
-    - numpy
+    - numpy 1.16.0
     - openblas 0.3.2
     - pmw 2.0.1
     - python 2.7
@@ -58,7 +58,7 @@ requirements:
     - healpix_cxx 3.31
     - matplotlib >=2.2
     - ncurses <6.0
-    - numpy 
+    - numpy 1.16.0
     - openblas 0.3.2
     - pmw 2.0.1
     - python 2.7
