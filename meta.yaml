@@ -38,7 +38,7 @@ requirements:
     - pmw 2.0.1
     - python 2.7
     - readline 
-    - root5 
+    - root5 5.34.38
     - scons 2.*
     - swig 3.0.12
     - toolchain
@@ -65,7 +65,7 @@ requirements:
     - python 2.7
     - pyyaml
     - readline 
-    - root5
+    - root5 5.34.38
     - scipy
     - wcslib 5.18
     - xerces-c 3.2.0
