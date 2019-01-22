@@ -16,7 +16,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    #- {{ compiler('cxx') }}
+    - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
     
   host:
@@ -34,14 +34,13 @@ requirements:
     - healpix_cxx 3.31
     - matplotlib >=2.2
     - numpy
-    - openblas
+    - openblas 0.3.2
     - pmw 2.0.1
     - python 2.7
     - readline 
     - root5 5.34.38
     - scons 2.*
     - swig 3.0.12
-    - toolchain
     - wcslib 5.18
     - xerces-c 3.2.0
 
@@ -60,7 +59,7 @@ requirements:
     - matplotlib >=2.2
     - ncurses <6.0
     - numpy 
-    - openblas 
+    - openblas 0.3.2
     - pmw 2.0.1
     - python 2.7
     - pyyaml
