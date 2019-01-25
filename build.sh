@@ -19,8 +19,11 @@ if [ ! -e ${PREFIX}/include/fftw/fftw3.h ] ; then
 fi
 
 # Add optimization
-export CFLAGS="-O2 ${CFLAGS}"
-export CXXFLAGS="-O2 ${CXXFLAGS}"
+#export CFLAGS="-O2 ${CFLAGS}"
+#export CXXFLAGS="-O2 ${CXXFLAGS}"
+export CFLAGS="-O2"
+export CXXFLAGS="-O2"
+
 
 # Add rpaths needed for our compilation
 export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
