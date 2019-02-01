@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.0.2" %}
+{% set version = "1.0.3" %}
 
 package:
   name: {{ name|lower }}
@@ -15,9 +15,12 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
+    #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
-    - {{ compiler('fortran') }}
+    #- {{ compiler('fortran') }}
+    - gcc
+    - scons 2.*
+    - fermi-repoman
     
   host:
     - ape 2.9
@@ -27,7 +30,7 @@ requirements:
     - clhep 2.4.1.0
     - cppunit 1.14.0
     - f2c 0.0.1
-    - fermi-repoman
+    #- fermi-repoman
     - fftw 3.3.8
     - git
     - gsl 2.2
@@ -39,9 +42,9 @@ requirements:
     - python 2.7
     - readline 6.2
     - root5 5.34.38
-    - scons 2.*
+    #- scons 2.*
     - swig 3.0.12
-    - toolchain
+    #- toolchain
     - wcslib 5.18
     - xerces-c 3.2.0
 
