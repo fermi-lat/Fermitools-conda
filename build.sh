@@ -6,7 +6,7 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda throw_update mpl_plotting
 # repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-182
 
 
@@ -18,9 +18,11 @@ if [ ! -e ${PREFIX}/include/fftw/fftw3.h ] ; then
 
 fi
 
+#CXXFLAGS=${CXXFLAGS//c++17/c++11}
+
 # Add optimization
 export CFLAGS="-O2 ${CFLAGS}"
-export CXXFLAGS="-O2 ${CXXFLAGS}"
+export CXXFLAGS="-O2 -D_GLIBCXX_USE_CXX11_ABI=0 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
 export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
@@ -39,15 +41,25 @@ else
 
 fi
 
+ln -s ${cc} ${PREFIX}/bin/gcc
+
+ln -s ${CXX} ${PREFIX}/bin/g++
+
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
       --conda=${PREFIX} \
       --use-path \
       -j ${CPU_COUNT} \
+      --with-cc="${CC}" \
+      --with-cxx="${CXX}" \
       --ccflags="${CFLAGS}" \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
       all
+
+rm -rf ${PREFIX}/bin/gcc
+
+rm -rf ${PREFIX}/bin/g++
 
 # Remove the links to fftw3
 rm -rf ${PREFIX}/include/fftw

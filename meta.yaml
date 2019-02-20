@@ -18,11 +18,14 @@ requirements:
     #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
-    #- gcc
+    - gcc 4.8.5 
     #- scons 2.*
     #- fermi-repoman
     
   host:
+    #- {{ compiler('c') }}
+    #- {{ compiler('cxx') }}
+    #- {{ compiler('fortran') }}
     - ape 2.9
     - aplpy
     - astropy
