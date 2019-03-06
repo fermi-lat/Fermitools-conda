@@ -6,7 +6,7 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda throw_update mpl_plotting
 # repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-182
 
 
@@ -17,6 +17,8 @@ if [ ! -e ${PREFIX}/include/fftw/fftw3.h ] ; then
     ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
 
 fi
+
+#CXXFLAGS=${CXXFLAGS//c++17/c++11}
 
 # Add optimization
 export CFLAGS="-O2 ${CFLAGS}"
@@ -29,6 +31,7 @@ if [ "$(uname)" == "Darwin" ]; then
     
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
     export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
+    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     echo "Compiling without openMP, not supported on Mac"
     
 else
@@ -39,15 +42,25 @@ else
 
 fi
 
+ln -s ${cc} ${PREFIX}/bin/gcc
+
+ln -s ${CXX} ${PREFIX}/bin/g++
+
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
       --conda=${PREFIX} \
       --use-path \
       -j ${CPU_COUNT} \
+      --with-cc="${CC}" \
+      --with-cxx="${CXX}" \
       --ccflags="${CFLAGS}" \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
       all
+
+rm -rf ${PREFIX}/bin/gcc
+
+rm -rf ${PREFIX}/bin/g++
 
 # Remove the links to fftw3
 rm -rf ${PREFIX}/include/fftw
