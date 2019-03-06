@@ -31,6 +31,7 @@ if [ "$(uname)" == "Darwin" ]; then
     
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
     export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
+    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     echo "Compiling without openMP, not supported on Mac"
     
 else

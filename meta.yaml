@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.0.3" %}
+{% set version = "1.0.1" %}
 
 package:
   name: {{ name|lower }}
@@ -18,7 +18,7 @@ requirements:
     #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
-    - gcc 4.8.5 
+    - gcc 4.8.5 # [linux]  
     #- scons 2.*
     #- fermi-repoman
     
