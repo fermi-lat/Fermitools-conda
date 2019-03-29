@@ -34,7 +34,7 @@ export CALDB=$FERMI_DIR/data/caldb
 
 
 # The new path to check or add
-NEW_FERMI_PATH=$CONDA_PREFIX/bin/${condaname}
+NEW_FERMI_PATH=$CONDA_PREFIX/bin/${condaname}:${CONDA_PREFIX}/lib/python2.7/site-packages/fermitools/GtBurst/commands/
 
 # Check that the new path is not already a member of the $PATH
 if [[ ${PATH} != *"${NEW_FERMI_PATH}"* ]]; then
