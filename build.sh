@@ -1,4 +1,6 @@
 export condaname="fermitools"
+export LC_ALL=en_US.utf8
+export LANG=en_US.utf8
 
 # REPOMAN! #
 # Syntax Help:
@@ -6,7 +8,7 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda throw_update mpl_plotting
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda
 # repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-182
 
 
@@ -30,21 +32,21 @@ export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-r
 if [ "$(uname)" == "Darwin" ]; then
     
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
+    export CXXFLAGS="${CXXFLAGS}" 
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     echo "Compiling without openMP, not supported on Mac"
     
 else
     
     # This is needed on Linux
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
+    export CXXFLAGS="${CXXFLAGS}" 
     export LDFLAGS="${LDFLAGS} -fopenmp"
 
 fi
 
-ln -s ${cc} ${PREFIX}/bin/gcc
+#ln -s ${cc} ${PREFIX}/bin/gcc
 
-ln -s ${CXX} ${PREFIX}/bin/g++
+#ln -s ${CXX} ${PREFIX}/bin/g++
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \

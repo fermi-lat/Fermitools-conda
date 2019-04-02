@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.1.0" %}
+{% set version = "1.2.0" %}
 
 package:
   name: {{ name|lower }}
@@ -11,14 +11,14 @@ source:
 build:
   number: {{ environ.get('BUILD_NUMBER', 0)}}
   skip: true  # [win]
-  skip: true  # [py3k]
+
 
 requirements:
   build:
-    #- {{ compiler('c') }}
-    #- {{ compiler('cxx') }}
-    #- {{ compiler('fortran') }}
-    - gcc 4.8.5 # [linux]  
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
+    #- gcc 4.8.5 # [linux]  
     #- scons 2.*
     #- fermi-repoman
     
@@ -26,55 +26,52 @@ requirements:
     #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
-    - ape 2.9
+    #- ape
     - aplpy
     - astropy
-    - blas 1.1
-    - clhep 2.4.1.0
-    - cppunit 1.14.0
-    - f2c 0.0.1
+    - blas
+    - clhep
+    - cppunit
+    - f2c
     - fermi-repoman
-    - fftw 3.3.8
+    - fftw
     - git
-    - gsl 2.2
-    - healpix_cxx 3.31
+    - gsl
+    - healpix_cxx
     - matplotlib
     - numpy
-    - openblas 0.2.19|0.2.19.*
-    - pmw 2.0.1
-    - python 2.7
-    - readline 6.2
-    - root5 5.34.38
-    - scons 2.*
-    - swig 3.0.12
-    #- toolchain
-    - wcslib 5.18
-    - xerces-c 3.2.0
+    - openblas
+    - pmw
+    - readline
+    - root
+    - scons
+    - swig
+    - wcslib
+    - xerces-c
 
   run:
-    - ape 2.9
+    #- ape
     - aplpy
     - astropy
-    - blas 1.1
-    - clhep 2.4.1.0
-    - cppunit 1.14.0
-    - f2c 0.0.1
-    - fftw 3.3.8
-    - fermitools-data >=0.11 # This must be updated with every model release
-    - gsl 2.2
-    - healpix_cxx 3.31
+    - blas
+    - clhep 
+    - cppunit
+    - f2c
+    - fftw
+    - fermitools-data >=0.16 # This must be updated with every model release
+    - gsl
+    - healpix_cxx
     - matplotlib
-    - ncurses <6.0
+    - ncurses
     - numpy 
-    - openblas 0.2.19|0.2.19.*
-    - pmw 2.0.1
-    - python 2.7
+    - openblas
+    - pmw
     - pyyaml
-    - readline 6.2
-    - root5 5.34.38
+    - readline
+    - root
     - scipy
-    - wcslib 5.18
-    - xerces-c 3.2.0
+    - wcslib
+    - xerces-c
 
 test:
   imports:
