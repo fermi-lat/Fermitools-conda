@@ -1,0 +1,54 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+variables:
+- group: Anaconda Keys
+
+pool:
+  vmImage: 'macOS-10.13'
+steps:
+- bash: echo "##vso[task.prependpath]$CONDA/bin"
+  displayName: Add conda to PATH
+
+- task: AzureKeyVault@1
+  inputs:
+    ConnectedServiceName: 'Free Trial(843929f7-f9ba-47fe-8b5f-f02d3cffaba1)'
+    KeyVaultName: 'Fermitools-Vault'
+    SecretsFilter: 'Jasercion-Anaconda-Api'
+
+- bash: conda create --yes --quiet --name py2_build -c conda-forge python=2.7
+  displayName: Create Anaconda environment
+  
+- bash: |
+    source activate py2_build
+    conda install --yes -c conda-forge conda-build anaconda-client
+    source deactivate
+  displayName: Set up environment for build
+
+- bash: |
+    conda config --set anaconda_upload no
+  displayName: Set up upload configuration
+
+- bash: |
+    source activate py2_build
+    conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+    echo Token: $(Jasercion-Anaconda-Api)
+    anaconda -v -t $(Jasercion-Anaconda-Api) upload -l dev -u fermi /Users/vsts/.conda/envs/py2_build/conda-bld/osx-64/fermitools*.tar.bz2
+  displayName: Run build
+
+- bash: | 
+    source deactivate
+    conda create --yes --quiet --use-local --name test -c conda-forge/label/cf201901 -c fermi -c jasercion/label/dev fermitools fermitools-test-scripts
+    mkdir test
+    cd test
+  displayName: Set up test environment
+
+- bash: |
+    source activate test
+    ST-unit-test --bit64
+  displayName: Run unit tests
