@@ -38,7 +38,7 @@ steps:
     source activate py2_build
     conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
     echo Token: $(Jasercion-Anaconda-Api)
-    anaconda -v -t $(Jasercion-Anaconda-Api) upload -l dev -u fermi /Users/vsts/.conda/envs/py2_build/conda-bld/osx-64/fermitools*.tar.bz2
+    anaconda -v -t $(Jasercion-Anaconda-Api) upload --force -l dev -u fermi /Users/vsts/.conda/envs/py2_build/conda-bld/osx-64/fermitools*.tar.bz2
   displayName: Run build
 
 - bash: | 
