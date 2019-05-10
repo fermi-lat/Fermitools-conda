@@ -18,6 +18,9 @@ strategy:
 
 pool:
   vmImage: $(imageName)
+
+timeoutInMinutes: 150
+
 steps:
 - bash: echo "##vso[task.prependpath]$CONDA/bin"
   displayName: Add conda to PATH
