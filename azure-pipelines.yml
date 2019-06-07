@@ -52,7 +52,7 @@ steps:
   
 - bash: |
     source activate py2_build
-    # anaconda -v -t $(Jasercion-Anaconda-Api) upload --force -l dev -u fermi /usr/share/miniconda/envs/py2_build/conda-bld/linux-64/fermitools*.tar.bz2
+    anaconda -v -t $(Jasercion-Anaconda-Api) upload --force -l dev -u fermi /usr/share/miniconda/envs/py2_build/conda-bld/linux-64/fermitools*.tar.bz2
     source deactivate
   condition: and(succeeded(), eq(variables['imageName'], 'ubuntu-16.04'))
   displayName: Upload Linux Binary
