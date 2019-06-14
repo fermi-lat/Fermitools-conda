@@ -18,15 +18,15 @@ requirements:
     #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
-    - gcc 4.8.5 # [linux]  
+    - gcc 4.8.5 # [linux]
     #- scons 2.*
     #- fermi-repoman
-    
+
   host:
     #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
-    - ape 2.9
+    - ape 2.9.1
     - aplpy
     - astropy
     - blas 1.1
@@ -52,7 +52,7 @@ requirements:
     - xerces-c 3.2.0
 
   run:
-    - ape 2.9
+    - ape 2.9.1
     - aplpy
     - astropy
     - blas 1.1
@@ -64,8 +64,8 @@ requirements:
     - gsl 2.2
     - healpix_cxx 3.31
     - matplotlib
-    - ncurses <6.0
-    - numpy 
+    - ncurses >=6.0
+    - numpy
     - openblas 0.2.19|0.2.19.*
     - pmw 2.0.1
     - python 2.7
