@@ -41,10 +41,9 @@ requirements:
     - healpix_cxx 3.31
     - matplotlib
     - numpy
-    - openblas 0.2.19|0.2.19.*
+    - openblas >=0.2.19
     - pmw 2.0.1
     - python 2.7
-    - readline 6.2
     - root5 5.34.38
     - scons 2.*
     - swig 3.0.12
@@ -65,13 +64,11 @@ requirements:
     - gsl 2.2
     - healpix_cxx 3.31
     - matplotlib
-    - ncurses <6.0
     - numpy
-    - openblas 0.2.19|0.2.19.*
+    - openblas >=0.2.19
     - pmw 2.0.1
     - python 2.7
     - pyyaml
-    - readline 6.2
     - root5 5.34.38
     - scipy
     - wcslib 5.18
