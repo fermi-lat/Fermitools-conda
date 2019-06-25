@@ -15,17 +15,15 @@ build:
 
 requirements:
   build:
-    #- {{ compiler('c') }}
-    #- {{ compiler('cxx') }}
-    #- {{ compiler('fortran') }}
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
     - gcc 4.8.5 # [linux]
-    #- scons 2.*
-    #- fermi-repoman
 
   host:
-    #- {{ compiler('c') }}
-    #- {{ compiler('cxx') }}
-    #- {{ compiler('fortran') }}
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
     - ape 2.9.1
     - aplpy
     - astropy
