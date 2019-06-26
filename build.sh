@@ -43,10 +43,6 @@ else
 
 fi
 
-# Use downloaded compilers.
-export CC="${BUILD_PREFIX}/bin/${CC}"
-export CXX="${BUILD_PREFIX}/bin/${CXX}"
-
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
       --conda=${PREFIX} \
