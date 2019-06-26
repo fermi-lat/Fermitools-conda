@@ -29,8 +29,9 @@ export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-r
 
 if [ "$(uname)" == "Darwin" ]; then
 
-    #std=c++11 required for use with the Mac version of CLHEP in conda-forge
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}"
+    # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
+    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
+    export CXXFLAGS="-std=c++11 -isysroot ${CONDA_BUILD_SYSROOT} ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     echo "Compiling without openMP, not supported on Mac"
 
@@ -42,9 +43,9 @@ else
 
 fi
 
-ln -s ${cc} ${PREFIX}/bin/gcc
-
-ln -s ${CXX} ${PREFIX}/bin/g++
+# Use downloaded compilers.
+export CC="${BUILD_PREFIX}/bin/${CC}"
+export CXX="${BUILD_PREFIX}/bin/${CXX}"
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
@@ -123,5 +124,3 @@ cp $RECIPE_DIR/deactivate.sh $PREFIX/etc/conda/deactivate.d/deactivate_${condana
 
 cp $RECIPE_DIR/activate.csh $PREFIX/etc/conda/activate.d/activate_${condaname}.csh
 cp $RECIPE_DIR/deactivate.csh $PREFIX/etc/conda/deactivate.d/deactivate_${condaname}.csh
-
-
