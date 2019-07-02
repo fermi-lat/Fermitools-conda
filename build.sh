@@ -6,7 +6,10 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda healpix-no-cxx11-abi
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools \
+  root6 \
+  conda \
+
 # repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-182
 
 
@@ -22,7 +25,7 @@ fi
 
 # Add optimization
 export CFLAGS="-O2 ${CFLAGS}"
-export CXXFLAGS="-O2 ${CXXFLAGS}"
+export CXXFLAGS="-O2 -std=c++14 -DROOT_SVN_REVISION=60000 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
 export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
@@ -31,14 +34,13 @@ if [ "$(uname)" == "Darwin" ]; then
 
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
     export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
-    export CXXFLAGS="-std=c++11 -isysroot ${CONDA_BUILD_SYSROOT} ${CXXFLAGS}"
+    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     echo "Compiling without openMP, not supported on Mac"
 
 else
 
     # This is needed on Linux
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -fopenmp"
 
 fi
