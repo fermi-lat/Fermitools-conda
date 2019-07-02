@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.1.4" %}
+{% set version = "1.2.0" %}
 
 package:
   name: {{ name|lower }}
@@ -37,10 +37,9 @@ requirements:
     - openblas >=0.2.19
     - pmw 2.0.1
     - python 2.7
-    - root >=6.0
+    - root 6.16
     - scons 2.*
     - swig 3.0.12
-    #- toolchain
     - wcslib >=5.18
     - xerces-c 3.2.0
 
@@ -53,7 +52,7 @@ requirements:
     - cppunit 1.14.0
     - f2c 0.0.1
     - fftw 3.3.8
-    - fermitools-data >=0.11 # This must be updated with every model release
+    - fermitools-data >=0.17 # This must be updated with every model release
     - gsl >=2.2
     - healpix_cxx 3.31
     - matplotlib
@@ -62,7 +61,7 @@ requirements:
     - pmw 2.0.1
     - python 2.7
     - pyyaml
-    - root >=6.0
+    - root 6.16
     - scipy
     - wcslib >=5.18
     - xerces-c 3.2.0
