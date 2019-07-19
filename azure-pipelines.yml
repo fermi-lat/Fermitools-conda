@@ -37,7 +37,7 @@ steps:
   
 - bash: |
     conda install --yes -c conda-forge conda-build anaconda-client python=2.7
-    conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+    conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/root6 .
     conda create --yes --quiet --use-local --name test -c conda-forge/label/cf201901 -c fermi -c jasercion/label/dev fermitools fermitools-test-scripts
     mkdir test
     cd test
