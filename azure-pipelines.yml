@@ -8,7 +8,7 @@ trigger:
 - patch_branch
 
 variables:
-- group: Anaconda Keys
+- group: DevOps Access Keys
 - name: version
   value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
 
