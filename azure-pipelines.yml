@@ -50,6 +50,7 @@ stages:
         which gcc
         gcc --version
       displayName: 'Install and set up gcc-4.8'
+
     ### Build commands start here ###
     # Query last build number for this version and iterate if necessary
     - bash: echo "##vso[task.setvariable variable=BUILD_NUMBER]$(BUILD_NUMBER)"
