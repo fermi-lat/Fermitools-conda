@@ -6,7 +6,7 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda LK-160 patch_branch PLSuperExpCutoff2_Update
 # repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-182
 
 
@@ -69,15 +69,37 @@ rm -rf ${PREFIX}/include/fftw
 
 # Libraries
 mkdir -p $PREFIX/lib/${condaname}
-cp -R lib/*/* $PREFIX/lib/${condaname}
+if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+    echo "Subdirectory Found! (Lib)"
+    pwd 
+    ls lib/
+    ls lib/debianstretch/
+    ls lib/debianstretch/sid-x86_64-64bit-gcc48/
+    cp -R lib/*/*/* $PREFIX/lib/${condaname}
+else
+    echo "Subdirectory Not Found! (Lib)"
+    cp -R lib/*/* $PREFIX/lib/${condaname}
+fi
 
 # Headers
 mkdir -p $PREFIX/include/${condaname}
-cp -R include/* $PREFIX/include/${condaname}
+if [ -d "include/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+    echo "Subdirectory Found! (Include)"
+    cp -R include/*/* $PREFIX/include/${condaname}
+else
+    echo "Subdirectory Not Found! (Include)"
+    cp -R include/* $PREFIX/include/${condaname}
+fi
 
 # Binaries
 mkdir -p $PREFIX/bin/${condaname}
-cp -R exe/*/* $PREFIX/bin/${condaname}
+if [ -d "exe/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+    echo "Subdirectory Found! (bin)"
+    cp -R exe/*/*/* $PREFIX/bin/${condaname}
+else
+    echo "Subdirectory Not Found! (bin)"
+    cp -R exe/*/* $PREFIX/bin/${condaname}
+fi
 
 # Python packages
 # Figure out the path to the site-package directory
@@ -123,5 +145,3 @@ cp $RECIPE_DIR/deactivate.sh $PREFIX/etc/conda/deactivate.d/deactivate_${condana
 
 cp $RECIPE_DIR/activate.csh $PREFIX/etc/conda/activate.d/activate_${condaname}.csh
 cp $RECIPE_DIR/deactivate.csh $PREFIX/etc/conda/deactivate.d/deactivate_${condaname}.csh
-
-
