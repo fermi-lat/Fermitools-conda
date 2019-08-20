@@ -90,7 +90,6 @@ stages:
         pip install junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
-        source activate
         ST-unit-test --bit64
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
@@ -169,7 +168,6 @@ stages:
         pip install junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
-        source activate
         ST-unit-test --bit64
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
