@@ -4,8 +4,12 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
-- patch_branch
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - azure-pipelines.yml
 
 variables:
 - group: DevOps Access Keys
