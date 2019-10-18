@@ -65,7 +65,7 @@ stages:
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/ape .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -139,7 +139,7 @@ stages:
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/ape .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
