@@ -68,15 +68,37 @@ rm -rf ${PREFIX}/include/fftw
 
 # Libraries
 mkdir -p $PREFIX/lib/${condaname}
-cp -R lib/*/* $PREFIX/lib/${condaname}
+if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+    echo "Subdirectory Found! (Lib)"
+    pwd 
+    ls lib/
+    ls lib/debianstretch/
+    ls lib/debianstretch/sid-x86_64-64bit-gcc48/
+    cp -R lib/*/*/* $PREFIX/lib/${condaname}
+else
+    echo "Subdirectory Not Found! (Lib)"
+    cp -R lib/*/* $PREFIX/lib/${condaname}
+fi
 
 # Headers
 mkdir -p $PREFIX/include/${condaname}
-cp -R include/* $PREFIX/include/${condaname}
+if [ -d "include/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+    echo "Subdirectory Found! (Include)"
+    cp -R include/*/* $PREFIX/include/${condaname}
+else
+    echo "Subdirectory Not Found! (Include)"
+    cp -R include/* $PREFIX/include/${condaname}
+fi
 
 # Binaries
 mkdir -p $PREFIX/bin/${condaname}
-cp -R exe/*/* $PREFIX/bin/${condaname}
+if [ -d "exe/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+    echo "Subdirectory Found! (bin)"
+    cp -R exe/*/*/* $PREFIX/bin/${condaname}
+else
+    echo "Subdirectory Not Found! (bin)"
+    cp -R exe/*/* $PREFIX/bin/${condaname}
+fi
 
 # Python packages
 # Figure out the path to the site-package directory
