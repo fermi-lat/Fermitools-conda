@@ -43,7 +43,7 @@ requirements:
     - openblas
     - pmw
     - readline
-    - root
+    - root5 5.34.38
     - scons
     - swig
     - wcslib
@@ -68,7 +68,7 @@ requirements:
     - pmw
     - pyyaml
     - readline
-    - root
+    - root5 5.34.38
     - scipy
     - wcslib
     - xerces-c
