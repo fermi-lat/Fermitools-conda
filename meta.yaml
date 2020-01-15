@@ -26,7 +26,7 @@ requirements:
     #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
-    - ape
+    - ape 2.9.1
     - aplpy
     - astropy
     - blas
@@ -43,14 +43,14 @@ requirements:
     - openblas
     - pmw
     - readline
-    - root5 5.34.38
-    - scons
+    - root 
+    - scons 3.0.3
     - swig
     - wcslib
     - xerces-c
 
   run:
-    - ape
+    - ape 2.9.1
     - aplpy
     - astropy
     - blas
@@ -68,7 +68,7 @@ requirements:
     - pmw
     - pyyaml
     - readline
-    - root5 5.34.38
+    - root
     - scipy
     - wcslib
     - xerces-c
