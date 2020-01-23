@@ -39,7 +39,7 @@ requirements:
     - gsl
     - healpix_cxx
     - matplotlib
-    - numpy
+    - numpy >=1.17
     - openblas
     - pmw
     - readline
@@ -63,7 +63,7 @@ requirements:
     - healpix_cxx
     - matplotlib
     - ncurses
-    - numpy 
+    - numpy  >=1.17
     - openblas
     - pmw
     - pyyaml
