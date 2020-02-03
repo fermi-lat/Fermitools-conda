@@ -94,7 +94,7 @@ if(!old_value.Contains("lib/${condaname}")) {
     gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
     gEnv->SaveLevel(kEnvUser);
 }
-exit();
+exit(0);
 EOF
 
 # Add aliases for python executables
