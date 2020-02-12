@@ -121,7 +121,7 @@ if(!old_value.Contains("lib/${condaname}")) {
     gEnv->SaveLevel(kEnvUser);
 }
 
-exit();
+exit(0);
 
 EOF
 
