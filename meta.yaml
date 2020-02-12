@@ -60,7 +60,7 @@ requirements:
     - cppunit 1.14.0
     - f2c 0.0.1
     - fftw 3.3.8
-    - fermitools-data >=0.11 # This must be updated with every model release
+    - fermitools-data
     - gsl 2.2
     - healpix_cxx 3.31
     - matplotlib
