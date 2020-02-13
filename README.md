@@ -1,8 +1,12 @@
 # Fermitools-conda-recipe
 
-This repository contains all files necessary to build the Fermitools via Conda build.  A general overview of each of these files can be found [here](https://github.com/fermi-lat/ScienceTools-conda-recipe/wiki/Contributing-to-the-Fermitools#sciencetools-conda-recipe-contents)
+The Fermitools are a product of the Fermi-LAT Collaboration.
 
-To get started using the Fermitools package as quick as possible follow the instructions linked below:
+This repository contains all files necessary to build the Fermitools via Conda build.
+
+## [General Overview of Conda Files](https://github.com/fermi-lat/ScienceTools-conda-recipe/wiki/Contributing-to-the-Fermitools#sciencetools-conda-recipe-contents)
+
+To get started using the Fermitools package as quick as possible follow the instructions below:
 
 ## [Quickstart](https://github.com/fermi-lat/ScienceTools-conda-recipe/wiki/Quickstart-Guide) ##
 

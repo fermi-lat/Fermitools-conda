@@ -4,16 +4,180 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - azure-pipelines.yml
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+variables:
+- group: DevOps Access Keys
+- name: version
+  value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+#####################################
+# Linux Stages - Microsoft Hosted VMs
+#####################################
+
+  ### Linux Build Stage ###
+- stage: linux_build_stage
+  displayName: 'Ubuntu Build Stage'
+  jobs:
+  - job: buildTools
+    displayName: 'Build the Fermitools'
+    timeoutInMinutes: 150
+    pool: 
+      vmImage: 'ubuntu-16.04'
+    variables:
+    - name: BUILD_NUMBER
+      value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # This step is necessary because Conda no longer carries gcc-4.x 
+    # compilers.  This can be removed once the Fermitools are C++11
+    # compliant. 
+    - bash: |
+        sudo update-alternatives --remove-all gcc
+        sudo update-alternatives --remove-all g++
+        sudo apt-get install --yes gcc-4.8 g++-4.8
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 10
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+        sudo update-alternatives --set cc /usr/bin/gcc
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+        sudo update-alternatives --set c++ /usr/bin/g++
+        which gcc
+        gcc --version
+      displayName: 'Install and set up gcc-4.8'
+
+    ### Build commands start here ###
+    # Query last build number for this version and iterate if necessary
+    - bash: echo "##vso[task.setvariable variable=BUILD_NUMBER]$(BUILD_NUMBER)"
+      displayName: 'Query last build number of this version'
+    - bash: echo "##vso[task.setvariable variable=BUILD_NUMBER]$(expr $BUILD_NUMBER + 1)"
+      condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
+      displayName: 'Iterate build number if it exists'
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv
+      displayName: 'Set up build environment'
+    - bash: conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+      displayName: 'Run the build'
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
+      displayName: 'Upload build to Anaconda Cloud'
+
+  ### Linux Test Stage ###
+- stage: linux_test_stage
+  displayName: 'Ubuntu Test Stage'
+  condition: succeeded('linux_build_stage')
+  jobs:
+  - job: testTools
+    displayName: 'Test the Fermitools'
+    timeoutInMinutes: 150
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # junit-xml must be installed so the unit test script
+    # can produce output in the JUnit format
+    - task: CondaEnvironment@0
+      inputs:
+        environmentName: 'Test'
+        packageSpecs: 'python=2.7'
+    - bash: |
+        conda install --yes --quiet -c conda-forge/label/cf201901 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
+        pip install junit-xml
+      displayName: 'Install the tools and test scripts'
+    - bash: |
+        source activate Test
+        ST-unit-test --bit64
+      displayName: 'Run Unit Tests'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'ST-unit-test-Output.xml'
+#####################################
+
+#####################################
+# MacOS Stages - Microsoft Hosted VMs
+#####################################
+
+  ### MacOS Build Stage ##
+- stage: macos_build_stage
+  displayName: 'MacOS Build Stage'
+  dependsOn: []
+  jobs:
+  - job: buildTools
+    displayName: 'Build the Fermitools'
+    timeoutInMinutes: 150
+    pool: 
+      vmImage: 'macOS-10.13'
+    variables:
+    - name: BUILD_NUMBER
+      value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
+
+    ### Build commands start here ###
+    # Query last build number for this version and iterate if necessary
+    - bash: echo "##vso[task.setvariable variable=BUILD_NUMBER]$(BUILD_NUMBER)"
+      displayName: 'Query last build number of this version'
+    - bash: echo "##vso[task.setvariable variable=BUILD_NUMBER]$(expr $BUILD_NUMBER + 1)"
+      condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
+      displayName: 'Iterate build number if it exists'
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build
+      displayName: 'Set up build environment'
+    - bash: conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+      displayName: 'Run the build'
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
+      displayName: 'Upload build to Anaconda Cloud'
+
+  ### MacOS Test Stage ###
+- stage: macos_test_stage
+  displayName: 'MacOS Test Stage'
+  condition: succeeded('macos_build_stage')
+  jobs:
+  - job: testTools
+    displayName: 'Test the Fermitools'
+    timeoutInMinutes: 150
+    pool:
+      vmImage: 'macOS-10.13'
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation' 
+    # junit-xml must be installed so the unit test script
+    - task: CondaEnvironment@0
+      inputs:
+        environmentName: 'Test'
+        packageSpecs: 'python=2.7'
+    # can produce output in the JUnit format
+    - bash: |
+        conda install --yes --quiet -c conda-forge/label/cf201901 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
+        pip install junit-xml
+      displayName: 'Install the tools and test scripts'
+    - bash: |
+        source activate Test
+        ST-unit-test --bit64
+      displayName: 'Run Unit Tests'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'ST-unit-test-Output.xml'
+#####################################

@@ -1,5 +1,9 @@
 {% set name = "fermitools" %}
+<<<<<<< HEAD
 {% set version = "1.3.1" %}
+=======
+{% set version = "1.2.23" %}
+>>>>>>> origin/master
 
 package:
   name: {{ name|lower }}
@@ -15,9 +19,15 @@ build:
 
 requirements:
   build:
+<<<<<<< HEAD
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
+=======
+    #- {{ compiler('c') }}
+    #- {{ compiler('cxx') }}
+    #- {{ compiler('fortran') }}
+>>>>>>> origin/master
     #- gcc 4.8.5 # [linux]  
     #- scons 2.*
     #- fermi-repoman
