@@ -28,7 +28,7 @@ export CFLAGS="-O2 ${CFLAGS}"
 export CXXFLAGS="-O2 -std=c++14 -DROOT_SVN_REVISION=60000 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/${condaname}"
 
 if [ "$(uname)" == "Darwin" ]; then
 
