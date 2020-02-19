@@ -89,8 +89,8 @@ TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
 // for this to work properly (as this is input for the stdin of
 // root)
 
-if(!old_value.Contains("lib/${condaname}")) { 
-    TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/");
+if(!old_value.Contains("lib/")) { 
+    TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/");
     gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
     gEnv->SaveLevel(kEnvUser);
 }
