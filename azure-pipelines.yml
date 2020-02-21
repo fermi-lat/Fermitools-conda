@@ -30,7 +30,7 @@ stages:
   - job: buildTools
     displayName: 'Build the Fermitools'
     timeoutInMinutes: 150
-    pool: 
+    pool:
       vmImage: 'ubuntu-16.04'
     variables:
     - name: BUILD_NUMBER
@@ -39,9 +39,9 @@ stages:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
-    # This step is necessary because Conda no longer carries gcc-4.x 
+    # This step is necessary because Conda no longer carries gcc-4.x
     # compilers.  This can be removed once the Fermitools are C++11
-    # compliant. 
+    # compliant.
     - bash: |
         sudo update-alternatives --remove-all gcc
         sudo update-alternatives --remove-all g++
@@ -65,7 +65,7 @@ stages:
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/ape .
+    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/root6 .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -90,7 +90,7 @@ stages:
         environmentName: 'Test'
         packageSpecs: 'python=2.7'
     - bash: |
-        conda install --yes --quiet -c conda-forge/label/cf201901 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
+        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/root6 -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
         pip install junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
@@ -115,7 +115,7 @@ stages:
   - job: buildTools
     displayName: 'Build the Fermitools'
     timeoutInMinutes: 150
-    pool: 
+    pool:
       vmImage: 'macOS-10.13'
     variables:
     - name: BUILD_NUMBER
@@ -139,7 +139,7 @@ stages:
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/ape .
+    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/root6 .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -161,7 +161,7 @@ stages:
     # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
     # We need to take ownership if we want to update conda or install packages globally
     - bash: sudo chown -R $USER $CONDA
-      displayName: 'Take ownership of conda installation' 
+      displayName: 'Take ownership of conda installation'
     # junit-xml must be installed so the unit test script
     - task: CondaEnvironment@0
       inputs:
@@ -169,7 +169,7 @@ stages:
         packageSpecs: 'python=2.7'
     # can produce output in the JUnit format
     - bash: |
-        conda install --yes --quiet -c conda-forge/label/cf201901 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
+        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/root6 -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
         pip install junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
