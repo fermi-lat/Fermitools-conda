@@ -41,19 +41,19 @@ stages:
     # This step is necessary because Conda no longer carries gcc-4.x 
     # compilers.  This can be removed once the Fermitools are C++11
     # compliant. 
-    - bash: |
-        sudo update-alternatives --remove-all gcc
-        sudo update-alternatives --remove-all g++
-        sudo apt-get install --yes gcc-4.8 g++-4.8
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 10
-        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-        sudo update-alternatives --set cc /usr/bin/gcc
-        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-        sudo update-alternatives --set c++ /usr/bin/g++
-        which gcc
-        gcc --version
-      displayName: 'Install and set up gcc-4.8'
+#    - bash: |
+#        sudo update-alternatives --remove-all gcc
+#        sudo update-alternatives --remove-all g++
+#        sudo apt-get install --yes gcc-4.8 g++-4.8
+#        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
+#        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 10
+#        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+#        sudo update-alternatives --set cc /usr/bin/gcc
+#        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+#        sudo update-alternatives --set c++ /usr/bin/g++
+#        which gcc
+#        gcc --version
+#      displayName: 'Install and set up gcc-4.8'
 
     ### Build commands start here ###
     # Query last build number for this version and iterate if necessary
@@ -63,9 +63,9 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build libiconv
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+    - bash: conda build --python=3.7 -c fermi/label/root6 -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -88,9 +88,9 @@ stages:
     - task: CondaEnvironment@0
       inputs:
         environmentName: 'Test'
-        packageSpecs: 'python=2.7'
+        packageSpecs: 'python=3.7'
     - bash: |
-        conda install --yes --quiet -c conda-forge/label/cf201901 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
+        conda install --yes --quiet -c fermi/label/root6 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
         pip install junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
@@ -137,9 +137,9 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
+    - bash: conda build --python=3.7 -c fermi/label/root6 -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -166,10 +166,10 @@ stages:
     - task: CondaEnvironment@0
       inputs:
         environmentName: 'Test'
-        packageSpecs: 'python=2.7'
+        packageSpecs: 'python=3.7'
     # can produce output in the JUnit format
     - bash: |
-        conda install --yes --quiet -c conda-forge/label/cf201901 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
+        conda install --yes --quiet -c fermi/label/root6 -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
         pip install junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
