@@ -19,8 +19,9 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
     #- gcc 4.8.5 # [linux]  
-    #- scons 2.*
-    #- fermi-repoman
+    - scons 3.0.3
+    - fermi-repoman
+    - root
     
   host:
     #- {{ compiler('c') }}
