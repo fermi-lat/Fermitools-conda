@@ -111,6 +111,8 @@ fi
 # Figure out the path to the site-package directory
 export sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 echo "sitepackagesdir =" $sitepackagesdir
+export sitepackagesdir=$PREFIX/lib/python3.7/site-packages
+echo "sitepackagesdir =" $sitepackagesdir
 # Create our package there
 mkdir -p $sitepackagesdir/${condaname}
 # Making an empty __init__.py makes our directory a python package
