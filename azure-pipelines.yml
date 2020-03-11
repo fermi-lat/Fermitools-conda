@@ -71,7 +71,7 @@ stages:
       displayName: 'Upload build to Anaconda Cloud'
       
   ### Handle Failed Builds ###
-- stage: upload_failed
+- stage: linux_upload_broken
   displayName: 'Upload failed build for debug'
   condition: failed('linux_build_stage')
   jobs:
@@ -162,7 +162,7 @@ stages:
       displayName: 'Upload build to Anaconda Cloud'
 
   ### Handle Failed Builds ###
-- stage: upload_failed
+- stage: macos_upload_broken
   displayName: 'Upload failed build for debug'
   condition: failed('macos_build_stage')
   jobs:
