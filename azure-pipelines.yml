@@ -69,6 +69,23 @@ stages:
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
+      
+  ### Handle Failed Builds ###
+- stage: upload_failed
+  displayName: 'Upload failed build for debug'
+  condition: failed('linux_build_stage')
+  jobs:
+  - job: uploadFailed
+    displayName: 'Upload Broken Tarball'
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=broken /usr/local/miniconda/conda-bld/broken/fermitools-*
+      displayName: 'Upload build to Anaconda Cloud'
 
   ### Linux Test Stage ###
 - stage: linux_test_stage
@@ -142,6 +159,23 @@ stages:
     - bash: conda build --python=2.7 -c conda-forge/label/cf201901 -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
+      displayName: 'Upload build to Anaconda Cloud'
+
+  ### Handle Failed Builds ###
+- stage: upload_failed
+  displayName: 'Upload failed build for debug'
+  condition: failed('macos_build_stage')
+  jobs:
+  - job: uploadFailed
+    displayName: 'Upload Broken Tarball'
+    pool:
+      vmImage: 'macOS-10.14'
+    steps:
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=broken /usr/local/miniconda/conda-bld/broken/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
 
   ### MacOS Test Stage ###
