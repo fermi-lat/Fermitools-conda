@@ -17,11 +17,11 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - {{ compiler('fortran') }}
+    #- {{ compiler('fortran') }}
     #- gcc 4.8.5 # [linux]  
-    - scons 3.0.3
-    - fermi-repoman
-    - root
+    #- scons 3.0.3
+    #- fermi-repoman
+    #- root
     
   host:
     #- {{ compiler('c') }}
