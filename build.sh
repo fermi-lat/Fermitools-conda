@@ -6,8 +6,7 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools fftwheader conda
-# repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-182
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda
 
 
 # Add optimization
@@ -18,16 +17,16 @@ export CXXFLAGS="-O2 ${CXXFLAGS}"
 export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
 
 if [ "$(uname)" == "Darwin" ]; then
-    
+
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
+    export CXXFLAGS="-std=c++11 ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     echo "Compiling without openMP, not supported on Mac"
-    
+
 else
-    
+
     # This is needed on Linux
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
+    export CXXFLAGS="-std=c++11 ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -fopenmp"
 
 fi
@@ -61,7 +60,7 @@ rm -rf ${PREFIX}/include/fftw
 mkdir -p $PREFIX/lib/${condaname}
 if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc48" ]; then
     echo "Subdirectory Found! (Lib)"
-    pwd 
+    pwd
     ls lib/
     ls lib/debianstretch/
     ls lib/debianstretch/sid-x86_64-64bit-gcc48/
