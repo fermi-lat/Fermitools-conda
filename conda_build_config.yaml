@@ -1,3 +1,4 @@
 CONDA_BUILD_SYSROOT:
-  - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk #[osx]
+  - /Users/jasercio/sdks/MacOSX10.9.sdk #[osx]
+#  - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk #[osx]
 #  - /opt/MacOSX10.9.sdk        # [osx]
