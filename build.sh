@@ -44,9 +44,9 @@ else
 
 fi
 
-#ln -s ${cc} ${PREFIX}/bin/gcc
+ln -s ${cc} ${PREFIX}/bin/gcc
 
-#ln -s ${CXX} ${PREFIX}/bin/g++
+ln -s ${CXX} ${PREFIX}/bin/g++
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
