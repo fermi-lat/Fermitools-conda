@@ -42,17 +42,17 @@ else
 
 fi
 
-ln -s ${cc} ${PREFIX}/bin/gcc
+#ln -s ${cc} ${PREFIX}/bin/gcc
 
-ln -s ${CXX} ${PREFIX}/bin/g++
+#ln -s ${CXX} ${PREFIX}/bin/g++
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
       --conda=${PREFIX} \
       --use-path \
       -j ${CPU_COUNT} \
-      --with-cc="${CC}" \
-      --with-cxx="${CXX}" \
+      #--with-cc="${CC}" \
+      #--with-cxx="${CXX}" \
       --ccflags="${CFLAGS}" \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
