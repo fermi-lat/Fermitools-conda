@@ -53,8 +53,8 @@ scons -C ScienceTools \
       --conda=${PREFIX} \
       --use-path \
       -j ${CPU_COUNT} \
-      #--with-cc="${CC}" \
-      #--with-cxx="${CXX}" \
+      --with-cc="${CC}" \
+      --with-cxx="${CXX}" \
       --ccflags="${CFLAGS}" \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
