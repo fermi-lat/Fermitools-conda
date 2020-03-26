@@ -32,7 +32,8 @@ export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-r
 if [ "$(uname)" == "Darwin" ]; then
     
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
-    export CXXFLAGS="${CXXFLAGS}" 
+    export CFLAGS="${CFLAGS} -isysroot ${CONDA_BUILD_SYSROOT}"
+    export CXXFLAGS="${CXXFLAGS} -isysroot ${CONDA_BUILD_SYSROOT}" 
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     echo "Compiling without openMP, not supported on Mac"
     
@@ -44,9 +45,9 @@ else
 
 fi
 
-#ln -s ${cc} ${PREFIX}/bin/gcc
+ln -s ${cc} ${PREFIX}/bin/gcc
 
-#ln -s ${CXX} ${PREFIX}/bin/g++
+ln -s ${CXX} ${PREFIX}/bin/g++
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
