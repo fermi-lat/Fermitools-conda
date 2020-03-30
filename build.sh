@@ -10,18 +10,6 @@ repoman --remote-base https://github.com/fermi-lat checkout --force --develop Sc
   root6 \
   conda \
 
-# repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda STGEN-182
-
-
-# condaforge fftw is in a different spot
-mkdir -p ${PREFIX}/include/fftw
-if [ ! -e ${PREFIX}/include/fftw/fftw3.h ] ; then
-
-    ln -s ${PREFIX}/include/fftw3.* ${PREFIX}/include/fftw
-
-fi
-
-#CXXFLAGS=${CXXFLAGS//c++17/c++11}
 
 # Add optimization
 export CFLAGS="-O2 ${CFLAGS}"
