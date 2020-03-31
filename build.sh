@@ -13,23 +13,17 @@ repoman --remote-base https://github.com/fermi-lat checkout --force --develop Sc
 
 # Add optimization
 export CFLAGS="-O2 ${CFLAGS}"
-export CXXFLAGS="-O2 -std=c++14 -DROOT_SVN_REVISION=60000 ${CXXFLAGS}"
+export CXXFLAGS="-O2 -std=c++14 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -fopenmp -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/${condaname}"
 
 if [ "$(uname)" == "Darwin" ]; then
 
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
     export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
-    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CXXFLAGS}"
+    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
-    echo "Compiling without openMP, not supported on Mac"
-
-else
-
-    # This is needed on Linux
-    export LDFLAGS="${LDFLAGS} -fopenmp"
 
 fi
 
@@ -44,13 +38,6 @@ scons -C ScienceTools \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
       all
-
-rm -rf ${PREFIX}/bin/gcc
-
-rm -rf ${PREFIX}/bin/g++
-
-# Remove the links to fftw3
-rm -rf ${PREFIX}/include/fftw
 
 # Install in a place where conda will find the ST
 
