@@ -32,9 +32,9 @@ export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-r
 if [ "$(uname)" == "Darwin" ]; then
     
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
-    export CFLAGS="${CFLAGS} -isysroot ${CONDA_BUILD_SYSROOT}"
-    export CXXFLAGS="${CXXFLAGS} -isysroot ${CONDA_BUILD_SYSROOT}" 
-    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
+    export CFLAGS="${CFLAGS} -isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=10.9"
+    export CXXFLAGS="${CXXFLAGS} -isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=10.9" 
+    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names -fopenmp"
     echo "Compiling without openMP, not supported on Mac"
     
 else
