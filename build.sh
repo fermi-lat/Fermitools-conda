@@ -12,11 +12,11 @@ repoman --remote-base https://github.com/fermi-lat checkout --force --develop Sc
 
 
 # Add optimization
-export CFLAGS="-O2 ${CFLAGS}"
-export CXXFLAGS="-O2 -std=c++14 ${CXXFLAGS}"
+export CFLAGS="${CFLAGS}"
+export CXXFLAGS="-std=c++14 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -fopenmp -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/${condaname}"
 
 if [ "$(uname)" == "Darwin" ]; then
 
@@ -37,6 +37,8 @@ scons -C ScienceTools \
       --ccflags="${CFLAGS}" \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
+      --compile-opt \
+      --compile-debug \
       all
 
 # Install in a place where conda will find the ST

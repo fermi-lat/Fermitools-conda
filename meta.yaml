@@ -20,13 +20,13 @@ requirements:
     # - {{ compiler('fortran') }}
 
   host:
-    - ape 3.*
+    - ape >=3
     - aplpy
     - astropy
     - blas
     - clhep
     - cppunit
-    - f2c
+    - f2c >=0.0.2
     - fermi-repoman
     - fftw
     - git
@@ -34,30 +34,29 @@ requirements:
     - healpix_cxx
     - matplotlib
     - numpy >=1.11
-    - openblas
     - pmw
     - python 2.7
     - root >=6.0
+    - scipy
     - scons
     - swig
     - wcslib
     - xerces-c
 
   run:
-    - ape 3.*
+    - ape >=3
     - aplpy
     - astropy
     - blas
     - clhep
     - cppunit
-    - f2c
-    - fftw
+    - f2c >=0.0.2
     - fermitools-data
+    - fftw
     - gsl
     - healpix_cxx
     - matplotlib
     - numpy >=1.11
-    - openblas
     - pmw
     - python 2.7
     - pyyaml
