@@ -26,7 +26,7 @@ requirements:
     - blas
     - clhep
     - cppunit
-    - f2c >=0.0.2
+    - f2c 0.0.2
     - fermi-repoman
     - fftw
     - git
@@ -50,7 +50,7 @@ requirements:
     - blas
     - clhep
     - cppunit
-    - f2c >=0.0.2
+    - f2c 0.0.2
     - fermitools-data
     - fftw
     - gsl
