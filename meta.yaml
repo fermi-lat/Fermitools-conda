@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.6.0.0" %}
+{% set version = "1.6.0" %}
 
 package:
   name: {{ name|lower }}
@@ -17,7 +17,6 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    # - {{ compiler('fortran') }}
 
   host:
     - ape >=3
@@ -66,13 +65,13 @@ requirements:
     - xerces-c
 
 test:
-  commands:
-    # These tests inspect linkages and libraries. They are very slow, so comment them out
-    # for a quicker turnaround when testing
-    - conda inspect linkages -p $PREFIX {{ name }}  # [not win]
-    - conda inspect objects -p $PREFIX {{ name }}  # [osx]
-
   imports:
     - UnbinnedAnalysis
     - pyLikelihood
+
+  commands:
+    # These tests inspect linkages and libraries. They are very slow, so comment them out
+    # for a quicker turnaround when testing
+    #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
+    #- conda inspect objects -p $PREFIX {{ name }}  # [osx]
 
