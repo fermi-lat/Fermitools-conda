@@ -116,7 +116,7 @@ stages:
     displayName: 'Build the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'macOS-10.13'
+      vmImage: 'macOS-10.14'
     variables:
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
@@ -153,7 +153,7 @@ stages:
     displayName: 'Test the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'macOS-10.13'
+      vmImage: 'macOS-10.14'
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
