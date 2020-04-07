@@ -33,7 +33,7 @@ requirements:
     - blas
     - clhep
     - cppunit
-    - f2c
+    - f2c 0.0.2
     - fermi-repoman
     - fftw
     - git
@@ -58,7 +58,7 @@ requirements:
     - blas
     - clhep 
     - cppunit
-    - f2c
+    - f2c 0.0.2
     - fftw
     - fermitools-data >=0.16 # This must be updated with every model release
     - gsl
