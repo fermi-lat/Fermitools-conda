@@ -38,7 +38,6 @@ scons -C ScienceTools \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
       --compile-opt \
-      --compile-debug \
       all
 
 # Install in a place where conda will find the ST
