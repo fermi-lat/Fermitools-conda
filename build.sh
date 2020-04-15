@@ -16,7 +16,7 @@ export CFLAGS="${CFLAGS}"
 export CXXFLAGS="-std=c++14 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib, -Wl,-rpath,${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib"
 
 if [ "$(uname)" == "Darwin" ]; then
 
@@ -46,7 +46,7 @@ scons -C ScienceTools \
 mkdir -p $PREFIX/lib/${condaname}
 if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc48" ]; then
     echo "Subdirectory Found! (Lib)"
-    pwd 
+    pwd
     ls lib/
     ls lib/debianstretch/
     ls lib/debianstretch/sid-x86_64-64bit-gcc48/
