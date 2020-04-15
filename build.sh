@@ -12,16 +12,14 @@ repoman --remote-base https://github.com/fermi-lat checkout --force --develop Sc
 
 
 # Add optimization
-export CFLAGS="${CFLAGS}"
-export CXXFLAGS="-std=c++14 ${CXXFLAGS}"
+export CXXFLAGS="-std=c++1z ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib, -Wl,-rpath,${PREFIX}/lib/${condaname}"
 
 if [ "$(uname)" == "Darwin" ]; then
 
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
-    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
     export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
 
@@ -32,9 +30,7 @@ scons -C ScienceTools \
       --conda=${PREFIX} \
       --use-path \
       -j ${CPU_COUNT} \
-      --with-cc="${CC}" \
       --with-cxx="${CXX}" \
-      --ccflags="${CFLAGS}" \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
       --compile-opt \
