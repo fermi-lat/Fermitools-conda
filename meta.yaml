@@ -39,7 +39,7 @@ requirements:
     - scipy
     - scons
     - swig
-    - wcslib
+    - wcslib <6
     - xerces-c
 
   run:
@@ -61,7 +61,7 @@ requirements:
     - pyyaml
     - root >=6.0
     - scipy
-    - wcslib
+    - wcslib <6
     - xerces-c
 
 test:
@@ -74,4 +74,3 @@ test:
     # for a quicker turnaround when testing
     #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
     #- conda inspect objects -p $PREFIX {{ name }}  # [osx]
-
