@@ -47,9 +47,9 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build libiconv
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/root6 .
+    - bash: conda build --python=3.7 -c conda-forge -c fermi -c fermi/label/root6 .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -72,7 +72,7 @@ stages:
     - task: CondaEnvironment@0
       inputs:
         environmentName: 'Test'
-        packageSpecs: 'python=2.7'
+        packageSpecs: 'python=3.7'
     - bash: |
         conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/root6 -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
         pip install junit-xml
@@ -121,9 +121,9 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/root6 .
+    - bash: conda build --python=3.7 -c conda-forge -c fermi -c fermi/label/root6 .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -150,7 +150,7 @@ stages:
     - task: CondaEnvironment@0
       inputs:
         environmentName: 'Test'
-        packageSpecs: 'python=2.7'
+        packageSpecs: 'python=3.7'
     # can produce output in the JUnit format
     - bash: |
         conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/root6 -c fermi/label/dev fermitools=$(version) fermitools-test-scripts

@@ -8,7 +8,9 @@ export condaname="fermitools"
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
 repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools \
   root6 \
+  python3_updates \
   conda \
+  p3r6merge
 
 
 # Add optimization
@@ -53,6 +55,12 @@ if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc73-Optimized" ]; then
     cp -R lib/*/*/* $PREFIX/lib/${condaname}
 else
     echo "Subdirectory Not Found! (Lib)"
+    echo "PWD:"
+    pwd
+    echo "ls:"
+    ls
+    echo "ls lib/"
+    ls lib/
     cp -R lib/*/* $PREFIX/lib/${condaname}
 fi
 
@@ -79,6 +87,9 @@ fi
 # Python packages
 # Figure out the path to the site-package directory
 export sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+echo "sitepackagesdir =" $sitepackagesdir
+#export sitepackagesdir=$PREFIX/lib/python3.7/site-packages
+#echo "sitepackagesdir =" $sitepackagesdir
 # Create our package there
 mkdir -p $sitepackagesdir/${condaname}
 # Making an empty __init__.py makes our directory a python package
@@ -93,6 +104,8 @@ echo "$PREFIX/lib/${condaname}" > $sitepackagesdir/${condaname}.pth
 # "from fermitools import UnbinnedAnalysis" we need to
 # also add the path to the fermitools package
 echo "${sitepackagesdir}/fermitools" >> $sitepackagesdir/${condaname}.pth
+echo ${condaname}.pth ":"
+cat $sitepackagesdir/${condaname}.pth
 
 # Pfiles
 mkdir -p $PREFIX/share/${condaname}/syspfiles
