@@ -44,12 +44,12 @@ scons -C ScienceTools \
 
 # Libraries
 mkdir -p $PREFIX/lib/${condaname}
-if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc76" ]; then
     echo "Subdirectory Found! (Lib)"
     pwd
     ls lib/
     ls lib/debianstretch/
-    ls lib/debianstretch/sid-x86_64-64bit-gcc48/
+    ls lib/debianstretch/sid-x86_64-64bit-gcc76/
     cp -R lib/*/*/* $PREFIX/lib/${condaname}
 else
     echo "Subdirectory Not Found! (Lib)"
@@ -58,7 +58,7 @@ fi
 
 # Headers
 mkdir -p $PREFIX/include/${condaname}
-if [ -d "include/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+if [ -d "include/debianstretch/sid-x86_64-64bit-gcc76" ]; then
     echo "Subdirectory Found! (Include)"
     cp -R include/*/* $PREFIX/include/${condaname}
 else
@@ -68,7 +68,7 @@ fi
 
 # Binaries
 mkdir -p $PREFIX/bin/${condaname}
-if [ -d "exe/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+if [ -d "exe/debianstretch/sid-x86_64-64bit-gcc76" ]; then
     echo "Subdirectory Found! (bin)"
     cp -R exe/*/*/* $PREFIX/bin/${condaname}
 else
