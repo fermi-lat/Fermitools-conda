@@ -6,34 +6,25 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools conda
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools \
+  conda \
 
 
 # Add optimization
-export CFLAGS="-O2 ${CFLAGS}"
-export CXXFLAGS="-O2 ${CXXFLAGS}"
+export CFLAGS="${CFLAGS}"
+export CXXFLAGS="-std=c++14 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-rpath,${PREFIX}/lib/${condaname}"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib"
 
 if [ "$(uname)" == "Darwin" ]; then
 
-    #std=c++11 required for use with the Mac version of CLHEP in conda-forge
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}"
+    # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
+    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
+    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
-    echo "Compiling without openMP, not supported on Mac"
-
-else
-
-    # This is needed on Linux
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}"
-    export LDFLAGS="${LDFLAGS} -fopenmp"
 
 fi
-
-ln -s ${cc} ${PREFIX}/bin/gcc
-
-ln -s ${CXX} ${PREFIX}/bin/g++
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
@@ -45,25 +36,19 @@ scons -C ScienceTools \
       --ccflags="${CFLAGS}" \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
+      --compile-opt \
       all
-
-rm -rf ${PREFIX}/bin/gcc
-
-rm -rf ${PREFIX}/bin/g++
-
-# Remove the links to fftw3
-rm -rf ${PREFIX}/include/fftw
 
 # Install in a place where conda will find the ST
 
 # Libraries
 mkdir -p $PREFIX/lib/${condaname}
-if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc73-Optimized" ]; then
     echo "Subdirectory Found! (Lib)"
     pwd
     ls lib/
     ls lib/debianstretch/
-    ls lib/debianstretch/sid-x86_64-64bit-gcc48/
+    ls lib/debianstretch/sid-x86_64-64bit-gcc73-Optimized/
     cp -R lib/*/*/* $PREFIX/lib/${condaname}
 else
     echo "Subdirectory Not Found! (Lib)"
@@ -72,7 +57,7 @@ fi
 
 # Headers
 mkdir -p $PREFIX/include/${condaname}
-if [ -d "include/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+if [ -d "include/debianstretch/sid-x86_64-64bit-gcc73-Optimized" ]; then
     echo "Subdirectory Found! (Include)"
     cp -R include/*/* $PREFIX/include/${condaname}
 else
@@ -82,7 +67,7 @@ fi
 
 # Binaries
 mkdir -p $PREFIX/bin/${condaname}
-if [ -d "exe/debianstretch/sid-x86_64-64bit-gcc48" ]; then
+if [ -d "exe/debianstretch/sid-x86_64-64bit-gcc73-Optimized" ]; then
     echo "Subdirectory Found! (bin)"
     cp -R exe/*/*/* $PREFIX/bin/${condaname}
 else
