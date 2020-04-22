@@ -40,15 +40,15 @@ requirements:
     - gsl
     - healpix_cxx
     - matplotlib
-    - numpy >= 1.11
+    - numpy >= 1.17
     - openblas 
     - pmw 
-    - python 
+    - python 3.7.*
     - readline 
     - root
     - scons 3.0.3
     - swig 
-    - wcslib 5.18
+    - wcslib <6
     - xerces-c
 
   run:
@@ -65,15 +65,15 @@ requirements:
     - healpix_cxx 
     - matplotlib
     - ncurses 
-    - numpy  >= 1.11
+    - numpy  >= 1.17
     - openblas 
     - pmw 
-    - python 7
+    - python 3.7.*
     - pyyaml
     - readline 
     - root
     - scipy
-    - wcslib 
+    - wcslib <6
     - xerces-c 
 
 test:
