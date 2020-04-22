@@ -1,5 +1,9 @@
 {% set name = "fermitools" %}
+<<<<<<< HEAD
 {% set version = "1.2.23" %}
+=======
+{% set version = "1.3.1" %}
+>>>>>>> 50589f2491a8eeef3b6e38fc3b8aaa6d9de2baf5
 
 package:
   name: {{ name|lower }}
@@ -11,7 +15,7 @@ source:
 build:
   number: {{ environ.get('BUILD_NUMBER', 0)}}
   skip: true  # [win]
-  skip: true  # [py3k]
+
 
 requirements:
   build:
@@ -19,27 +23,45 @@ requirements:
     - {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
     #- gcc 4.8.5 # [linux]  
+<<<<<<< HEAD
     - scons 3.0.3
     - fermi-repoman
     - root
+=======
+    #- scons 3.0.3
+    #- fermi-repoman
+    #- root
+>>>>>>> 50589f2491a8eeef3b6e38fc3b8aaa6d9de2baf5
     
   host:
     #- {{ compiler('c') }}
     #- {{ compiler('cxx') }}
     #- {{ compiler('fortran') }}
+<<<<<<< HEAD
     - ape >=3.0
     - aplpy
     - astropy
     - blas 
+=======
+    - ape >=2.9.1
+    - aplpy
+    - astropy
+    - blas
+>>>>>>> 50589f2491a8eeef3b6e38fc3b8aaa6d9de2baf5
     - clhep
     - cppunit
     - f2c 0.0.2
     - fermi-repoman
+<<<<<<< HEAD
     - fftw 
+=======
+    - fftw
+>>>>>>> 50589f2491a8eeef3b6e38fc3b8aaa6d9de2baf5
     - git
     - gsl
     - healpix_cxx
     - matplotlib
+<<<<<<< HEAD
     - numpy >= 1.17
     - openblas 
     - pmw 
@@ -75,6 +97,45 @@ requirements:
     - scipy
     - wcslib <6
     - xerces-c 
+=======
+    - numpy >=1.17
+    - openblas
+    - pmw
+    - python 3.7.*
+    - readline
+    - root 
+    - scons 3.0.3
+    - swig
+    - wcslib
+    - xerces-c
+    - zstd 1.3.7
+
+  run:
+    - ape >=2.9.1
+    - aplpy
+    - astropy
+    - blas
+    - clhep 
+    - cppunit
+    - f2c 0.0.2
+    - fftw
+    - fermitools-data >=0.16 # This must be updated with every model release
+    - gsl
+    - healpix_cxx
+    - matplotlib
+    - ncurses
+    - numpy  >=1.17
+    - openblas
+    - pmw
+    - python 3.7.*
+    - pyyaml
+    - readline
+    - root
+    - scipy
+    - wcslib
+    - xerces-c
+    - zstd 1.3.7
+>>>>>>> 50589f2491a8eeef3b6e38fc3b8aaa6d9de2baf5
 
 test:
   imports:

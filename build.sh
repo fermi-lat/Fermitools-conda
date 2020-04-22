@@ -1,4 +1,6 @@
 export condaname="fermitools"
+#export LC_ALL=en_US.UTF-8
+#export LANG=en_US.UTF-8
 
 # REPOMAN! #
 # Syntax Help:
@@ -30,14 +32,15 @@ export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib,-rpath,${PREFIX}/lib/root,-r
 if [ "$(uname)" == "Darwin" ]; then
     
     #std=c++11 required for use with the Mac version of CLHEP in conda-forge
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
-    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
+    export CFLAGS="${CFLAGS} -isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=10.9"
+    export CXXFLAGS="${CXXFLAGS} -isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=10.9" 
+    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names -fopenmp"
     echo "Compiling without openMP, not supported on Mac"
     
 else
     
     # This is needed on Linux
-    export CXXFLAGS="-std=c++11 ${CXXFLAGS}" 
+    export CXXFLAGS="${CXXFLAGS}" 
     export LDFLAGS="${LDFLAGS} -fopenmp"
 
 fi
@@ -111,8 +114,13 @@ fi
 # Figure out the path to the site-package directory
 export sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 echo "sitepackagesdir =" $sitepackagesdir
+<<<<<<< HEAD
 export sitepackagesdir=$PREFIX/lib/python3.7/site-packages
 echo "sitepackagesdir =" $sitepackagesdir
+=======
+#export sitepackagesdir=$PREFIX/lib/python3.7/site-packages
+#echo "sitepackagesdir =" $sitepackagesdir
+>>>>>>> 50589f2491a8eeef3b6e38fc3b8aaa6d9de2baf5
 # Create our package there
 mkdir -p $sitepackagesdir/${condaname}
 # Making an empty __init__.py makes our directory a python package
