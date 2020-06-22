@@ -79,11 +79,12 @@ stages:
     - bash: |
         source activate Test
         ST-unit-test --bit64
+        mv ST-unit-test-Output.xml Linux-Test-Output.xml
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: 'ST-unit-test-Output.xml'
+        testResultsFiles: 'Linux-Test-Output.xml'
 #####################################
 
 #####################################
@@ -158,9 +159,10 @@ stages:
     - bash: |
         source activate Test
         ST-unit-test --bit64
+        mv ST-unit-test-Output.xml MacOS-Test-Output.xml
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: 'ST-unit-test-Output.xml'
+        testResultsFiles: 'MacOS-Test-Output.xml'
 #####################################
