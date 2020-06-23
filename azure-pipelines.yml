@@ -101,6 +101,7 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'ST-unit-test-Output.xml'
+        testRunTitle: 'Linux Unit Tests'
 #####################################
 
 #####################################
@@ -180,4 +181,5 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'ST-unit-test-Output.xml'
+        testRunTitle: 'MacOS Unit Tests'
 #####################################
