@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.9.8" %}
+{% set version = "1.9.9" %}
 
 package:
   name: {{ name|lower }}
@@ -37,7 +37,7 @@ requirements:
     - pmw
     - python 3.7.*
     - readline
-    - root >=6.20
+    - root 6.22.*
     - scons 3.0.3
     - swig
     - wcslib 5.*
@@ -64,7 +64,7 @@ requirements:
     - python 3.7.*
     - pyyaml
     - readline
-    - root >=6.20
+    - root 6.22.*
     - scipy
     - wcslib 5.*
     - xerces-c
