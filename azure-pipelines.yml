@@ -53,9 +53,9 @@ stages:
     # - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
     #   displayName: 'Upload build to Anaconda Cloud'
     #   TODO pull refs from shared source. repomanrefs.txt file?
-    - bash: repoman --remote-base https://github.com/fermi-lat checkout --force --develop Fermitools-conda extensive_tagging conda fix_classes
+    - bash: mkdir components && cd components && repoman --remote-base https://github.com/fermi-lat checkout --force --develop Fermitools-conda extensive_tagging conda fix_classes
       displayName: 'Repoman Checkout for tagging'
-    - bash: Fermitools-conda/multi_release.sh TestTag-0.$(version).$(BUILD_NUMBER) "Test Tag Message."
+    - bash: Fermitools-conda/multi_release.sh TestTag-0.$(BUILD_NUMBER) "Test Tag Message."
       displayName: 'Tag Github repos'
 
 
