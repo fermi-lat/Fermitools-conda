@@ -20,8 +20,6 @@ generate_post_data()
 EOF
 }
 
-EXIT_VALUE=0
-
 for f in *; do
     echo "Tagging $f..."
     cd $f
@@ -33,8 +31,5 @@ for f in *; do
 
     echo "Create release $version for repo: $repo_full_name branch: $branch"
     curl --data "$(generate_post_data)" "https://api.github.com/repos/$repo_full_name/releases?access_token=$token"
-    ((EXIT_VALUE+=$?))
     cd ../
 done
-
-exit $(EXIT_VALUE)
