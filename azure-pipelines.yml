@@ -57,14 +57,8 @@ stages:
         mkdir components 
         cd components 
         repoman --remote-base https://github.com/fermi-lat checkout --force --develop Fermitools-conda extensive_tagging conda fix_classes
-      displayName: 'Repoman Checkout for tagging'
-    - bash: |
-        cd components
-        git config --global user.email "joseph.a.asercion@nasa.gov"
-        git config --global user.name "jasercion"
-        git config --global credential.helper store
-        echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
-        Fermitools-conda/multi_release.sh TestTag-0.$((version)) "Test Tag Message."
+        Fermitools-conda/multi_release.sh TestTag-$(version) "Test Tag Message."
+        cd ../
       displayName: 'Tag Github repos'
 
 
