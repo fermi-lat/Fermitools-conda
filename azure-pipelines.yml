@@ -55,7 +55,7 @@ stages:
     #   TODO pull refs from shared source. repomanrefs.txt file?
     - bash: mkdir components && cd components && repoman --remote-base https://github.com/fermi-lat checkout --force --develop Fermitools-conda extensive_tagging conda fix_classes
       displayName: 'Repoman Checkout for tagging'
-    - bash: Fermitools-conda/multi_release.sh TestTag-0.$(BUILD_NUMBER) "Test Tag Message."
+    - bash: cd components && Fermitools-conda/multi_release.sh TestTag-0.$(BUILD_NUMBER) "Test Tag Message."
       displayName: 'Tag Github repos'
 
 
