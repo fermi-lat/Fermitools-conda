@@ -15,13 +15,13 @@ for f in *; do
     (git tag -m "$2" $1)
 
     if [ $? -ne 0 ]; then
-      exit $?
+      exit 128
     fi
 
     (git push --tags)
 
     if [ $? -ne 0 ]; then
-      exit $?
+      exit 128
     fi
 
     cd ../
