@@ -11,7 +11,7 @@ for f in *; do
     cd $f
     (git tag -m "$2" $1)
     (git push --tags)
-    if [ $? ]; then
+    if [ ! $? ]; then
       exit $?
     fi
     cd ../
