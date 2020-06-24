@@ -46,12 +46,17 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv pathlib2
-      displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/root6 .
-      displayName: 'Run the build'
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
-      displayName: 'Upload build to Anaconda Cloud'
+    # - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv pathlib2
+    #   displayName: 'Set up build environment'
+    # - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/root6 .
+    #   displayName: 'Run the build'
+    # - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
+    #   displayName: 'Upload build to Anaconda Cloud'
+    #   TODO pull refs from shared source. repomanrefs.txt file?
+    - bash: repoman --remote-base https://github.com/fermi-lat checkout --force --develop Fermitools-conda conda fix_classes
+    - bash: Fermitools-conda/multi_release TestTag-0.variables['BUILD_NUMBER'] "Test Tag Message."
+      displayName: 'Tag Github repos'
+
 
   ### Linux Test Stage ###
 - stage: linux_test_stage

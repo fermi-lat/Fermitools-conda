@@ -1,14 +1,20 @@
 #!/bin/bash
 
+# Original Author Joe Asercion
+# Additional Author Alex Reustle
+#
+# Usage:
+# $ multi_release TAG_VERSION TAG_MESSAGE
+
 generate_post_data()
 {
     cat <<EOF
 {
-  "tag_name": "$version",                                                                                                                                                                                
-  "target_commitish": "$branch",                                                                                                                                                                         
-  "name": "$version",                                                                                                                                                                                    
-  "body": "$text",                                                                                                                                                                                       
-  "draft": false,                                                                                                                                                                                        
+  "tag_name": "$version",
+  "target_commitish": "$branch",
+  "name": "$version",
+  "body": "$text",
+  "draft": false,
   "prerelease": false
 }
 EOF
