@@ -54,7 +54,8 @@ stages:
     #   displayName: 'Upload build to Anaconda Cloud'
     #   TODO pull refs from shared source. repomanrefs.txt file?
     - bash: repoman --remote-base https://github.com/fermi-lat checkout --force --develop Fermitools-conda extensive_tagging conda fix_classes
-    - bash: Fermitools-conda/multi_release TestTag-0.variables['BUILD_NUMBER'] "Test Tag Message."
+      displayName: 'Repoman Checkout for tagging'
+    - bash: Fermitools-conda/multi_release TestTag-0.$(BUILD_NUMBER) "Test Tag Message."
       displayName: 'Tag Github repos'
 
 
