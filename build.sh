@@ -6,8 +6,10 @@ export condaname="fermitools"
 # To checkout arbitrary other refs (Tag, Branch, Commit) add them as a space
 #   delimited list after 'conda' in the order of priority.
 #   e.g. ScienceTools highest_priority_commit middle_priority_ref branch1 branch2 ... lowest_priority
-repoman --remote-base https://github.com/fermi-lat checkout --force --develop ScienceTools \
-  conda fix_classes\
+repoman --remote-base https://github.com/fermi-lat checkout --force --develop \
+  Fermitools-conda \
+  conda \
+  fix_classes
 
 
 # Add optimization
