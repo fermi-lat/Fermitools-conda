@@ -57,8 +57,7 @@ stages:
     #   TODO pull refs from shared source. repomanrefs.txt file?
     - bash: |
         mkdir components && cd components
-        repoman --remote-base https://github.com/fermi-lat checkout-list packageList.txt 
-        #--force --develop Fermitools-conda extensive_tagging conda fix_classes
+        repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt 
         git config --global user.email "joseph.a.asercion@nasa.gov"
         git config --global user.name "jasercion"
         git config --global credential.helper store
