@@ -30,6 +30,7 @@ for f in *; do
     token=$(git config --global github.token)
 
     echo "Create release $version for repo: $repo_full_name branch: $branch"
+    echo "curl --data $(generate_post_data) https://api.github.com/repos/$repo_full_name/releases?access_token=$token"
     curl --data "$(generate_post_data)" "https://api.github.com/repos/$repo_full_name/releases?access_token=$token"
     cd ../
 done
