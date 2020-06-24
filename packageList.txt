@@ -1,101 +1,72 @@
-#  ScienceTools packageList.txt
+#  Fermitools packageList.txt
 # $Id$
 
 # Sciencetools
-ScienceTools Fermitools-1.0.1
+ScienceTools conda
 
 # in common with GlastRelease
-xmlBase Fermitools-1.0.1
-astro Fermitools-1.0.1
-facilities Fermitools-1.0.1
-flux Fermitools-1.0.1
+astro master
+facilities master
+flux master
+xmlBase master
 
 # infrastructure
-hoops Fermitools-1.0.1
-st_app Fermitools-1.0.1
-tip Fermitools-1.0.1
-st_graph Fermitools-1.0.1
-st_facilities Fermitools-1.0.1
-st_stream Fermitools-1.0.1
-fitsGen Fermitools-1.0.1
-fitsGenApps Fermitools-1.0.1
-embed_python Fermitools-1.0.1
+embed_python master
+fitsGen master
+fitsGenApps master
+hoops master
+st_app master
+st_graph master
+st_facilities master
+st_stream master
+tip master
 
 # source modeling
-celestialSources Fermitools-1.0.1
-# celestialSources/genericSources Fermitools-1.0.1
-# celestialSources/Pulsar Fermitools-1.0.1
-# celestialSources/SpectObj Fermitools-1.0.1
-# celestialSources/GRB Fermitools-1.0.1
-# celestialSources/GRBobs Fermitools-1.0.1
-# celestialSources/GRBtemplate Fermitools-1.0.1
-# celestialSources/eblAtten Fermitools-1.0.1
-# celestialSources/microQuasar Fermitools-1.0.1
+celestialSources master
 
 # instrument response
-irfs Fermitools-1.0.1
-# irfs/caldb Fermitools-1.0.1
-# irfs/caldb_release Fermitools-1.0.1
-# irfs/irfInterface Fermitools-1.0.1
-# irfs/irfUtil Fermitools-1.0.1
-# irfs/dc1Response Fermitools-1.0.1
-# irfs/dc2Response Fermitools-1.0.1
-# irfs/g25Response Fermitools-1.0.1
-# irfs/dc1aResponse Fermitools-1.0.1
-# irfs/testResponse Fermitools-1.0.1
-# irfs/handoff_response Fermitools-1.0.1
-# irfs/latResponse Fermitools-1.0.1
-# irfs/irfLoader Fermitools-1.0.1
-# irfs/rootIrfLoader Fermitools-1.0.1
-# irfs/pyIrfLoader Fermitools-1.0.1
+irfs master
 
 # simulation
-observationSim Fermitools-1.0.1
-orbitSim Fermitools-1.0.1
+observationSim master
+orbitSim master
 
 # analysis
-healpix Fermitools-1.0.1
-skymaps Fermitools-1.0.1
-pointlike Fermitools-1.0.1
-dataSubselector Fermitools-1.0.1
-evtbin Fermitools-1.0.1
-evtUtils Fermitools-1.0.1
-rspgen Fermitools-1.0.1
-burstFit Fermitools-1.0.1
-map_tools Fermitools-1.0.1
-optimizers Fermitools-1.0.1
-Likelihood Fermitools-1.0.1
-
-pyExposure Fermitools-1.0.1
-pyLikelihood Fermitools-1.0.1
-
-pulsarDb Fermitools-1.0.1
-pulsePhase Fermitools-1.0.1
-
-#periodSearch periodSearch-10-08-07
-timeSystem Fermitools-1.0.1
-catalogAccess Fermitools-1.0.1
-sourceIdentify Fermitools-1.0.1
-pgwave Fermitools-1.0.1
+burstFit master
+catalogAccess master
+dataSubselector master
+evtbin master
+evtUtils master
+healpix master
+Likelihood master
+map_tools master
+optimizers master
+pgwave master
+pointlike master
+pulsarDb master
+pulsePhase master
+pyExposure master
+pyLikelihood master
+rspgen master
+skymaps master
+sourceIdentify master
+timeSystem master
 
 # define analysis environment
-sane Fermitools-1.0.1
-#likeGui likeGui-07-11-02
-modelEditor Fermitools-1.0.1
+modelEditor master
+sane master
 
 # SCons machinery
-SConsShared Fermitools-1.0.1
-STRcontainerSettings Fermitools-1.0.1
+SConsShared conda
+STRcontainerSettings conda
 
-BayesianBlocks Fermitools-1.0.1
-SolarSystemTools Fermitools-1.0.1
-celestialSources/EarthPhenom Fermitools-1.0.1
+BayesianBlocks master
+SolarSystemTools master
 pyBurstAnalysisGUI master
-# GRBAnalysis-scons/BackgroundEstimator BackgroundEstimator-01-00-02
 
 # fhelp files
 fermitools-fhelp master
 
 # Fermitools-dependencies
-fermitools-build-deps master
-fermitools-dependencies master
+Fermitools-build-deps master
+Fermitools-dependencies master
