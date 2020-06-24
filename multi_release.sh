@@ -7,12 +7,23 @@
 # $ multi_release TAG_VERSION TAG_MESSAGE
 
 for f in *; do
+
     echo "Tagging $f..."
+
     cd $f
+
     (git tag -m "$2" $1)
-    (git push --tags)
-    if [ ! $? ]; then
+
+    if [ $? -ne 0 ]; then
       exit $?
     fi
+
+    (git push --tags)
+
+    if [ $? -ne 0 ]; then
+      exit $?
+    fi
+
     cd ../
+
 done
