@@ -37,4 +37,4 @@ for f in *; do
     cd ../
 done
 
-exit $(exit_value)
+exit $(EXIT_VALUE)
