@@ -2,7 +2,7 @@
 # $Id$
 
 # Sciencetools
-ScienceTools conda
+ScienceTools master
 
 # in common with GlastRelease
 astro master

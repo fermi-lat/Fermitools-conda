@@ -16,7 +16,7 @@ variables:
 - name: version
   value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
 - name: fc_version
-  value: $(grep -i 'set version' Fermitools-conda/meta.yaml | awk '{ print $5}' | sed 's/"//g')
+  value: $(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
 
 stages:
 
