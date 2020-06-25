@@ -96,13 +96,12 @@ stages:
         echo $VERSION
         echo $(TagName)
         conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
-        anaconda upload --help
-        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi /usr/share/miniconda/conda-bld/noarch/fermitools-dependencies-*
+        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label="$(TagName)" /usr/share/miniconda/conda-bld/noarch/fermitools-dependencies-*
         # anaconda -v -t $(Jasercion-Anaconda-Api) label -o fermi --copy $(TagName) main
       displayName: 'Upload and Label Runtime Dependencies'
     - bash: |
         conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
-        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi /usr/share/miniconda/conda-bld/noarch/fermitools-build-deps-*
+        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label="$(TagName)" /usr/share/miniconda/conda-bld/noarch/fermitools-build-deps-*
       displayName: 'Upload and Label Build Dependencies'
 
 
