@@ -83,11 +83,11 @@ stages:
       displayName: 'Tag Github Repositories'
     - bash: |
       cd Fermitools-dependencies
-      conda build --python=2.7 -c conda-forge -c fermi .
-      anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$(TagName) /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
-      cd ../Fermitools-build-deps
-      conda build --python=2.7 -c conda-forge -c fermi .
-      anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$(TagName) /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
+      # conda build --python=2.7 -c conda-forge -c fermi .
+      # anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$(TagName) /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
+      # cd ../Fermitools-build-deps
+      # conda build --python=2.7 -c conda-forge -c fermi .
+      # anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$(TagName) /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
       displayName: 'Label Build Dependencies'
 
 
