@@ -68,11 +68,15 @@ stages:
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: TagName
+      value: "TestTag-$VERSION"
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
-    - bash: echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+    - bash: |
+        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+        echo "##vso[task.setvariable variable=TagName]$(TagName)"
       displayName: 'Expose Version string as environment variable.'
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
@@ -92,12 +96,12 @@ stages:
         echo $VERSION
         echo $(TagName)
         conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
-        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$(TagName) /usr/share/miniconda/conda-bld/noarch/fermitools-dependencies-*
+        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$TagName /usr/share/miniconda/conda-bld/noarch/fermitools-dependencies-*
         # anaconda -v -t $(Jasercion-Anaconda-Api) label -o fermi --copy $(TagName) main
       displayName: 'Upload and Label Runtime Dependencies'
     - bash: |
         conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
-        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$(TagName) /usr/share/miniconda/conda-bld/noarch/fermitools-build-deps-*
+        anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=$TagName /usr/share/miniconda/conda-bld/noarch/fermitools-build-deps-*
       displayName: 'Upload and Label Build Dependencies'
 
 
