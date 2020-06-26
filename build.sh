@@ -1,12 +1,8 @@
 export condaname="fermitools"
 
 # REPOMAN! #
-echo "IN CONDA BUILD BUILD.SH"
-ls
-
 repoman --remote-base https://github.com/fermi-lat checkout-list packageList.txt
 
-ls
 
 # Add optimization
 export CFLAGS="${CFLAGS}"
