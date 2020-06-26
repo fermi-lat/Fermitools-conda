@@ -233,6 +233,10 @@ stages:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
 
     - bash: |
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
@@ -267,6 +271,10 @@ stages:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
     - bash: |
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
       displayName: 'Expose Version string as environment variable.'
@@ -303,6 +311,11 @@ stages:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
+
     - bash: |
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
       displayName: 'Expose Version string as environment variable.'
