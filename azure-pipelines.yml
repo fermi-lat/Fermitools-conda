@@ -256,14 +256,14 @@ stages:
         conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/share/miniconda/conda-bld/osx-64/fermitools-dependencies-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/local/miniconda/conda-bld/osx-64/fermitools-dependencies-*
       displayName: 'Upload Runtime Dependencies'
 
   - job: BuildDeps
     displayName: 'Buildtime Dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'macOS-10.14'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -289,7 +289,7 @@ stages:
     - bash: conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/share/miniconda/conda-bld/osx-64/fermitools-build-deps-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/local/miniconda/conda-bld/osx-64/fermitools-build-deps-*
       displayName: 'Upload Build Dependencies'
 
 
