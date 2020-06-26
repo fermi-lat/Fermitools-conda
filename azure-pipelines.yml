@@ -218,6 +218,7 @@ stages:
 ### Dependency preparation stage
 - stage: macosx_prep_deps
   displayName: 'MacOSX Prepare Dependencies'
+  dependsOn: []
   jobs:
   - job: RunDeps
     displayName: 'Runtime Dependencies'
