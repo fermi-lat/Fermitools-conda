@@ -120,7 +120,7 @@ stages:
         echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
         git add Fermitools-explicit-build-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
-        git tag -m "Automatic tag from Azure Pipeline" $TagName
+        git tag -m "Automatic tag from Azure Pipeline" $(TagName)
         git push
       displayName: 'Save Explicit Build Dependencies list'
 
