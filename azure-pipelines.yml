@@ -115,7 +115,7 @@ stages:
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
       displayName: 'Expose Version string as environment variable.'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -137,15 +137,15 @@ stages:
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
         git tag -m "Automatic tag from Azure Pipeline" $(TagName)
-        git push
+        git push --tags --force
       displayName: 'Save Explicit Build Dependencies list'
+
 
 
   ### Linux Build Stage ###
 - stage: linux_build_stage
   displayName: 'Linux Build Stage'
   dependsOn: linux_prep_deps
-  condition: succeeded('linux_prep_deps')
   jobs:
   - job: buildTools
     displayName: 'Build the Fermitools'
@@ -224,7 +224,7 @@ stages:
     displayName: 'Runtime Dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'macOS-10.14'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -293,7 +293,7 @@ stages:
     displayName: 'Save explicit MacOSX dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'macOS-10.14'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -329,7 +329,7 @@ stages:
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
         git tag -m "Automatic tag from Azure Pipeline" $(TagName)
-        git push
+        git push --tags --force
       displayName: 'Save Explicit Build Dependencies list'
 
 
