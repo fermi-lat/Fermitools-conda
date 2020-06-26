@@ -70,7 +70,7 @@ stages:
 
   - job: BuildDeps
     displayName: 'Build Conda Dependency metapackages'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 35
     pool:
       vmImage: 'ubuntu-16.04'
     variables:
@@ -106,7 +106,7 @@ stages:
     # - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
     #   displayName: 'Upload Build Dependencies'
 
-    - bash: conda create --yex -n pipeline_bld_deps -c conda-forge -c fermi/label/dev -c fermi fermitools-build-deps=$VERSION
+    - bash: conda create --yes -n pipeline_bld_deps -c conda-forge -c fermi/label/dev -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
     - bash: conda list -n pipeline_bld_deps --explicit > compnents/Fermitools-explicit-build-deps/Fermitools-explicit-build-deps.txt
