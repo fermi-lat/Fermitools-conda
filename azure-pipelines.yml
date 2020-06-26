@@ -14,9 +14,9 @@ trigger:
 variables:
 - group: DevOps Access Keys
 - name: version
-  value: ${{ grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g' }}
+  value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
 - name: TagName
-  value: "TestTag-$(version)"
+  value: "TestTag-$((version))"
 
 stages:
 
@@ -35,7 +35,7 @@ stages:
       vmImage: 'ubuntu-16.04'
     variables:
     - name: VERSION
-      value: ${{ grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g' }}
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
 
     # Manually adding conda to the PATH is a step required by Microsoft
@@ -70,7 +70,7 @@ stages:
       vmImage: 'ubuntu-16.04'
     variables:
     - name: VERSION
-      value: ${{ grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g' }}
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -104,9 +104,9 @@ stages:
       vmImage: 'ubuntu-16.04'
     variables:
     - name: VERSION
-      value: ${{ grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g' }}
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagName
-      value: TestTag-${{ $VERSION }}
+      value: TestTag-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -136,7 +136,7 @@ stages:
         echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
-        git tag -m "Automatic tag from Azure Pipeline" ${{ TagName }}
+        git tag -m "Automatic tag from Azure Pipeline" $(TagName)
         git push
       displayName: 'Save Explicit Build Dependencies list'
 
@@ -295,9 +295,9 @@ stages:
       vmImage: 'ubuntu-16.04'
     variables:
     - name: VERSION
-      value: ${{ grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g' }}
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagName
-      value: TestTag-$(VERSION)
+      value: TestTag-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -426,7 +426,7 @@ stages:
       vmImage: 'ubuntu-16.04'
     variables:
     - name: VERSION
-      value: ${{ grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g' }}
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagName
       value: "TestTag-$VERSION"
     steps:
