@@ -417,7 +417,7 @@ stages:
   displayName: 'Repo Tag Stage'
   dependsOn: 
     - linux_build_stage
-    - macosx_build_stage
+    - macos_build_stage
   jobs:
   - job: SyncTags
     displayName: 'Synchronize tags and version numbers'
