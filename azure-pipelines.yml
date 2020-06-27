@@ -433,7 +433,7 @@ stages:
     - macos_build_stage
   jobs:
   - job: SyncTags
-    displayName: 'Synchronize tags and version numbers'
+    displayName: 'Synchronize tags across repos'
     timeoutInMinutes: 20
     pool:
       vmImage: 'ubuntu-16.04'
