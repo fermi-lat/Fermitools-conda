@@ -441,24 +441,22 @@ stages:
     - name: VERSION
       value: $(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagName
-      value: TestTag-$(VERSION)
+      value: "TestTag-$(VERSION)"
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
-    - bash: |
-        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
-        echo "##vso[task.setvariable variable=TagName]$(TagName)"
-      displayName: 'Expose Version string as environment variable.'
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
+        echo $(TagName)
         repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt 
       displayName: 'Download Sources'
     - bash: |
         cd components
+        echo $(TagName)
         git config --global user.email "joseph.a.asercion@nasa.gov"
         git config --global user.name "jasercion"
         git config --global credential.helper store
