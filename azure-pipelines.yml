@@ -438,12 +438,14 @@ stages:
     pool:
       vmImage: 'ubuntu-16.04'
     variables:
-    - name: VERSION
+    - name: VersionChild
       value: $(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: Version
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagNameChild
-      value: "TestTag-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')"
+      value: "TestTag-$(VersionChild)"
     - name: TagName
-      value: "TestTag-$(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')"
+      value: "TestTag-$(Version)"
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
