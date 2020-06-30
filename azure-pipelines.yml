@@ -48,8 +48,8 @@ stages:
 
     # Set up environment and run the build
     - bash: |
-      echo $(Build.SourceBranchName)
-      conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv fermi-repoman
+        echo $(Build.SourceBranchName)
+        conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
