@@ -60,7 +60,7 @@ stages:
         conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --force /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
       displayName: 'Upload Runtime Dependencies'
 
   - job: BuildDeps
@@ -89,7 +89,7 @@ stages:
     - bash: conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --force /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
       displayName: 'Upload Build Dependencies'
 
 
@@ -122,7 +122,7 @@ stages:
         git clone https://github.com/fermi-lat/Fermitools-explicit-build-deps-linux.git
       displayName: 'Download Sources'
 
-    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi/label/dev -c fermi fermitools-build-deps=$VERSION
+    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
     - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-linux/explicit-deps.txt
@@ -171,7 +171,7 @@ stages:
     - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv pathlib2
       displayName: 'Set up build environment'
 
-    - bash: conda build --python=2.7 -c conda-forge -c fermi/label/dev -c fermi .
+    - bash: conda build --python=2.7 -c conda-forge -c fermi .
       displayName: 'Run the build'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
@@ -255,7 +255,7 @@ stages:
         conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/local/miniconda/conda-bld/osx-64/fermitools-dependencies-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --force /usr/local/miniconda/conda-bld/osx-64/fermitools-dependencies-*
       displayName: 'Upload Runtime Dependencies'
 
   - job: BuildDeps
@@ -288,7 +288,7 @@ stages:
     - bash: conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force /usr/local/miniconda/conda-bld/osx-64/fermitools-build-deps-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --force /usr/local/miniconda/conda-bld/osx-64/fermitools-build-deps-*
       displayName: 'Upload Build Dependencies'
 
 
@@ -326,7 +326,7 @@ stages:
         git clone https://github.com/fermi-lat/Fermitools-explicit-build-deps-macosx.git
       displayName: 'Download Sources'
 
-    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi/label/dev -c fermi fermitools-build-deps=$VERSION
+    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
     - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-macosx/explicit-deps.txt
@@ -378,7 +378,7 @@ stages:
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build pathlib2
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge -c fermi -c fermi/label/dev .
+    - bash: conda build --python=2.7 -c conda-forge -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
