@@ -10,9 +10,9 @@ for f in *; do
 
     echo "Tagging $f..."
 
-    cd $f
+    pushd $f
 
-    (git tag -f -m "$2" $1)
+    (git tag -f -m "$1" $2)
 
     if [ $? -ne 0 ]; then
       exit 128
@@ -24,6 +24,6 @@ for f in *; do
       exit 128
     fi
 
-    cd ../
+    popd
 
 done
