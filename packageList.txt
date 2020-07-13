@@ -1,0 +1,72 @@
+#  Fermitools packageList.txt
+# $Id$
+
+# Sciencetools
+ScienceTools python3_updates
+
+# in common with GlastRelease
+astro python3_updates
+facilities python3_updates
+flux python3_updates
+xmlBase python3_updates
+
+# infrastructure
+embed_python python3_updates
+fitsGen python3_updates
+fitsGenApps master
+hoops master
+st_app master
+st_graph python3_updates
+st_facilities master
+st_stream master
+tip python3_updates
+
+# source modeling
+celestialSources python3_updates
+
+# instrument response
+irfs python3_updates
+
+# simulation
+observationSim python3_updates
+orbitSim master
+
+# analysis
+burstFit master
+catalogAccess master
+dataSubselector master
+evtbin master
+evtUtils python3_updates
+healpix master
+Likelihood master
+map_tools master
+optimizers python3_updates
+pgwave master
+pointlike python3_updates
+pulsarDb master
+pulsePhase master
+pyExposure master
+pyLikelihood python3_updates
+rspgen master
+skymaps python3_updates
+sourceIdentify master
+timeSystem master
+
+# define analysis environment
+modelEditor python3_updates
+sane python3_updates
+
+# SCons machinery
+SConsShared python3_updates
+STRcontainerSettings conda
+
+BayesianBlocks python3_updates
+SolarSystemTools master
+pyBurstAnalysisGUI python3_updates
+
+# fhelp files
+fermitools-fhelp master
+
+# Fermitools-dependencies
+Fermitools-build-deps python3_updates
+Fermitools-dependencies python3_updates

@@ -15,6 +15,8 @@ variables:
 - group: DevOps Access Keys
 - name: version
   value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+- name: TagName
+  value: "TestTag-$((version))"
 
 stages:
 
@@ -22,9 +24,132 @@ stages:
 # Linux Stages - Microsoft Hosted VMs
 #####################################
 
+### Dependency preparation stage
+- stage: linux_prep_deps
+  displayName: 'Linux Prepare Dependencies'
+  jobs:
+  - job: RunDeps
+    displayName: 'Runtime Dependencies'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'ubuntu-16.04'
+    variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    steps:
+
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+
+    - bash: |
+        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+      displayName: 'Expose Version string as environment variable.'
+
+    # Set up environment and run the build
+    - bash: |
+        echo $(Build.SourceBranchName)
+        conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv fermi-repoman
+      displayName: 'Set up build environment'
+
+    - bash: |
+        mkdir components && cd components
+        repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
+      displayName: 'Download Sources'
+
+    - bash: |
+        echo $VERSION
+        conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-dependencies
+      displayName: 'Conda-Build Runtime Dependencies'
+
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
+      displayName: 'Upload Runtime Dependencies'
+
+  - job: BuildDeps
+    displayName: 'Buildtime Dependencies'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'ubuntu-16.04'
+    variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    - bash: |
+        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+      displayName: 'Expose Version string as environment variable.'
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv fermi-repoman
+      displayName: 'Set up build environment'
+    - bash: |
+        mkdir components && cd components
+        repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
+      displayName: 'Download Sources'
+
+    - bash: conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-build-deps
+      displayName: 'Conda-Build Build Dependencies'
+
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force  /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
+      displayName: 'Upload Build Dependencies'
+
+
+- stage: linux_tag_explicit_deps
+  displayName: 'Linux Save Explicit Dependencies'
+  dependsOn: linux_prep_deps
+  jobs:
+  - job: SaveExplicitDeps
+    displayName: 'Save explicit linux dependencies'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'ubuntu-16.04'
+    variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: TagName
+      value: TestTag-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    - bash: |
+        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+      displayName: 'Expose Version string as environment variable.'
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 libiconv
+      displayName: 'Set up build environment'
+
+    - bash: |
+        git clone https://github.com/fermi-lat/Fermitools-explicit-build-deps-linux.git
+        cd Fermitools-explicit-build-deps-linux
+        git checkout -b $(Build.SourceBranchName)
+      displayName: 'Download Sources'
+
+    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
+      displayName: 'Download Build Dependencies'
+
+    - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-linux/explicit-deps.txt
+      displayName: 'List Explicit Build Dependencies'
+
+    - bash: |
+        cd Fermitools-explicit-build-deps-linux
+        git config --global user.email "joseph.a.asercion@nasa.gov"
+        git config --global user.name "jasercion"
+        git config --global credential.helper store
+        echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
+        git add explicit-deps.txt
+        git commit -m "Automatic commit from Azure Pipeline"
+        git tag -m "Automatic tag from Azure Pipeline" $(TagName)
+        git push --tags --force
+      displayName: 'Save Explicit Build Dependencies list'
+
+
+
   ### Linux Build Stage ###
 - stage: linux_build_stage
-  displayName: 'Ubuntu Build Stage'
+  displayName: 'Linux Build Stage'
+  dependsOn: linux_prep_deps
   jobs:
   - job: buildTools
     displayName: 'Build the Fermitools'
@@ -38,23 +163,6 @@ stages:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
-    # This step is necessary because Conda no longer carries gcc-4.x 
-    # compilers.  This can be removed once the Fermitools are C++11
-    # compliant. 
-#    - bash: |
-#        sudo update-alternatives --remove-all gcc
-#        sudo update-alternatives --remove-all g++
-#        sudo apt-get install --yes gcc-4.8 g++-4.8
-#        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
-#        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 10
-#        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-#        sudo update-alternatives --set cc /usr/bin/gcc
-#        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-#        sudo update-alternatives --set c++ /usr/bin/g++
-#        which gcc
-#        gcc --version
-#      displayName: 'Install and set up gcc-4.8'
-
     ### Build commands start here ###
     # Query last build number for this version and iterate if necessary
     - bash: echo "##vso[task.setvariable variable=BUILD_NUMBER]$(BUILD_NUMBER)"
@@ -65,15 +173,17 @@ stages:
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build libiconv
       displayName: 'Set up build environment'
-    - bash: conda build --python=3.7 -c conda-forge -c fermi -c fermi/label/root6 .
+
+    - bash: conda build --python=3.7 -c conda-forge -c fermi .
       displayName: 'Run the build'
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/share/miniconda/conda-bld/linux-64/fermitools-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
 
-  ### Linux Test Stage ###
+
+  #### Linux Test Stage ###
 - stage: linux_test_stage
   displayName: 'Ubuntu Test Stage'
-  condition: succeeded('linux_build_stage')
+  dependsOn: linux_build_stage
   jobs:
   - job: testTools
     displayName: 'Test the Fermitools'
@@ -90,8 +200,7 @@ stages:
         environmentName: 'Test'
         packageSpecs: 'python=3.7'
     - bash: |
-        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/root6 -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
-        pip install junit-xml
+        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
@@ -101,8 +210,144 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'ST-unit-test-Output.xml'
-        testRunTitle: 'Linux Unit Tests'
-#####################################
+######################################
+
+######################################
+## MacOS Stages - Microsoft Hosted VMs
+######################################
+#
+### Dependency preparation stage
+- stage: macosx_prep_deps
+  displayName: 'MacOSX Prepare Dependencies'
+  dependsOn: []
+  jobs:
+  - job: RunDeps
+    displayName: 'Runtime Dependencies'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'macOS-10.14'
+    variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    steps:
+
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
+
+    - bash: |
+        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+      displayName: 'Expose Version string as environment variable.'
+
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv fermi-repoman
+      displayName: 'Set up build environment'
+
+    - bash: |
+        mkdir components && cd components
+        repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
+      displayName: 'Download Sources'
+
+    - bash: |
+        echo $VERSION
+        conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-dependencies
+      displayName: 'Conda-Build Runtime Dependencies'
+
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-dependencies-*
+      displayName: 'Upload Runtime Dependencies'
+
+  - job: BuildDeps
+    displayName: 'Buildtime Dependencies'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'macOS-10.14'
+    variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
+    - bash: |
+        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+      displayName: 'Expose Version string as environment variable.'
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv fermi-repoman
+      displayName: 'Set up build environment'
+    - bash: |
+        mkdir components && cd components
+        repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
+      displayName: 'Download Sources'
+
+    - bash: conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-build-deps
+      displayName: 'Conda-Build Build Dependencies'
+
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi  --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-build-deps-*
+      displayName: 'Upload Build Dependencies'
+
+
+- stage: macosx_tag_explicit_deps
+  displayName: 'MacOSX Save Explicit Dependencies'
+  dependsOn: macosx_prep_deps
+  jobs:
+  - job: SaveExplicitDeps
+    displayName: 'Save explicit MacOSX dependencies'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'macOS-10.14'
+    variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: TagName
+      value: TestTag-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
+
+    - bash: |
+        echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
+      displayName: 'Expose Version string as environment variable.'
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 libiconv
+      displayName: 'Set up build environment'
+
+    - bash: |
+        git clone https://github.com/fermi-lat/Fermitools-explicit-build-deps-macosx.git
+        cd Fermitools-explicit-build-deps-macosx
+        git checkout -b $(Build.SourceBranchName)
+      displayName: 'Download Sources'
+
+    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
+      displayName: 'Download Build Dependencies'
+
+    - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-macosx/explicit-deps.txt
+      displayName: 'List Explicit Build Dependencies'
+
+    - bash: |
+        cd Fermitools-explicit-build-deps-macosx
+        git config --global user.email "joseph.a.asercion@nasa.gov"
+        git config --global user.name "jasercion"
+        git config --global credential.helper store
+        echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
+        git add explicit-deps.txt
+        git commit -m "Automatic commit from Azure Pipeline"
+        git tag -m "Automatic tag from Azure Pipeline" $(TagName)
+        git push --tags --force
+      displayName: 'Save Explicit Build Dependencies list'
+
 
 #####################################
 # MacOS Stages - Microsoft Hosted VMs
@@ -111,7 +356,7 @@ stages:
   ### MacOS Build Stage ##
 - stage: macos_build_stage
   displayName: 'MacOS Build Stage'
-  dependsOn: []
+  dependsOn: macosx_prep_deps
   jobs:
   - job: buildTools
     displayName: 'Build the Fermitools'
@@ -140,9 +385,9 @@ stages:
     # Set up environment and run the build
     - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build
       displayName: 'Set up build environment'
-    - bash: conda build --python=3.7 -c conda-forge -c fermi -c fermi/label/root6 .
+    - bash: conda build --python=3.7 -c conda-forge -c fermi .
       displayName: 'Run the build'
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev /usr/local/miniconda/conda-bld/osx-64/fermitools-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
 
   ### MacOS Test Stage ###
@@ -170,8 +415,7 @@ stages:
         packageSpecs: 'python=3.7'
     # can produce output in the JUnit format
     - bash: |
-        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/root6 -c fermi/label/dev fermitools=$(version) fermitools-test-scripts
-        pip install junit-xml
+        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
@@ -181,5 +425,56 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'ST-unit-test-Output.xml'
-        testRunTitle: 'MacOS Unit Tests'
-#####################################
+######################################
+
+
+
+######################################
+# Repository Synchronization
+######################################
+
+- stage: repo_tag_sync
+  displayName: 'Repo Tag Stage'
+  dependsOn:
+    - linux_build_stage
+    - macos_build_stage
+  jobs:
+  - job: SyncTags
+    displayName: 'Synchronize tags across repos'
+    timeoutInMinutes: 20
+    pool:
+      vmImage: 'ubuntu-16.04'
+    variables:
+    - name: VersionChild
+      value: $(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: Version
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: TagNameChild
+      value: "TestTag-$(VersionChild)"
+    - name: TagName
+      value: "TestTag-$(Version)"
+    steps:
+    # Manually adding conda to the PATH is a step required by Microsoft
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: 'Add conda to PATH'
+    # Set up environment and run the build
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 libiconv fermi-repoman
+      displayName: 'Set up build environment'
+    - bash: |
+        mkdir components && cd components
+        echo $(TagNameChild)
+        repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
+      displayName: 'Download Sources'
+    - bash: |
+        pushd components
+        echo $(TagNameChild)
+        git config --global user.email "joseph.a.asercion@nasa.gov"
+        git config --global user.name "jasercion"
+        git config --global credential.helper store
+        echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
+        ../multi_release.sh "Automatic tag generated by Azure Pipeline." $(TagNameChild)
+        popd
+        git tag -f -m "Automatic tag generated by Azure Pipeline." $(TagName)
+        git tag -f -m "Automatic tag generated by Azure Pipeline." $(Build.SourceBranchName)
+        git push --tags --force
+      displayName: 'Tag Github Repositories'
