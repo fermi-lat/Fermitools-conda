@@ -223,7 +223,7 @@ stages:
   jobs:
   - job: RunDeps
     displayName: 'Runtime Dependencies'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 40
     pool:
       vmImage: 'macOS-10.14'
     variables:
@@ -262,7 +262,7 @@ stages:
 
   - job: BuildDeps
     displayName: 'Buildtime Dependencies'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 40
     pool:
       vmImage: 'macOS-10.14'
     variables:
