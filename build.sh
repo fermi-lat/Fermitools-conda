@@ -13,7 +13,7 @@ repoman --remote-base https://github.com/fermi-lat checkout --force --develop Sc
 
 # Add optimization
 export CFLAGS="${CFLAGS}"
-export CXXFLAGS="-std=c++14 ${CXXFLAGS}"
+export CXXFLAGS="-std=c++17 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
 export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib"
