@@ -6,7 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  git_url: https://github.com/fermi-lat/ScienceTools.git
+  git_url: https://github.com/fermi-lat/Fermitools-conda.git
+  git_rev: extensive_tagging
 
 build:
   number: {{ environ.get('BUILD_NUMBER', 0)}}
@@ -19,50 +20,10 @@ requirements:
     - {{ compiler('cxx') }}
 
   host:
-    - ape >=3
-    - aplpy
-    - astropy
-    - blas
-    - clhep
-    - cppunit
-    - f2c 0.0.2
-    - fermi-repoman
-    - fftw
-    - git
-    - gsl
-    - healpix_cxx
-    - matplotlib
-    - numpy >=1.11
-    - pmw
-    - python 2.7
-    - root >=6.0
-    - scipy
-    - scons
-    - swig
-    - wcslib <6
-    - xerces-c
+    - fermitools-build-deps {{ version }}
 
   run:
-    - ape >=3
-    - aplpy
-    - astropy
-    - blas
-    - clhep
-    - cppunit
-    - f2c 0.0.2
-    - fermitools-data
-    - fftw
-    - gsl
-    - healpix_cxx
-    - matplotlib
-    - numpy >=1.11
-    - pmw
-    - python 2.7
-    - pyyaml
-    - root >=6.0
-    - scipy
-    - wcslib <6
-    - xerces-c
+    - fermitools-dependencies {{ version }}
 
 test:
   imports:
