@@ -16,7 +16,7 @@ variables:
 - name: version
   value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
 - name: TagName
-  value: "TestTag-$((version))"
+  value: "Fermitools-$((version))"
 
 stages:
 
@@ -106,7 +106,7 @@ stages:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagName
-      value: TestTag-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+      value: Fermitools-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -307,7 +307,7 @@ stages:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagName
-      value: TestTag-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+      value: Fermitools-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -451,9 +451,9 @@ stages:
     - name: Version
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagNameChild
-      value: "TestTag-$(VersionChild)"
+      value: "Fermitools-$(VersionChild)"
     - name: TagName
-      value: "TestTag-$(Version)"
+      value: "Fermitools-$(Version)"
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
