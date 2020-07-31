@@ -17,13 +17,13 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - clang 9.* # [osx]
 
   host:
     - ape >=3
     - aplpy
     - astropy
     - blas
+    - clang 9.* # [osx]
     - clhep
     - cppunit
     - f2c 0.0.2
