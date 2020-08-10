@@ -407,11 +407,11 @@ stages:
 - stage: macos_test_stage
   displayName: 'MacOS Test Stage'
   dependsOn: macos_build_stage
-    variables:
-    - name: VERSION
-      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
-    - name: BUILD_NUMBER
-      value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
+  variables:
+  - name: VERSION
+    value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+  - name: BUILD_NUMBER
+    value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
   jobs:
   - job: testTools
     displayName: 'Test the Fermitools'
