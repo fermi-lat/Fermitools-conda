@@ -157,6 +157,10 @@ stages:
     variables:
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: TagName
+      value: Fermitools-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -189,6 +193,13 @@ stages:
     timeoutInMinutes: 150
     pool:
       vmImage: 'ubuntu-16.04'
+    variables:
+    - name: BUILD_NUMBER
+      value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: TagName
+      value: Fermitools-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
     steps:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
@@ -199,7 +210,7 @@ stages:
         environmentName: 'Test'
         packageSpecs: 'python=2.7'
     - bash: |
-        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts junit-xml
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
@@ -364,6 +375,8 @@ stages:
     pool:
       vmImage: 'macOS-10.14'
     variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
     steps:
@@ -393,7 +406,12 @@ stages:
   #### MacOS Test Stage ###
 - stage: macos_test_stage
   displayName: 'MacOS Test Stage'
-  condition: succeeded('macos_build_stage')
+  dependsOn: macos_build_stage
+    variables:
+    - name: VERSION
+      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - name: BUILD_NUMBER
+      value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
   jobs:
   - job: testTools
     displayName: 'Test the Fermitools'
@@ -415,7 +433,7 @@ stages:
         packageSpecs: 'python=2.7'
     # can produce output in the JUnit format
     - bash: |
-        conda install --yes --quiet -c conda-forge -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts junit-xml
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
