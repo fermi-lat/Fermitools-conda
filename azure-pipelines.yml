@@ -352,7 +352,7 @@ stages:
         git config --global user.email "joseph.a.asercion@nasa.gov"
         git config --global user.name "jasercion"
         git config --global credential.helper store
-        echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
+        echo "https://$(Github-Access-Token):x-oauth-basic@github.com">>~/.git-credentials
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
         git tag -m "Automatic tag from Azure Pipeline" $(TagName)
