@@ -107,6 +107,7 @@ stages:
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: TagName
       value: Fermitools-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+    - group: DevOps Access Keys
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -135,10 +136,7 @@ stages:
         git config --global user.email "joseph.a.asercion@nasa.gov"
         git config --global user.name "jasercion"
         git config --global credential.helper store
-        git config --global --add url."git@github.com:".insteadOf "https://github.com/"
         echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
-        mkdir -p ~/.ssh
-        echo $(Github-Access-Token)>>~/.ssh/id_rsa.pub
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
         git tag -m "Automatic tag from Azure Pipeline" $(TagName)
