@@ -137,6 +137,7 @@ stages:
         git config --global credential.helper store
         git config --global --add url."git@github.com:".insteadOf "https://github.com/"
         echo https://$(Github-Access-Token):x-oauth-basic@github.com>>~/.git-credentials
+        mkdir -p ~/.ssh
         echo $(Github-Access-Token)>>~/.ssh/id_rsa.pub
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
