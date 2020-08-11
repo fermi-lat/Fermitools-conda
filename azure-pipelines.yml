@@ -136,7 +136,7 @@ stages:
         git config --global user.email "joseph.a.asercion@nasa.gov"
         git config --global user.name "jasercion"
         git config --global credential.helper store
-        mkdir -P ~/.ssh
+        mkdir -p ~/.ssh
         echo $(Github-Access-Token)>>~/.ssh/id_rsa.pub
         eval $(ssh-agent -s)
         git add explicit-deps.txt
