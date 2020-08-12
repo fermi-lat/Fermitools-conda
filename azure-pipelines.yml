@@ -133,6 +133,8 @@ stages:
 
     - bash: |
         cd Fermitools-explicit-build-deps-linux
+        git config --global user.email "joseph.a.asercion@nasa.gov"
+        git config --global user.name "jasercion"
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
         git tag -m "Automatic tag from Azure Pipeline" $(TagName)
