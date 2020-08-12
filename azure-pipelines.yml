@@ -213,8 +213,9 @@ stages:
       displayName: 'Add conda to PATH'
     # junit-xml must be installed so the unit test script
     # can produce output in the JUnit format
-    - task: CondaEnvironment@0
+    - task: CondaEnvironment@1
       inputs:
+        createCustomEnvironment: true
         environmentName: 'Test'
         packageSpecs: 'python=2.7'
     - bash: |
@@ -441,8 +442,9 @@ stages:
     - bash: sudo chown -R $USER $CONDA
       displayName: 'Take ownership of conda installation'
     # junit-xml must be installed so the unit test script
-    - task: CondaEnvironment@0
+    - task: CondaEnvironment@1
       inputs:
+        createCustomEnvironment: true
         environmentName: 'Test'
         packageSpecs: 'python=2.7'
     # can produce output in the JUnit format
