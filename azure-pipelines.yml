@@ -359,7 +359,6 @@ stages:
         cd Fermitools-explicit-build-deps-macosx
         git config --global user.email "joseph.a.asercion@nasa.gov"
         git config --global user.name "jasercion"
-        git config --global credential.helper store
         git config --global --add url."git@github.com:".insteadOf "https://github.com/"
         git add explicit-deps.txt
         git commit -m "Automatic commit from Azure Pipeline"
