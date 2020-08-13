@@ -449,7 +449,7 @@ stages:
         packageSpecs: 'python=2.7'
     # can produce output in the JUnit format
     - bash: |
-        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(version) fermitools-test-scripts junit-xml
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
