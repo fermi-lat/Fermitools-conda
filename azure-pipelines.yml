@@ -446,10 +446,11 @@ stages:
       inputs:
         createCustomEnvironment: true
         environmentName: 'Test'
-        packageSpecs: 'python=2.7'
+        packageSpecs: 'python=2.7 fermitools-test-scripts'
+        createOptions: '-c conda-forge -c fermi -c fermi/label/dev'
     # can produce output in the JUnit format
     - bash: |
-        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) fermitools-test-scripts junit-xml
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
