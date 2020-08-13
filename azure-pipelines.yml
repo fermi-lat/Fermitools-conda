@@ -444,7 +444,7 @@ stages:
     # junit-xml must be installed so the unit test script
     - task: CondaEnvironment@1
       inputs:
-        createCustomEnvironment: false
+        createCustomEnvironment: true
         environmentName: 'Test'
         packageSpecs: 'python=2.7 fermitools-test-scripts'
         createOptions: '-c conda-forge -c fermi -c fermi/label/dev'
