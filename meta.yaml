@@ -16,8 +16,8 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }} 7.5.*
-    - {{ compiler('cxx') }} 7.5.*
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
 
   host:
     - fermitools-build-deps {{ version }}
