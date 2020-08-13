@@ -449,6 +449,10 @@ stages:
         packageSpecs: 'python=2.7 fermitools-test-scripts'
         createOptions: '-c conda-forge -c fermi -c fermi/label/dev'
     # can produce output in the JUnit format
+    # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
+    # We need to take ownership if we want to update conda or install packages globally
+    - bash: sudo chown -R $USER $CONDA
+      displayName: 'Take ownership of conda installation'
     - bash: |
         conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) junit-xml
       displayName: 'Install the tools and test scripts'
