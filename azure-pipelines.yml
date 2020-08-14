@@ -211,18 +211,12 @@ stages:
     steps:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
-    # junit-xml must be installed so the unit test script
-    # can produce output in the JUnit format
-    - task: CondaEnvironment@1
-      inputs:
-        createCustomEnvironment: true
-        environmentName: 'Test'
-        packageSpecs: 'python=2.7'
     - bash: |
-        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) fermitools-test-scripts junit-xml
+        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools-test-scripts
         ST-unit-test --bit64
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
@@ -442,11 +436,11 @@ stages:
     - bash: sudo chown -R $USER $CONDA
       displayName: 'Take ownership of conda installation'
     - bash: |
-        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
+        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
-        conda install -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools-test-scripts
         ST-unit-test --bit64
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
