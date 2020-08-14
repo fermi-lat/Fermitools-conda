@@ -18,8 +18,8 @@ requirements:
   build:
     - {{ compiler('c') }} 7.5.*     # [linux]
     - {{ compiler('cxx') }} 7.5.*   # [linux]
-    - {{ compiler('c') }}       # [osx]
-    - {{ compiler('cxx') }}     # [osx]
+    - {{ compiler('c') }} 8.*      # [osx]
+    - {{ compiler('cxx') }} 8.*   # [osx]
 
   host:
     - fermitools-build-deps {{ version }}
