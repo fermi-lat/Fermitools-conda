@@ -6,7 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  git_url: https://github.com/fermi-lat/ScienceTools.git
+  git_url: https://github.com/fermi-lat/Fermitools-conda.git
+  git_rev: extensive_tagging
 
 build:
   number: {{ environ.get('BUILD_NUMBER', 0)}}
@@ -15,61 +16,16 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
+    - {{ compiler('c') }} 7.5.*     # [linux]
+    - {{ compiler('cxx') }} 7.5.*   # [linux]
+    - {{ compiler('c') }} 9.*       # [osx]
+    - {{ compiler('cxx') }} 9.*     # [osx]
 
   host:
-    - ape >=3
-    - aplpy
-    - astropy
-    - blas
-    - clang 9.* # [osx]
-    - clhep
-    - cppunit
-    - f2c 0.0.2
-    - fermi-repoman
-    - fftw
-    - git
-    - gsl
-    - healpix_cxx
-    - matplotlib
-    - numpy >=1.17
-    - openblas
-    - pmw
-    - python 3.7.*
-    - readline
-    - root 6.22.*
-    - scons 3.0.3
-    - swig
-    - wcslib 5.*
-    - xerces-c
-    - zstd 
+    - fermitools-build-deps {{ version }}
 
   run:
-    - ape >=3
-    - aplpy
-    - astropy
-    - blas
-    - clhep 
-    - cppunit
-    - f2c 0.0.2
-    - fftw
-    - fermitools-data >=0.16 # This must be updated with every model release
-    - gsl
-    - healpix_cxx
-    - matplotlib
-    - ncurses
-    - numpy  >=1.17
-    - openblas
-    - pmw
-    - python 3.7.*
-    - pyyaml
-    - readline
-    - root 6.22.*
-    - scipy
-    - wcslib 5.*
-    - xerces-c
-    - zstd 
+    - fermitools-dependencies {{ version }}
 
 test:
   imports:
@@ -81,4 +37,3 @@ test:
     # for a quicker turnaround when testing
     #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
     #- conda inspect objects -p $PREFIX {{ name }}  # [osx]
-

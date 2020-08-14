@@ -113,7 +113,8 @@ TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
 // The formatting with the { at the end of the line is NECESSARY
 // for this to work properly (as this is input for the stdin of
 // root)
-if(!old_value.Contains("lib/${condaname}")) { 
+if(!old_value.Contains("lib/")) { 
+>>>>>>> master
     TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/:${CONDA_PREFIX}/lib/");
 
     gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
