@@ -436,7 +436,7 @@ stages:
     - bash: sudo chown -R $USER $CONDA
       displayName: 'Take ownership of conda installation'
     - bash: |
-        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7 fermitools=$(VERSION) junit-xml
+        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION) junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
