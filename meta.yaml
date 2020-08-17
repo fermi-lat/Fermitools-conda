@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.9.9" %}
+{% set version = "1.9.12" %}
 
 package:
   name: {{ name|lower }}
@@ -16,8 +16,10 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
+    - {{ compiler('c') }} 7.5.*     # [linux]
+    - {{ compiler('cxx') }} 7.5.*  # [linux]
+    - {{ compiler('c') }} 9.*    # [osx]
+    - {{ compiler('cxx') }} 9.*  # [osx]
 
   host:
     - fermitools-build-deps {{ version }}
@@ -35,4 +37,3 @@ test:
     # for a quicker turnaround when testing
     #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
     #- conda inspect objects -p $PREFIX {{ name }}  # [osx]
-
