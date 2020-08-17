@@ -1,0 +1,3 @@
+confluence page for list of current tags and branches to coordinate development between builds.
+
+add an environment variable to NOT install the built tools into the CONDA_PREFIX

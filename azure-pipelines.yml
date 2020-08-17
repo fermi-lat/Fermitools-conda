@@ -47,7 +47,7 @@ stages:
       displayName: 'Expose Version string as environment variable.'
 
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -57,7 +57,7 @@ stages:
 
     - bash: |
         echo $VERSION
-        conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
+        conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
@@ -79,14 +79,14 @@ stages:
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
       displayName: 'Expose Version string as environment variable.'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
         repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
       displayName: 'Download Sources'
 
-    - bash: conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
+    - bash: conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force  /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
@@ -116,7 +116,7 @@ stages:
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
       displayName: 'Expose Version string as environment variable.'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -151,7 +151,6 @@ stages:
         sshKeySecureFile: azure_github
 
 
-
   ### Linux Build Stage ###
 - stage: linux_build_stage
   displayName: 'Linux Build Stage'
@@ -182,10 +181,9 @@ stages:
       displayName: 'Iterate build number if it exists'
 
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build libiconv pathlib2
       displayName: 'Set up build environment'
-
-    - bash: conda build --python=2.7 -c conda-forge -c fermi .
+    - bash: conda build --python=3.7 -c conda-forge -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -214,7 +212,7 @@ stages:
     # junit-xml must be installed so the unit test script
     # can produce output in the JUnit format
     - bash: |
-        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
+        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=3.7 fermitools-test-scripts=3.0 junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
@@ -260,7 +258,7 @@ stages:
       displayName: 'Expose Version string as environment variable.'
 
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -270,7 +268,7 @@ stages:
 
     - bash: |
         echo $VERSION
-        conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
+        conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-dependencies-*
@@ -296,14 +294,14 @@ stages:
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
       displayName: 'Expose Version string as environment variable.'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
         repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
       displayName: 'Download Sources'
 
-    - bash: conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
+    - bash: conda build --python=3.7 -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi  --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-build-deps-*
@@ -337,7 +335,7 @@ stages:
         echo "##vso[task.setvariable variable=VERSION]$(VERSION)"
       displayName: 'Expose Version string as environment variable.'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -407,9 +405,9 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build pathlib2
+    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build pathlib2
       displayName: 'Set up build environment'
-    - bash: conda build --python=2.7 -c conda-forge -c fermi .
+    - bash: conda build --python=3.7 -c conda-forge -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -438,7 +436,7 @@ stages:
     - bash: sudo chown -R $USER $CONDA
       displayName: 'Take ownership of conda installation'
     - bash: |
-        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
+        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=3.7 fermitools-test-scripts=3.0 junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
@@ -451,6 +449,7 @@ stages:
         testResultsFiles: 'ST-unit-test-Output.xml'
         testRunTitle: 'MacOS Unit Tests'
 #####################################
+
 
 
 
@@ -483,7 +482,7 @@ stages:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components

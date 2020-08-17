@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "1.9.11" %}
+{% set version = "1.9.12" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   git_url: https://github.com/fermi-lat/Fermitools-conda.git
-  git_rev: extensive_tagging
+  git_rev: py3_extensive_tagging
 
 build:
   number: {{ environ.get('BUILD_NUMBER', 0)}}
@@ -16,10 +16,10 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }} 7.5.*     # [linux]
-    - {{ compiler('cxx') }} 7.5.*   # [linux]
-    - {{ compiler('c') }} 9.*       # [osx]
-    - {{ compiler('cxx') }} 9.*     # [osx]
+    - {{ compiler('c') }} 7.5.*    # [linux]
+    - {{ compiler('cxx') }} 7.5.*  # [linux]
+    - {{ compiler('c') }}          # [osx]
+    - {{ compiler('cxx') }}        # [osx]
 
   host:
     - fermitools-build-deps {{ version }}
