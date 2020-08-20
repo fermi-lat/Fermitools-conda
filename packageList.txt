@@ -1,6 +1,9 @@
 #  Fermitools packageList.txt
 # $Id$
 
+# Fermitools
+Fermitools-conda python3_updates
+
 # Sciencetools
 ScienceTools python3_updates
 
