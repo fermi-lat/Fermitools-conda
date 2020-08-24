@@ -1,6 +1,9 @@
 #  Fermitools packageList.txt
 # $Id$
 
+# Fermitools
+Fermitools-conda master
+
 # Sciencetools
 ScienceTools master
 
