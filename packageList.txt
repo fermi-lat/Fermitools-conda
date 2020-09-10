@@ -41,7 +41,7 @@ dataSubselector master
 evtbin master
 evtUtils python3_updates
 healpix master
-Likelihood master
+Likelihood powerlawsuperexpcutoff4mod
 map_tools master
 optimizers python3_updates
 pgwave master
