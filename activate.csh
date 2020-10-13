@@ -10,7 +10,7 @@ setenv BASE_DIR ${INST_DIR}
 setenv EXTFILESSYS ${CONDA_PREFIX}/share/$condaname/refdata/fermi
 setenv GENERICSOURCESDATAPATH ${CONDA_PREFIX}/share/$condaname/data/genericSources
 setenv TIMING_DIR ${CONDA_PREFIX}/share/$condaname/refdata/fermi/jplephem
-setenv PFILES ${CONDA_PREFIX}/share/$condaname/syspfiles
+#setenv PFILES ${CONDA_PREFIX}/share/$condaname/syspfiles
 
 # Keep a copy of the current path so we can restore 
 # upon deactivation
