@@ -2,36 +2,36 @@
 # $Id$
 
 # Fermitools
-Fermitools-conda python3_updates
+Fermitools-conda master
 
 # Sciencetools
-ScienceTools python3_updates
+ScienceTools master
 
 # in common with GlastRelease
-astro python3_updates
-facilities python3_updates
-flux python3_updates
-xmlBase python3_updates
+astro master
+facilities master
+flux master
+xmlBase master
 
 # infrastructure
-embed_python python3_updates
-fitsGen python3_updates
+embed_python master
+fitsGen master
 fitsGenApps master
 hoops master
 st_app master
-st_graph python3_updates
+st_graph master
 st_facilities master
 st_stream master
-tip python3_updates
+tip master
 
 # source modeling
-celestialSources python3_updates
+celestialSources master
 
 # instrument response
-irfs python3_updates
+irfs master
 
 # simulation
-observationSim python3_updates
+observationSim master
 orbitSim master
 
 # analysis
@@ -39,37 +39,37 @@ burstFit master
 catalogAccess master
 dataSubselector master
 evtbin master
-evtUtils python3_updates
+evtUtils master
 healpix master
 Likelihood master
 map_tools master
-optimizers python3_updates
+optimizers master
 pgwave master
-pointlike python3_updates
+pointlike master
 pulsarDb master
 pulsePhase master
 pyExposure master
-pyLikelihood python3_updates
+pyLikelihood master
 rspgen master
-skymaps python3_updates
+skymaps master
 sourceIdentify master
 timeSystem master
 
 # define analysis environment
-modelEditor python3_updates
-sane python3_updates
+modelEditor master
+sane master
 
 # SCons machinery
-SConsShared python3_updates
+SConsShared master
 STRcontainerSettings conda
 
-BayesianBlocks python3_updates
+BayesianBlocks master
 SolarSystemTools master
-pyBurstAnalysisGUI python3_updates
+pyBurstAnalysisGUI master
 
 # fhelp files
 fermitools-fhelp master
 
 # Fermitools-dependencies
-Fermitools-build-deps python3_updates
-Fermitools-dependencies python3_updates
+Fermitools-build-deps master
+Fermitools-dependencies master
