@@ -2,36 +2,36 @@
 # $Id$
 
 # Fermitools
-Fermitools-conda master
+Fermitools-conda python27
 
 # Sciencetools
-ScienceTools master
+ScienceTools python27
 
 # in common with GlastRelease
-astro master
-facilities master
-flux master
-xmlBase master
+astro python27
+facilities python27
+flux python27
+xmlBase python27
 
 # infrastructure
-embed_python master
-fitsGen master
+embed_python python27
+fitsGen python27
 fitsGenApps master
 hoops master
 st_app master
-st_graph master
+st_graph python27
 st_facilities master
 st_stream master
-tip master
+tip python27
 
 # source modeling
-celestialSources master
+celestialSources python27
 
 # instrument response
-irfs master
+irfs python27
 
 # simulation
-observationSim master
+observationSim python27
 orbitSim master
 
 # analysis
@@ -39,33 +39,33 @@ burstFit master
 catalogAccess master
 dataSubselector master
 evtbin master
-evtUtils master
+evtUtils python27
 healpix master
 Likelihood master
 map_tools master
-optimizers master
+optimizers python27
 pgwave master
-pointlike master
+pointlike python27
 pulsarDb master
 pulsePhase master
 pyExposure master
-pyLikelihood master
+pyLikelihood python27
 rspgen master
-skymaps master
+skymaps python27
 sourceIdentify master
 timeSystem master
 
 # define analysis environment
-modelEditor master
-sane master
+modelEditor python27
+sane python27
 
 # SCons machinery
 SConsShared conda
 STRcontainerSettings conda
 
-BayesianBlocks master
-SolarSystemTools master
-pyBurstAnalysisGUI master
+BayesianBlocks python27
+SolarSystemTools python27
+pyBurstAnalysisGUI python27
 
 # fhelp files
 fermitools-fhelp master
