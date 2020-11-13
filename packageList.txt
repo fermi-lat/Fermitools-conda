@@ -64,7 +64,7 @@ SConsShared conda
 STRcontainerSettings conda
 
 BayesianBlocks python27
-SolarSystemTools python27
+SolarSystemTools master
 pyBurstAnalysisGUI python27
 
 # fhelp files
