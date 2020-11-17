@@ -71,5 +71,5 @@ pyBurstAnalysisGUI python27
 fermitools-fhelp master
 
 # Fermitools-dependencies
-Fermitools-build-deps master
-Fermitools-dependencies master
+Fermitools-build-deps python27
+Fermitools-dependencies python27
