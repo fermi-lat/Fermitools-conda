@@ -50,7 +50,7 @@ stages:
       displayName: 'Expose Version string as environment variable.'
 
     # Install mamba to manage dependencies faster
-    - bash: conda install mamba -c conda-forge
+    - bash: conda install --yes mamba -c conda-forge
       displayName: 'Install Mamba package manager.'
      
     # Set up environment and run the build
@@ -87,7 +87,7 @@ stages:
       displayName: 'Expose Version string as environment variable.'
      
     # Install mamba to manage dependencies faster
-    - bash: conda install mamba -c conda-forge
+    - bash: conda install --yes mamba -c conda-forge
       displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
@@ -129,7 +129,7 @@ stages:
       displayName: 'Expose Version string as environment variable.'
     
     # Install mamba to manage dependencies faster
-    - bash: conda install mamba -c conda-forge
+    - bash: conda install --yes mamba -c conda-forge
       displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
@@ -199,7 +199,7 @@ stages:
       displayName: 'Iterate build number if it exists'
       
     # Install mamba to manage dependencies faster
-    - bash: conda install mamba -c conda-forge
+    - bash: conda install --yes mamba -c conda-forge
       displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
@@ -234,7 +234,7 @@ stages:
       displayName: 'Add conda to PATH'
       
     # Install mamba to manage dependencies faster
-    - bash: conda install mamba -c conda-forge
+    - bash: conda install --yes mamba -c conda-forge
       displayName: 'Install Mamba package manager.'
       
     # junit-xml must be installed so the unit test script
