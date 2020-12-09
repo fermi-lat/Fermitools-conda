@@ -88,8 +88,8 @@ stages:
      
     # Install mamba to manage dependencies faster
     - bash: conda install mamba -c conda-forge
-      displayName: 'Install Mamba package manager.
-      0
+      displayName: 'Install Mamba package manager.'
+      
     # Set up environment and run the build
     - bash: mamba install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
@@ -130,7 +130,7 @@ stages:
     
     # Install mamba to manage dependencies faster
     - bash: conda install mamba -c conda-forge
-      displayName: 'Install Mamba package manager.
+      displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
     - bash: mamba install --yes --quiet -c conda-forge python=3.7 libiconv pathlib2
@@ -200,7 +200,7 @@ stages:
       
     # Install mamba to manage dependencies faster
     - bash: conda install mamba -c conda-forge
-      displayName: 'Install Mamba package manager.
+      displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
     - bash: mamba install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build libiconv pathlib2
@@ -235,7 +235,7 @@ stages:
       
     # Install mamba to manage dependencies faster
     - bash: conda install mamba -c conda-forge
-      displayName: 'Install Mamba package manager.
+      displayName: 'Install Mamba package manager.'
       
     # junit-xml must be installed so the unit test script
     # can produce output in the JUnit format
