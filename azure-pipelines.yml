@@ -479,14 +479,15 @@ stages:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
 
-    # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
-
     # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
     # We need to take ownership if we want to update conda or install packages globally
     - bash: sudo chown -R $USER $CONDA
       displayName: 'Take ownership of conda installation'
+
+    # Install mamba to manage dependencies faster
+    - bash: conda install --yes mamba -c conda-forge
+      displayName: 'Install Mamba package manager.'
+
     - bash: |
         mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=3.7 fermitools-test-scripts=3.0 junit-xml
       displayName: 'Install the tools and test scripts'
