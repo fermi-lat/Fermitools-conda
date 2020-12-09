@@ -51,7 +51,7 @@ stages:
 
     # Install mamba to manage dependencies faster
     - bash: conda install mamba -c conda-forge
-      displayName: 'Install Mamba package manager.
+      displayName: 'Install Mamba package manager.'
      
     # Set up environment and run the build
     - bash: mamba install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
