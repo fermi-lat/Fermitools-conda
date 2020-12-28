@@ -383,7 +383,7 @@ stages:
         git checkout -B $(Build.SourceBranchName)
       displayName: 'Download Sources'
 
-    - bash: mamba create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
+    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
     - bash: mamba list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-macosx/explicit-deps.txt
