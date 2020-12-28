@@ -50,11 +50,11 @@ stages:
       displayName: 'Expose Version string as environment variable.'
 
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+ #   - bash: conda install --yes mamba -c conda-forge
+ #     displayName: 'Install Mamba package manager.'
      
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -64,7 +64,7 @@ stages:
 
     - bash: |
         echo $VERSION
-        mamba build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
+        conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
@@ -87,18 +87,18 @@ stages:
       displayName: 'Expose Version string as environment variable.'
       
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+ #   - bash: conda install --yes mamba -c conda-forge
+ #     displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
         repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
       displayName: 'Download Sources'
 
-    - bash: mamba build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
+    - bash: conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force  /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
@@ -129,11 +129,11 @@ stages:
       displayName: 'Expose Version string as environment variable.'
     
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+#    - bash: conda install --yes mamba -c conda-forge
+#      displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -142,10 +142,10 @@ stages:
         git checkout -B $(Build.SourceBranchName)
       displayName: 'Download Sources'
 
-    - bash: mamba create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
+    - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
-    - bash: mamba list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-linux/explicit-deps.txt
+    - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-linux/explicit-deps.txt
       displayName: 'List Explicit Build Dependencies'
 
     - bash: |
@@ -231,17 +231,17 @@ stages:
       displayName: 'Add conda to PATH'
       
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+#    - bash: conda install --yes mamba -c conda-forge
+#      displayName: 'Install Mamba package manager.'
       
     # junit-xml must be installed so the unit test script
     # can produce output in the JUnit format
     - bash: |
-        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
+        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
-        mamba install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
         ST-unit-test --bit64
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
@@ -283,11 +283,11 @@ stages:
       displayName: 'Expose Version string as environment variable.'
 
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+ #   - bash: conda install --yes mamba -c conda-forge
+ #     displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -297,7 +297,7 @@ stages:
 
     - bash: |
         echo $VERSION
-        mamba build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
+        conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-dependencies-*
@@ -324,18 +324,18 @@ stages:
       displayName: 'Expose Version string as environment variable.'
 
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+#    - bash: conda install --yes mamba -c conda-forge
+ #     displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
         repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
       displayName: 'Download Sources'
 
-    - bash: mamba build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
+    - bash: conda build --python=2.7 -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi  --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-build-deps-*
@@ -370,11 +370,11 @@ stages:
       displayName: 'Expose Version string as environment variable.'
 
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+#    - bash: conda install --yes mamba -c conda-forge
+#      displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -386,7 +386,7 @@ stages:
     - bash: conda create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
-    - bash: mamba list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-macosx/explicit-deps.txt
+    - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-macosx/explicit-deps.txt
       displayName: 'List Explicit Build Dependencies'
 
     - bash: |
@@ -478,15 +478,15 @@ stages:
       displayName: 'Take ownership of conda installation'
 
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+ #   - bash: conda install --yes mamba -c conda-forge
+ #     displayName: 'Install Mamba package manager.'
 
     - bash: |
-        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
+        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
-        mamba install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
+        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
         ST-unit-test --bit64
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
