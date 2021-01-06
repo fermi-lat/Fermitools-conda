@@ -145,7 +145,9 @@ stages:
     - bash: mamba create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
-    - bash: mamba list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-linux/explicit-deps.txt
+    # Use conda list to create a correctly formatted deps file.
+    # DO NOT USE MAMBA; it adds a decorative header which breaks the file.
+    - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-linux/explicit-deps.txt
       displayName: 'List Explicit Build Dependencies'
 
     - bash: |
@@ -389,7 +391,9 @@ stages:
     - bash: mamba create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
       displayName: 'Download Build Dependencies'
 
-    - bash: mamba list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-macosx/explicit-deps.txt
+    # Use conda list to create a correctly formatted deps file.
+    # DO NOT USE MAMBA; it adds a decorative header which breaks the file.
+    - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-macosx/explicit-deps.txt
       displayName: 'List Explicit Build Dependencies'
 
     - bash: |
