@@ -54,7 +54,7 @@ stages:
  #     displayName: 'Install Mamba package manager.'
      
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -91,7 +91,7 @@ stages:
  #     displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
@@ -133,7 +133,7 @@ stages:
 #      displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -200,7 +200,7 @@ stages:
       displayName: 'Iterate build number if it exists'
 
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge anaconda-client conda-build libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: conda build --python=2.7 -c conda-forge -c fermi .
@@ -287,7 +287,7 @@ stages:
  #     displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -328,7 +328,7 @@ stages:
  #     displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
@@ -374,7 +374,7 @@ stages:
 #      displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -445,7 +445,7 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=2.7 anaconda-client conda-build pathlib2
+    - bash: conda install --yes --quiet -c conda-forge anaconda-client conda-build pathlib2
       displayName: 'Set up build environment'
     - bash: conda build --python=2.7 -c conda-forge -c fermi .
       displayName: 'Run the build'
@@ -527,7 +527,7 @@ stages:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=2.7 libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
