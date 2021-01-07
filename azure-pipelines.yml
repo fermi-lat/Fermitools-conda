@@ -33,7 +33,7 @@ stages:
   jobs:
   - job: RunDeps
     displayName: 'Runtime Dependencies'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 30
     pool:
       vmImage: 'ubuntu-16.04'
     variables:
@@ -72,7 +72,7 @@ stages:
 
   - job: BuildDeps
     displayName: 'Buildtime Dependencies'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 60
     pool:
       vmImage: 'ubuntu-16.04'
     variables:
