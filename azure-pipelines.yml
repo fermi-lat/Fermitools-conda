@@ -111,7 +111,7 @@ stages:
   jobs:
   - job: SaveExplicitDeps
     displayName: 'Save explicit linux dependencies'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 60
     pool:
       vmImage: 'ubuntu-16.04'
     variables:
@@ -177,7 +177,7 @@ stages:
   jobs:
   - job: buildTools
     displayName: 'Build the Fermitools'
-    timeoutInMinutes: 150
+    timeoutInMinutes: 250
     pool:
       vmImage: 'ubuntu-16.04'
     variables:
