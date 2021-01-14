@@ -216,7 +216,7 @@ stages:
   jobs:
   - job: testTools
     displayName: 'Test the Fermitools'
-    timeoutInMinutes: 150
+    timeoutInMinutes: 250
     pool:
       vmImage: 'ubuntu-16.04'
     variables:
