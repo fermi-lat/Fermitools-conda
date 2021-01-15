@@ -231,17 +231,17 @@ stages:
       displayName: 'Add conda to PATH'
       
     # Install mamba to manage dependencies faster
-#    - bash: conda install --yes mamba -c conda-forge
-#      displayName: 'Install Mamba package manager.'
+    - bash: conda install --yes mamba -c conda-forge
+      displayName: 'Install Mamba package manager.'
       
     # junit-xml must be installed so the unit test script
     # can produce output in the JUnit format
     - bash: |
-        conda create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
+        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=2.7.15 fermitools-test-scripts junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
-        conda install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
+        mamba install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
         ST-unit-test --bit64
       displayName: 'Run Unit Tests'
     - task: PublishTestResults@2
