@@ -2,7 +2,7 @@
 # $Id$
 
 # Fermitools
-Fermitools-conda master
+Fermitools-conda root_free
 
 # Sciencetools
 ScienceTools master
@@ -71,5 +71,5 @@ pyBurstAnalysisGUI master
 fermitools-fhelp master
 
 # Fermitools-dependencies
-Fermitools-build-deps master
-Fermitools-dependencies master
+Fermitools-build-deps root_free
+Fermitools-dependencies root_free
