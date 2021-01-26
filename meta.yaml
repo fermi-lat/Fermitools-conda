@@ -22,10 +22,53 @@ requirements:
     - {{ compiler('cxx') }}        # [osx]
 
   host:
-    - fermitools-build-deps {{ version }}
+    - ape >=3
+    - aplpy
+    - astropy <4
+    - blas
+    - clhep 2.4.4.*
+    - cppunit
+    - f2c 0.0.2
+    - fermi-repoman
+    - fftw
+    - git
+    - gsl
+    - healpix_cxx
+    - matplotlib
+    - numpy >=1.17
+    - openblas
+    - pmw
+    - python >=3.7
+    - readline
+    - scons 3.0.3.*
+    - swig
+    - wcslib 5.*
+    - xerces-c
+    - zstd 
 
   run:
-    - fermitools-dependencies {{ version }}
+    - ape >=3
+    - aplpy
+    - astropy <4
+    - blas
+    - clhep 2.4.4.*
+    - cppunit
+    - f2c 0.0.2
+    - fftw
+    - gsl
+    - healpix_cxx
+    - matplotlib
+    - ncurses
+    - numpy  >=1.17
+    - openblas
+    - pmw
+    - python 3.7.*
+    - pyyaml
+    - readline
+    - scipy
+    - wcslib 5.*
+    - xerces-c
+    - zstd 
 
 test:
   imports:

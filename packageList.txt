@@ -5,7 +5,7 @@
 Fermitools-conda root_free
 
 # Sciencetools
-ScienceTools master
+ScienceTools root_free
 
 # in common with GlastRelease
 astro master
@@ -60,7 +60,7 @@ modelEditor master
 sane master
 
 # SCons machinery
-SConsShared master
+SConsShared root_free
 STRcontainerSettings conda
 
 BayesianBlocks master
