@@ -61,7 +61,7 @@ sane master
 
 # SCons machinery
 SConsShared root_free
-STRcontainerSettings conda
+STRcontainerSettings root_free
 
 BayesianBlocks master
 SolarSystemTools master
