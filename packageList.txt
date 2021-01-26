@@ -5,7 +5,7 @@
 Fermitools-conda root_free
 
 # Sciencetools
-ScienceTools root_free
+ScienceTools master
 
 # in common with GlastRelease
 astro master
