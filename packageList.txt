@@ -26,6 +26,15 @@ tip master
 
 # source modeling
 celestialSources master
+celestialSources/genericSources master
+# celestialSources/Pulsar master
+# celestialSources/SpectObj master
+# celestialSources/GRB master
+# celestialSources/GRBobs master
+# celestialSources/GRBtemplate master
+celestialSources/eblAtten master
+celestialSources/microQuasar master
+
 
 # instrument response
 irfs master
