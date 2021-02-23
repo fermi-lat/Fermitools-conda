@@ -1,7 +1,7 @@
 export condaname="fermitools"
 
 # REPOMAN! #
-repoman --remote-base https://github.com/fermi-lat checkout-list packageList.txt
+repoman --remote-base https://github.com/fermi-lat checkout-list ./packageList.txt
 
 # Add optimization
 export CFLAGS="${CFLAGS}"
@@ -23,6 +23,7 @@ scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
       --conda=${PREFIX} \
       --use-path \
+      --without-root \
       -j ${CPU_COUNT} \
       --with-cc="${CC}" \
       --with-cxx="${CXX}" \
