@@ -19,10 +19,10 @@ fitsGen master
 fitsGenApps master
 hoops master
 st_app master
-st_graph master
+st_graph root_free
 st_facilities master
 st_stream master
-tip master
+tip root_free
 
 # source modeling
 celestialSources master

@@ -24,6 +24,7 @@ scons -C ScienceTools \
       --conda=${PREFIX} \
       --use-path \
       --without-root \
+      --exclude='celestialSources' \
       -j ${CPU_COUNT} \
       --with-cc="${CC}" \
       --with-cxx="${CXX}" \
