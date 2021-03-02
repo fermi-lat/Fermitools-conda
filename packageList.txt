@@ -37,7 +37,7 @@ celestialSources/microQuasar master
 
 
 # instrument response
-irfs master
+irfs root_free
 
 # simulation
 observationSim master
