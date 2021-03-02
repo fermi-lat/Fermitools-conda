@@ -22,7 +22,7 @@ st_app master
 st_graph master
 st_facilities master
 st_stream master
-tip master
+tip root_free
 
 # source modeling
 celestialSources master
