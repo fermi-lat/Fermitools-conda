@@ -25,7 +25,7 @@ st_stream master
 tip master
 
 # source modeling
-celestialSources master
+#celestialSources master
 celestialSources/genericSources master
 # celestialSources/Pulsar master
 # celestialSources/SpectObj master
