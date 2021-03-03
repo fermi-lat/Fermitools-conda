@@ -48,11 +48,11 @@ burstFit master
 catalogAccess master
 dataSubselector master
 evtbin master
-evtUtils master
+evtUtils root_free
 healpix master
 Likelihood master
 map_tools master
-optimizers master
+optimizers root_free
 pgwave master
 pointlike master
 pulsarDb master
