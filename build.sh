@@ -4,9 +4,9 @@ export condaname="fermitools"
 repoman --remote-base https://github.com/fermi-lat checkout-list ./packageList.txt
 
 # Add filthy hack for Minuit2
-if [ ! -e ${PREFIX}/include/Minuit2/FCNBase.h ] ; then
-    ln -s ${PREFIX}/include/Minuit2/Minuit2/* ${PREFIX}/include/Minuit2
-fi
+#if [ ! -e ${PREFIX}/include/Minuit2/FCNBase.h ] ; then
+#    ln -s ${PREFIX}/include/Minuit2/Minuit2/* ${PREFIX}/include/Minuit2
+#fi
 
 # Add optimization
 export CFLAGS="${CFLAGS}"
