@@ -65,7 +65,7 @@ STRcontainerSettings conda
 
 BayesianBlocks master
 SolarSystemTools master
-pyBurstAnalysisGUI master
+pyBurstAnalysisGUI fix_download_LAT_data
 
 # fhelp files
 fermitools-fhelp master
