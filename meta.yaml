@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "2.0.20" %}
+{% set version = "2.0.22" %}
 
 package:
   name: {{ name|lower }}
@@ -16,10 +16,10 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }} 7.5.*    # [linux]
-    - {{ compiler('cxx') }} 7.5.*  # [linux]
-    - {{ compiler('c') }}          # [osx]
-    - {{ compiler('cxx') }}        # [osx]
+    #- {{ compiler('c') }} 7.5.*    # [linux]
+    #- {{ compiler('cxx') }} 7.5.*  # [linux]
+    - {{ compiler('c') }}          
+    - {{ compiler('cxx') }}        
 
   host:
     - fermitools-build-deps {{ version }}
