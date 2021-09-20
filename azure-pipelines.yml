@@ -35,7 +35,7 @@ stages:
     displayName: 'Runtime Dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -113,7 +113,7 @@ stages:
     displayName: 'Save explicit linux dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -180,7 +180,7 @@ stages:
     displayName: 'Build the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
@@ -223,7 +223,7 @@ stages:
     displayName: 'Test the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
