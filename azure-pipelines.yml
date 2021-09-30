@@ -269,7 +269,7 @@ stages:
     displayName: 'Runtime Dependencies'
     timeoutInMinutes: 40
     pool:
-      vmImage: 'macOS-10'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -312,7 +312,7 @@ stages:
     displayName: 'Buildtime Dependencies'
     timeoutInMinutes: 40
     pool:
-      vmImage: 'macOS-10'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -355,7 +355,7 @@ stages:
     displayName: 'Save explicit MacOSX dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'macOS-10'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -429,7 +429,7 @@ stages:
     displayName: 'Build the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'macOS-10'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -477,7 +477,7 @@ stages:
     displayName: 'Test the Fermitools'
     timeoutInMinutes: 500
     pool:
-      vmImage: 'macOS-10'
+      vmImage: 'macOS-latest'
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -524,7 +524,7 @@ stages:
     displayName: 'Synchronize tags across repos'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: VersionChild
       value: $(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
