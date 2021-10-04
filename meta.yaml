@@ -20,6 +20,7 @@ requirements:
     - {{ compiler('cxx') }} 7.5.*  # [linux]
     - {{ compiler('c') }}          
     - {{ compiler('cxx') }}        
+    - fermi-repoman
 
   host:
     - fermitools-build-deps {{ version }}
