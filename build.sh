@@ -21,7 +21,7 @@ fi
 
 scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
-      --conda=${PREFIX} \
+      --conda=${CONDA_PREFIX} \
       --use-path \
       -j ${CPU_COUNT} \
       --with-cc="${CC}" \
