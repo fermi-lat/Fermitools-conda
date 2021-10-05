@@ -21,6 +21,7 @@ requirements:
     - {{ compiler('c') }}          
     - {{ compiler('cxx') }}        
     - fermi-repoman
+    - scons
 
   host:
     - fermitools-build-deps {{ version }}
