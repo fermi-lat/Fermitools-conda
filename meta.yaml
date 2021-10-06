@@ -25,8 +25,8 @@ requirements:
   host:
     - fermitools-build-deps {{ version }}
 
-  #run:
-  #  - fermitools-dependencies {{ version }}
+  run:
+    - fermitools-dependencies {{ version }}
 
 test:
   imports:
