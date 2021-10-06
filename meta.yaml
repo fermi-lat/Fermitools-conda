@@ -22,11 +22,11 @@ requirements:
     - {{ compiler('cxx') }}        
     - fermitools-build-deps {{ version }}
 
-  #host:
-  #  - fermitools-build-deps {{ version }}
+  host:
+    - fermitools-build-deps {{ version }}
 
-  run:
-    - fermitools-dependencies {{ version }}
+  #run:
+  #  - fermitools-dependencies {{ version }}
 
 test:
   imports:
