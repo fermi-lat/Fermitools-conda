@@ -19,7 +19,8 @@ requirements:
     - {{ compiler('c') }} 7.5.*    # [linux]
     - {{ compiler('cxx') }} 7.5.*  # [linux]
     - {{ compiler('c') }}          
-    - {{ compiler('cxx') }}        
+    - {{ compiler('cxx') }}
+    - ape >=3
     - fermitools-build-deps {{ version }}
 
   host:
