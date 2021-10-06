@@ -22,8 +22,8 @@ requirements:
     - {{ compiler('cxx') }}        
     - fermitools-build-deps {{ version }}
 
-  host:
-    - fermitools-build-deps {{ version }}
+  #host:
+  #  - fermitools-build-deps {{ version }}
 
   run:
     - fermitools-dependencies {{ version }}
