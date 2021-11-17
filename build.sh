@@ -19,7 +19,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
 fi
 
-scons -C ScienceTools \
+if scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
       --conda=${CONDA_PREFIX} \
       --use-path \
@@ -30,7 +30,13 @@ scons -C ScienceTools \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
       --compile-opt \
-      all
+      all; then
+  echo "scons build successful."
+else
+  find . -name config.log
+  cat config.log
+  exit 1
+fi
 
 # Install in a place where conda will find the ST
 

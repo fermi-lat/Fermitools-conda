@@ -18,15 +18,38 @@ requirements:
   build:
     - {{ compiler('c') }} 7.5.*    # [linux]
     - {{ compiler('cxx') }} 7.5.*  # [linux]
-    - {{ compiler('c') }}          
+    - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - fermitools-build-deps {{ version }}
+    - fermi-repoman
+    - ape >=3
+    - aplpy
+    - astropy
+    - blas
+    - clhep 
+    - cfitsio
+    - cppunit
+    - f2c 0.0.2
+    - fermi-repoman
+    - fftw
+    - git
+    - gsl
+    - healpix_cxx
+    - matplotlib
+    - numpy >=1.17
+    - openblas
+    - pmw
+    - python >=3.7
+    - readline
+    - root 6.22.6
+    - scons 3.0.3.*
+    - swig
+    - wcslib 5.*
+    - xerces-c
+    - zstd 
 
   host:
-    - fermitools-build-deps {{ version }}
+    - python >=3.7
 
-  run:
-    - fermitools-dependencies {{ version }}
 
 test:
   imports:
