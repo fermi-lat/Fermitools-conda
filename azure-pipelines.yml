@@ -436,6 +436,12 @@ stages:
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
     steps:
+    - bash: |
+        ls -la /Applications/Xcode*
+        ls -la /Applications/Xcode12.4*
+        ls -la /Applications/Xcode13.0*
+        find /Applications -name MacOSX.sdk
+      displayName: 'display Xcode path contents'
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
