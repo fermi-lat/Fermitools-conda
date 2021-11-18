@@ -438,10 +438,7 @@ stages:
     steps:
     - bash: |
         ls -la /Applications/Xcode*
-        ls -la /Applications/Xcode12.4*
-        ls -la /Applications/Xcode13.0*
-        find /Applications -name MacOSX.sdk
-      displayName: 'display Xcode path contents'
+      displayName: 'display Xcode paths'
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
