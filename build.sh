@@ -8,14 +8,14 @@ export CFLAGS="${CFLAGS}"
 export CXXFLAGS="-std=c++17 ${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:${CONDA_BUILD_SYSROOT}/usr/lib"
 
 if [ "$(uname)" == "Darwin" ]; then
 
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
     export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
     export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
-    export LDFLAGS="-L${CONDA_BUILD_SYSROOT}/usr/lib ${LDFLAGS} -headerpad_max_install_names"
+    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
 
 fi
 
