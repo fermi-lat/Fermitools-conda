@@ -51,10 +51,10 @@ requirements:
     - python >=3.7
 
 
-test:
-  imports:
-    - UnbinnedAnalysis
-    - pyLikelihood
+#test:
+#  imports:
+#    - UnbinnedAnalysis
+#    - pyLikelihood
 
   commands:
     # These tests inspect linkages and libraries. They are very slow, so comment them out
