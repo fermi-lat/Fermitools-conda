@@ -40,8 +40,8 @@ setenv FERMI_OLD_PFILES $PFILES
 
 if (! $?PFILES) then 
     # PFILES is unset, set it appropriately
-    `mkdir -p $HOME/pfiles`
-     setenv PFILES ".:${HOME}/pfiles;${INST_DIR}/syspfiles"
+    mkdir -p $HOME/pfiles
+    setenv PFILES ".:${HOME}/pfiles;${INST_DIR}/syspfiles"
 else 
     if ("$PFILES" =~ "*;*") then
 	# current value already contains a ';', which
