@@ -36,7 +36,9 @@ setenv PATH ${CONDA_PREFIX}/bin/${condaname}:${CONDA_PREFIX}/lib/python2.7/site-
 
 # Save old value (this will be the empty string if
 # PFILES is not set)
-setenv FERMI_OLD_PFILES $PFILES
+if ($?PFILES) then
+   setenv FERMI_OLD_PFILES $PFILES
+endif
 
 if (! $?PFILES) then 
     # PFILES is unset, set it appropriately
