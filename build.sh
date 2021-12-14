@@ -42,7 +42,7 @@ fi
 
 # Libraries
 mkdir -p $PREFIX/lib/${condaname}
-if [ -d "lib/*/sid-x86_64-64bit-*" ]; then
+if [ -d "lib/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
     echo "Subdirectory Found! (Lib)"
     pwd
     ls lib/
@@ -56,7 +56,7 @@ fi
 
 # Headers
 mkdir -p $PREFIX/include/${condaname}
-if [ -d "include/*/sid-x86_64-64bit-*" ]; then
+if [ -d "include/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
     echo "Subdirectory Found! (Include)"
     cp -R include/*/* $PREFIX/include/${condaname}
 else
@@ -66,9 +66,9 @@ fi
 
 # Binaries
 mkdir -p $PREFIX/bin/${condaname}
-if [ -d "exe/*/sid-x86_64-*" ]; then
+if [ -d "bin/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
     echo "Subdirectory Found! (bin)"
-    cp -R exe/*/*/* $PREFIX/bin/${condaname}
+    cp -R bin/*/*/* $PREFIX/bin/${condaname}
 else
     echo "Subdirectory Not Found! (bin)"
     cp -R exe/*/* $PREFIX/bin/${condaname}
