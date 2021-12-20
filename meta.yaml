@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "2.0.38" %}
+{% set version = "2.0.39" %}
 
 package:
   name: {{ name|lower }}
@@ -38,7 +38,7 @@ requirements:
     - numpy >=1.17
     - openblas
     - pmw
-    - python >=3.7
+    - python 3.8
     - readline
     - root 6.22.6
     - scons 3.0.3.*
@@ -48,7 +48,7 @@ requirements:
     - zstd 
 
   host:
-    - python >=3.7
+    - python 3.8
 
 
 #test:
