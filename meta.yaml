@@ -16,8 +16,8 @@ build:
 
 requirements:
   build:
-    #- {{ compiler('c') }} 7.5.*    # [linux]
-    #- {{ compiler('cxx') }} 7.5.*  # [linux]
+    - {{ compiler('c') }} 7.5.*    # [linux]
+    - {{ compiler('cxx') }} 7.5.*  # [linux]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - fermi-repoman
