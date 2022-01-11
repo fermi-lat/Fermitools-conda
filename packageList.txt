@@ -2,7 +2,7 @@
 # $Id$
 
 # Fermitools
-Fermitools-conda master
+Fermitools-conda scons-update
 
 # Sciencetools
 ScienceTools master
@@ -60,7 +60,7 @@ modelEditor master
 sane master
 
 # SCons machinery
-SConsShared master
+SConsShared scons-update
 STRcontainerSettings conda
 
 BayesianBlocks master
