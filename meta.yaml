@@ -26,7 +26,6 @@ requirements:
     - astropy
     - blas
     - clhep 
-    - chealpix
     - cfitsio
     - cppunit
     - f2c 0.0.2
