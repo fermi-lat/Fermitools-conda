@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "2.0.39" %}
+{% set version = "2.0.40" %}
 
 package:
   name: {{ name|lower }}
@@ -26,6 +26,7 @@ requirements:
     - astropy
     - blas
     - clhep 
+    - chealpix
     - cfitsio
     - cppunit
     - f2c 0.0.2
