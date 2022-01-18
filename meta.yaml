@@ -25,7 +25,7 @@ requirements:
     - aplpy
     - astropy
     - blas
-    - clhep 
+    - clhep 2.4.4.2
     - cfitsio
     - cppunit
     - f2c 0.0.2
