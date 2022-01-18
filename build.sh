@@ -9,7 +9,7 @@ export CFLAGS="${CFLAGS}"
 export CXXFLAGS="${CXXFLAGS}
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:${CONDA_BUILD_SYSROOT}/usr/lib"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:${CONDA_BUILD_SYSROOT}/usr/lib:${CONDA_BUILD_SYSROOT}/usr/local/lib"
 
 if [ "$(uname)" == "Darwin" ]; then
 
