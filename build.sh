@@ -17,8 +17,8 @@ export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:$
 if [ "$(uname)" == "Darwin" ]; then
 
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
-    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
-    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT}/usr/lib -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
+    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT}/usr/lib/clang/13.0.0/lib/darwin/libclang_rt.osx.a ${CFLAGS}"
+    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT}/usr/lib/clang/13.0.0/lib/darwin/libclang_rt.osx.a -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
 
 fi
