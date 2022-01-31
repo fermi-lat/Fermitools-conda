@@ -1,4 +1,5 @@
 export condaname="fermitools"
+sed -i -E 's|("timestamp": [0-9]+)\.|\1|' $CONDA_PREFIX/conda-meta/*.json
 
 # REPOMAN! #
 repoman --remote-base https://github.com/fermi-lat checkout-list packageList.txt
