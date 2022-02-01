@@ -41,7 +41,7 @@ dataSubselector master
 evtbin master
 evtUtils master
 healpix master
-Likelihood master
+Likelihood lk-90
 map_tools master
 optimizers master
 pgwave master
