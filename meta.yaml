@@ -28,6 +28,7 @@ requirements:
     - clhep 2.4.4.2
     - cfitsio
     - cppunit
+    - distro
     - f2c 0.0.2
     - fermi-repoman
     - fftw
