@@ -133,7 +133,7 @@ stages:
       displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge python=3.7 libiconv pathlib2
+    - bash: mamba install --yes --quiet -c conda-forge libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -205,7 +205,7 @@ stages:
     #  displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge anaconda-client conda-build libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: conda build -c conda-forge -c fermi .
