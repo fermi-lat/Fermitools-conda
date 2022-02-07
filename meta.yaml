@@ -28,6 +28,7 @@ requirements:
     - clhep 
     - cfitsio
     - cppunit
+    - distro
     - f2c 0.0.2
     - fermi-repoman
     - fftw
