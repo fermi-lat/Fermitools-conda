@@ -40,7 +40,7 @@ catalogAccess master
 dataSubselector master
 evtbin master
 evtUtils master
-healpix master
+healpix scons-update
 Likelihood master
 map_tools master
 optimizers master
