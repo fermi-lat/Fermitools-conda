@@ -34,7 +34,8 @@ requirements:
     - fftw
     - git
     - gsl
-    - healpix_cxx 3.31
+    - healpix_cxx
+    - libsharp
     - matplotlib
     - numpy >=1.17
     - openblas
