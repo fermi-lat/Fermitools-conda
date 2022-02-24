@@ -2,25 +2,22 @@ export condaname="fermitools"
 sed -i -E 's|("timestamp": [0-9]+)\.|\1|' $CONDA_PREFIX/conda-meta/*.json
 
 # REPOMAN! #
-repoman --remote-base https://github.com/fermi-lat checkout-list packageList.txt
+repoman --remote-base https://github.com/fermi-lat checkout-list fermitools-conda scons-update conda
 
 # Add optimization
 export CFLAGS="${CFLAGS}"
-export CXXFLAGS="-std=c++17 ${CXXFLAGS}"
-#export CXXFLAGS="${CXXFLAGS}
-#export CONDA_BUILD_SYSROOT="/opt/MacOSX10.9.sdk"
+export CXXFLAGS="${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:${CONDA_BUILD_SYSROOT}/usr/lib:${CONDA_BUILD_SYSROOT}/usr/local/lib"
-#export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:/usr/lib:/usr/local/lib"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:${CONDA_BUILD_SYSROOT}/usr/lib:${CONDA_BUILD_SYSROOT}/usr/local/lib:${CONDA_BUILD_SYSROOT}/usr/lib/system"
 
 
 if [ "$(uname)" == "Darwin" ]; then
 
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
-    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT}/usr/lib/clang/13.0.0/lib/darwin/libclang_rt.osx.a ${CFLAGS}"
-    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT}/usr/lib/clang/13.0.0/lib/darwin/libclang_rt.osx.a -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
-    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
+    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
+    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
+    export LDFLAGS="${LDFLAGS} -L${CONDA_BUILD_SYSROOT}/usr/lib -headerpad_max_install_names"
 
 fi
 
