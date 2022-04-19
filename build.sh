@@ -1,4 +1,5 @@
 export condaname="fermitools"
+sed -i -E 's|("timestamp": [0-9]+)\.|\1|' $CONDA_PREFIX/conda-meta/*.json
 
 # REPOMAN! #
 repoman --remote-base https://github.com/fermi-lat checkout-list ./packageList.txt
@@ -8,25 +9,27 @@ repoman --remote-base https://github.com/fermi-lat checkout-list ./packageList.t
 #    ln -s ${PREFIX}/include/Minuit2/Minuit2/* ${PREFIX}/include/Minuit2
 #fi
 
+
 # Add optimization
 export CFLAGS="${CFLAGS}"
-export CXXFLAGS="-std=c++17 ${CXXFLAGS}"
+export CXXFLAGS="${CXXFLAGS}"
 
 # Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib"
+export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:${CONDA_BUILD_SYSROOT}/usr/lib:${CONDA_BUILD_SYSROOT}/usr/local/lib:${CONDA_BUILD_SYSROOT}/usr/lib/system"
+
 
 if [ "$(uname)" == "Darwin" ]; then
 
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
     export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
     export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
-    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
+    export LDFLAGS="${LDFLAGS} -L${CONDA_BUILD_SYSROOT}/usr/lib -headerpad_max_install_names"
 
 fi
 
-scons -C ScienceTools \
+if scons -C ScienceTools \
       --site-dir=../SConsShared/site_scons \
-      --conda=${PREFIX} \
+      --conda=${CONDA_PREFIX} \
       --use-path \
       --without-root \
       -j ${CPU_COUNT} \
@@ -36,18 +39,24 @@ scons -C ScienceTools \
       --cxxflags="${CXXFLAGS}" \
       --ldflags="${LDFLAGS}" \
       --compile-opt \
-      all
+      all; then
+  echo "scons build successful."
+else
+  find . -name config.log
+  cat config.log
+  exit 1
+fi
 
 # Install in a place where conda will find the ST
 
 # Libraries
 mkdir -p $PREFIX/lib/${condaname}
-if [ -d "lib/debianstretch/sid-x86_64-64bit-gcc75-Optimized" ]; then
+if [ -d "lib/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
     echo "Subdirectory Found! (Lib)"
     pwd
     ls lib/
-    ls lib/debianstretch/
-    ls lib/debianstretch/sid-x86_64-64bit-gcc75-Optimized/
+    ls lib/debian*/
+    ls lib/debian*/sid-x86_64-64bit-*/
     cp -R lib/*/*/* $PREFIX/lib/${condaname}
 else
     echo "Subdirectory Not Found! (Lib)"
@@ -56,7 +65,7 @@ fi
 
 # Headers
 mkdir -p $PREFIX/include/${condaname}
-if [ -d "include/debianstretch/sid-x86_64-64bit-gcc75-Optimized" ]; then
+if [ -d "include/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
     echo "Subdirectory Found! (Include)"
     cp -R include/*/* $PREFIX/include/${condaname}
 else
@@ -66,9 +75,9 @@ fi
 
 # Binaries
 mkdir -p $PREFIX/bin/${condaname}
-if [ -d "exe/debianstretch/sid-x86_64-64bit-gcc75-Optimized" ]; then
+if [ -d "bin/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
     echo "Subdirectory Found! (bin)"
-    cp -R exe/*/*/* $PREFIX/bin/${condaname}
+    cp -R bin/*/*/* $PREFIX/bin/${condaname}
 else
     echo "Subdirectory Not Found! (bin)"
     cp -R exe/*/* $PREFIX/bin/${condaname}

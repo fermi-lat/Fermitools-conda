@@ -2,7 +2,7 @@
 # $Id$
 
 # Fermitools
-Fermitools-conda root_free
+Fermitools-conda scons-update
 
 # Sciencetools
 ScienceTools master
@@ -49,7 +49,7 @@ catalogAccess master
 dataSubselector master
 evtbin master
 evtUtils root_free
-healpix master
+healpix scons-update
 Likelihood master
 map_tools master
 optimizers root_free
@@ -69,8 +69,8 @@ modelEditor master
 sane master
 
 # SCons machinery
-SConsShared root_free
 STRcontainerSettings root_free
+SConsShared scons-update
 
 BayesianBlocks master
 SolarSystemTools master

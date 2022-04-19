@@ -33,9 +33,9 @@ stages:
   jobs:
   - job: RunDeps
     displayName: 'Runtime Dependencies'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 120
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -54,7 +54,7 @@ stages:
       displayName: 'Install Mamba package manager.'
      
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: mamba install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -64,7 +64,7 @@ stages:
 
     - bash: |
         echo $VERSION
-        mamba build --python=3.7 -c conda-forge -c fermi components/Fermitools-dependencies
+        mamba build -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-dependencies-*
@@ -72,9 +72,9 @@ stages:
 
   - job: BuildDeps
     displayName: 'Buildtime Dependencies'
-    timeoutInMinutes: 20
+    timeoutInMinutes: 120
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -91,14 +91,14 @@ stages:
       displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: mamba install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
         repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
       displayName: 'Download Sources'
 
-    - bash: mamba build --python=3.7 -c conda-forge -c fermi components/Fermitools-build-deps
+    - bash: mamba build -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force  /usr/share/miniconda/conda-bld/linux-64/fermitools-build-deps-*
@@ -113,7 +113,7 @@ stages:
     displayName: 'Save explicit linux dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -133,7 +133,7 @@ stages:
       displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge python=3.7 libiconv pathlib2
+    - bash: mamba install --yes --quiet -c conda-forge libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -180,7 +180,7 @@ stages:
     displayName: 'Build the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
@@ -205,10 +205,10 @@ stages:
     #  displayName: 'Install Mamba package manager.'
       
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build libiconv pathlib2
+    - bash: conda install --yes --quiet -c conda-forge anaconda-client conda-build libiconv pathlib2
       displayName: 'Set up build environment'
 
-    - bash: conda build --python=3.7 -c conda-forge -c fermi .
+    - bash: conda build -c conda-forge -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -223,7 +223,7 @@ stages:
     displayName: 'Test the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
@@ -242,7 +242,7 @@ stages:
     # junit-xml must be installed so the unit test script
     # can produce output in the JUnit format
     - bash: |
-        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=3.7 fermitools-test-scripts=3.0 junit-xml
+        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev fermitools-test-scripts=3.0 junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
@@ -269,7 +269,7 @@ stages:
     displayName: 'Runtime Dependencies'
     timeoutInMinutes: 40
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -292,7 +292,7 @@ stages:
       displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: mamba install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
 
     - bash: |
@@ -302,7 +302,7 @@ stages:
 
     - bash: |
         echo $VERSION
-        mamba build --python=3.7 -c conda-forge -c fermi components/Fermitools-dependencies
+        mamba build -c conda-forge -c fermi components/Fermitools-dependencies
       displayName: 'Conda-Build Runtime Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-dependencies-*
@@ -312,7 +312,7 @@ stages:
     displayName: 'Buildtime Dependencies'
     timeoutInMinutes: 40
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -333,14 +333,14 @@ stages:
       displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge -c fermi python=3.7 anaconda-client conda-build libiconv pathlib2 fermi-repoman
+    - bash: mamba install --yes --quiet -c conda-forge -c fermi anaconda-client conda-build libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components
         repoman --remote-base https://github.com/fermi-lat checkout-list ../packageList.txt
       displayName: 'Download Sources'
 
-    - bash: mamba build --python=3.7 -c conda-forge -c fermi components/Fermitools-build-deps
+    - bash: mamba build -c conda-forge -c fermi components/Fermitools-build-deps
       displayName: 'Conda-Build Build Dependencies'
 
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi  --label main --label dev --label $(TagName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-build-deps-*
@@ -355,7 +355,7 @@ stages:
     displayName: 'Save explicit MacOSX dependencies'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -379,7 +379,7 @@ stages:
       displayName: 'Install Mamba package manager.'
 
     # Set up environment and run the build
-    - bash: mamba install --yes --quiet -c conda-forge python=3.7 libiconv pathlib2
+    - bash: mamba install --yes --quiet -c conda-forge libiconv pathlib2
       displayName: 'Set up build environment'
 
     - bash: |
@@ -429,13 +429,16 @@ stages:
     displayName: 'Build the Fermitools'
     timeoutInMinutes: 150
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: 'macOS-latest'
     variables:
     - name: VERSION
       value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
     - name: BUILD_NUMBER
       value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
     steps:
+    - bash: |
+        ls -la /Applications/Xcode*
+      displayName: 'display Xcode paths'
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
@@ -456,9 +459,9 @@ stages:
       condition: notIn(variables['BUILD_NUMBER'], variables['noSuch'])
       displayName: 'Iterate build number if it exists'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge python=3.7 anaconda-client conda-build pathlib2
+    - bash: conda install --yes --quiet -c conda-forge anaconda-client conda-build pathlib2
       displayName: 'Set up build environment'
-    - bash: conda build --python=3.7 -c conda-forge -c fermi .
+    - bash: conda build -c conda-forge -c fermi .
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
@@ -477,7 +480,7 @@ stages:
     displayName: 'Test the Fermitools'
     timeoutInMinutes: 500
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: 'macOS-latest'
     steps:
     # Manually adding conda to the PATH is a step required by Microsoft
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -493,7 +496,7 @@ stages:
       displayName: 'Install Mamba package manager.'
 
     - bash: |
-        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev python=3.7 fermitools-test-scripts=3.0 junit-xml
+        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev fermitools-test-scripts=3.0 junit-xml
       displayName: 'Install the tools and test scripts'
     - bash: |
         source activate Test
@@ -524,7 +527,7 @@ stages:
     displayName: 'Synchronize tags across repos'
     timeoutInMinutes: 20
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-latest'
     variables:
     - name: VersionChild
       value: $(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
@@ -539,7 +542,7 @@ stages:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
       displayName: 'Add conda to PATH'
     # Set up environment and run the build
-    - bash: conda install --yes --quiet -c conda-forge -c fermi python=3.7 libiconv pathlib2 fermi-repoman
+    - bash: conda install --yes --quiet -c conda-forge -c fermi libiconv pathlib2 fermi-repoman
       displayName: 'Set up build environment'
     - bash: |
         mkdir components && cd components

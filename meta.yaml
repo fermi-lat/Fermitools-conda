@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "2.0.9" %}
+{% set version = "2.0.41" %}
 
 package:
   name: {{ name|lower }}
@@ -18,62 +18,44 @@ requirements:
   build:
     - {{ compiler('c') }} 7.5.*    # [linux]
     - {{ compiler('cxx') }} 7.5.*  # [linux]
-    - {{ compiler('c') }}          # [osx]
-    - {{ compiler('cxx') }}        # [osx]
-
-  host:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - fermi-repoman
     - ape >=3
     - aplpy
-    - astropy <4
+    - astropy
     - blas
-    - clhep 2.4.4.*
+    - clhep 2.4.4.2
+    - cfitsio
     - cppunit
+    - distro
     - f2c 0.0.2
     - fermi-repoman
     - fftw
     - git
     - gsl
     - healpix_cxx
+    - libsharp
     - matplotlib
     - numpy >=1.17
     - openblas
     - pmw
-    - python >=3.7
+    - python 3.9.*
     - readline
-    - scons 3.0.3.*
+    - root 6.22.6
+    - scons 4.*
     - swig
     - wcslib 5.*
     - xerces-c
     - zstd 
 
-  run:
-    - ape >=3
-    - aplpy
-    - astropy <4
-    - blas
-    - clhep 2.4.4.*
-    - cppunit
-    - f2c 0.0.2
-    - fftw
-    - gsl
-    - healpix_cxx
-    - matplotlib
-    - ncurses
-    - numpy  >=1.17
-    - openblas
-    - pmw
-    - python 3.7.*
-    - pyyaml
-    - readline
-    - scipy
-    - wcslib 5.*
-    - xerces-c
-    - zstd 
+  host:
+    - python 3.9.* 
 
-test:
-  imports:
-    - UnbinnedAnalysis
-    - pyLikelihood
+#test:
+#  imports:
+#    - UnbinnedAnalysis
+#    - pyLikelihood
 
   commands:
     # These tests inspect linkages and libraries. They are very slow, so comment them out
