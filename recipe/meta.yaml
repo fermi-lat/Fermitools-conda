@@ -6,10 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  path: ../../ScienceTools
-
-  # git_url: https://github.com/fermi-lat/Sciencetools.git
-  # git_rev: cmake-update
+  git_url: https://github.com/fermi-lat/Sciencetools.git
+  git_rev: a981afe1cbcf2f1e29b6bd8aa84481243840258c
 
 build:
   number: 0
@@ -58,10 +56,11 @@ requirements:
   #   - python 3.9.* 
 
 
-#test:
-#  imports:
-#    - UnbinnedAnalysis
-#    - pyLikelihood
+test:
+ imports:
+   - py_facilities
+   - pyLikelihood
+   - UnbinnedAnalysis
 
   # commands:
     # These tests inspect linkages and libraries. They are very slow, so comment them out

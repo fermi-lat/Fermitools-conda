@@ -22,81 +22,16 @@ fi
 
 cmake -S . \
   -B Release \
-  -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH=${PKG_CONFIG_PATH} \
   -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=On \
+  -DCMAKE_INSTALL_PREFIX=${PREFIX}
 
 
-cmake --build Release --parallel 
+cmake --build Release --parallel --target=install
 
-cmake --build Release --target=install
-
-#
-# if scons -C ScienceTools \
-#       --site-dir=../SConsShared/site_scons \
-#       --conda=${CONDA_PREFIX} \
-#       --use-path \
-#       -j ${CPU_COUNT} \
-#       --with-cc="${CC}" \
-#       --with-cxx="${CXX}" \
-#       --ccflags="${CFLAGS}" \
-#       --cxxflags="${CXXFLAGS}" \
-#       --ldflags="${LDFLAGS}" \
-#       --compile-opt \
-#       all; then
-#   echo "scons build successful."
-# else
-#   find . -name config.log
-#   cat config.log
-#   exit 1
-# fi
-#
 # # Install in a place where conda will find the ST
-#
-# # Libraries
-# mkdir -p $PREFIX/lib/${condaname}
-# if [ -d "lib/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
-#     echo "Subdirectory Found! (Lib)"
-#     pwd
-#     ls lib/
-#     ls lib/debian*/
-#     ls lib/debian*/sid-x86_64-64bit-*/
-#     cp -R lib/*/*/* $PREFIX/lib/${condaname}
-# else
-#     echo "Subdirectory Not Found! (Lib)"
-#     cp -R lib/*/* $PREFIX/lib/${condaname}
-# fi
-#
-# # Headers
-# mkdir -p $PREFIX/include/${condaname}
-# if [ -d "include/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
-#     echo "Subdirectory Found! (Include)"
-#     cp -R include/*/* $PREFIX/include/${condaname}
-# else
-#     echo "Subdirectory Not Found! (Include)"
-#     cp -R include/* $PREFIX/include/${condaname}
-# fi
-#
-# # Binaries
-# mkdir -p $PREFIX/bin/${condaname}
-# if [ -d "bin/debianbullseye/sid-x86_64-64bit-gcc94-Optimized/" ]; then
-#     echo "Subdirectory Found! (bin)"
-#     cp -R bin/*/*/* $PREFIX/bin/${condaname}
-# else
-#     echo "Subdirectory Not Found! (bin)"
-#     cp -R exe/*/* $PREFIX/bin/${condaname}
-# fi
-#
-# # Python packages
-# # Figure out the path to the site-package directory
-# export sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-# # Create our package there
-# mkdir -p $sitepackagesdir/${condaname}
-# # Making an empty __init__.py makes our directory a python package
-# echo "" > $sitepackagesdir/${condaname}/__init__.py
-# # Copy all our stuff there
-# cp -R python/* $sitepackagesdir/${condaname}
+
 # # There are python libraries that are actually under /lib, so let's
 # # add a .pth file so that it is not necessary to setup PYTHONPATH
 # # (which is discouraged by conda)
