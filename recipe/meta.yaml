@@ -7,7 +7,7 @@ package:
 
 source:
   git_url: https://github.com/fermi-lat/Sciencetools.git
-  git_rev: a981afe1cbcf2f1e29b6bd8aa84481243840258c
+  git_rev: cmake-update
 
 build:
   number: 0
@@ -22,15 +22,17 @@ requirements:
     - llvm-openmp  # [osx]
 
   host:
-    - clhep
     - cfitsio
+    - clhep
+    - cmake >=3.18
     - cppunit
     - f2c
     - fftw
     - gsl
     - healpix_cxx 3.31
     - minuit2
-    - pmw
+    # - pmw
+    - pkg-config
     - python 3.9.*
     - readline
     - swig
@@ -45,12 +47,15 @@ requirements:
     - fftw
     - gsl
     - healpix_cxx 3.31.*
-    - pmw
     - python 3.9.*
     - readline
-    - swig
     - wcslib
     - xerces-c
+
+    #### Python Libraries
+    - numpy
+    # - pmw
+    - pyyaml
 
   # host:
   #   - python 3.9.* 

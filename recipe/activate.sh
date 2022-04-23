@@ -10,6 +10,7 @@ function string_replace {
 
 export INST_DIR=$CONDA_PREFIX/share/${condaname}
 export FERMI_DIR=$INST_DIR
+export FERMI_INST_DIR=$INST_DIR
 export BASE_DIR=$INST_DIR
 export EXTFILESSYS=$CONDA_PREFIX/share/${condaname}/refdata/fermi
 export GENERICSOURCESDATAPATH=$CONDA_PREFIX/share/${condaname}/data/genericSources
@@ -81,51 +82,8 @@ else
 
 fi
 
-# Make sure there is no ROOTSYS (which would confuse ROOT)
-unset ROOTSYS
-
-# Check whether the .rootrc file exists in the user home,
-# if not create it
-#if [ -f "${HOME}/.rootrc" ]; then
-        
-    # Make it read/write
-#    chmod u+rw ${HOME}/.rootrc
-
-#else
-        
-    # File does not exist. Copy the system.rootrc file
-#    cp ${CONDA_PREFIX}/etc/root/system.rootrc ${HOME}/.rootrc
-    
-    # Make it read/write
-#    chmod u+rw ${HOME}/.rootrc
-
-#fi
-
-# We need to make sure that the path to the ST library dir is
-# contained in the paths that ROOT will search for libraries, 
-# because the dynamic loader of ROOT does not honor RPATH
-
-cat << EOF | root -b -l
-// I am using "default" as default value because I was having problems
-// using the empty string.
-TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
-
-// The formatting with the { at the end of the line is NECESSARY
-// for this to work properly (as this is input for the stdin of
-// root)
-if(!old_value.Contains("lib/")) { 
-    TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/:${CONDA_PREFIX}/lib/");
-
-    gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
-
-    gEnv->SaveLevel(kEnvUser);
-}
-
-exit(0);
-
-EOF
-
 # Add aliases for python executables
+#TODO Make these entrypoints
 sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 alias gtburst="python $sitepackagesdir/${condaname}/gtburst.py"
