@@ -215,45 +215,45 @@ stages:
 
 
   #### Linux Test Stage ###
-- stage: linux_test_stage
-  displayName: 'Ubuntu Test Stage'
-  dependsOn: linux_build_stage
-  jobs:
-  - job: testTools
-    displayName: 'Test the Fermitools'
-    timeoutInMinutes: 150
-    pool:
-      vmImage: 'ubuntu-latest'
-    variables:
-    - name: BUILD_NUMBER
-      value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
-    - name: VERSION
-      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
-    - name: TagName
-      value: Fermitools-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
-    steps:
-    - bash: echo "##vso[task.prependpath]$CONDA/bin"
-      displayName: 'Add conda to PATH'
+#- stage: linux_test_stage
+#  displayName: 'Ubuntu Test Stage'
+#  dependsOn: linux_build_stage
+#  jobs:
+#  - job: testTools
+#    displayName: 'Test the Fermitools'
+#    timeoutInMinutes: 150
+#    pool:
+#      vmImage: 'ubuntu-latest'
+#    variables:
+#    - name: BUILD_NUMBER
+#      value: $(conda search -c fermi/label/dev fermitools | grep -i $(version) | tail -1 | awk '{ print $3}' | cut -d "_" -f 2)
+#    - name: VERSION
+#      value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
+#    - name: TagName
+#      value: Fermitools-$(grep -i 'set version' ../meta.yaml | awk '{ print $5}' | sed 's/"//g')
+#    steps:
+#    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+#      displayName: 'Add conda to PATH'
       
     # Install mamba to manage dependencies faster
-    - bash: conda install --yes mamba -c conda-forge
-      displayName: 'Install Mamba package manager.'
+#    - bash: conda install --yes mamba -c conda-forge
+#      displayName: 'Install Mamba package manager.'
       
     # junit-xml must be installed so the unit test script
     # can produce output in the JUnit format
-    - bash: |
-        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev fermitools-test-scripts=3.0 junit-xml
-      displayName: 'Install the tools and test scripts'
-    - bash: |
-        source activate Test
-        mamba install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
-        ST-unit-test --bit64
-      displayName: 'Run Unit Tests'
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'ST-unit-test-Output.xml'
-        testRunTitle: 'Linux Unit Tests'
+#    - bash: |
+#        mamba create --name Test --yes -c conda-forge -c fermi -c fermi/label/dev fermitools-test-scripts=3.0 junit-xml
+#      displayName: 'Install the tools and test scripts'
+#    - bash: |
+#        source activate Test
+#        mamba install --yes -c conda-forge -c fermi -c fermi/label/dev fermitools=$(VERSION)
+#        ST-unit-test --bit64
+#      displayName: 'Run Unit Tests'
+#    - task: PublishTestResults@2
+#      inputs:
+#        testResultsFormat: 'JUnit'
+#        testResultsFiles: 'ST-unit-test-Output.xml'
+#        testRunTitle: 'Linux Unit Tests'
 #####################################
 
 ######################################
