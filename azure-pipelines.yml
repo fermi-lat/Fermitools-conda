@@ -210,7 +210,7 @@ stages:
 
     - bash: conda build -c conda-forge -c fermi .
       displayName: 'Run the build'
-    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-*
+    - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=cmake-$(TagName) --label=$(Build.SourceBranchName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
 
 
