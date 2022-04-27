@@ -174,7 +174,7 @@ stages:
   ### Linux Build Stage ###
 - stage: linux_build_stage
   displayName: 'Linux Build Stage'
-  dependsOn: linux_prep_deps
+#  dependsOn: linux_prep_deps
   jobs:
   - job: buildTools
     displayName: 'Build the Fermitools'
