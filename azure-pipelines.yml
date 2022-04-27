@@ -208,7 +208,7 @@ stages:
     - bash: conda install --yes --quiet -c conda-forge anaconda-client conda-build libiconv pathlib2
       displayName: 'Set up build environment'
 
-    - bash: conda build -c conda-forge -c fermi .
+    - bash: conda build -c conda-forge -c fermi recipe
       displayName: 'Run the build'
     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=cmake-$(TagName) --label=$(Build.SourceBranchName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-*
       displayName: 'Upload build to Anaconda Cloud'
