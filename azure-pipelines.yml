@@ -83,6 +83,7 @@ stages:
   #### MacOS Build Stage ##
 - stage: macos_build_stage
   displayName: 'MacOS Build Stage'
+  dependsOn: []
   jobs:
   - job: buildTools
     displayName: 'Build the Fermitools'
