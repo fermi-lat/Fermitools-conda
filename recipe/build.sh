@@ -28,7 +28,7 @@ cmake -S . \
   -DCMAKE_INSTALL_PREFIX=${PREFIX}
 
 
-cmake --build Release --vebose --target=install
+cmake --build Release --verbose --target=install
 
 # Copy the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d
