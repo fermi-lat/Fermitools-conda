@@ -1212,10 +1212,10 @@ unitTestsWithoutRoot = [
       "name" : "test_Likelihood" },
     { "cmd"  : check_test_Likelihood_output,  # Test Likelihood package
       "name" : "test_Likelihood: Check output" },
-    # { "cmd"  : "test_fitsGen",  # Test fitsGen package
-    #   "name" : "test_fitsGen" },
-    # { "cmd"  : "test_observationSim",  # Test obsSim package
-    #   "name" : "test_observationSim" },
+    { "cmd"  : "test_fitsGen",  # Test fitsGen package
+      "name" : "test_fitsGen" },
+    { "cmd"  : "test_observationSim",  # Test obsSim package
+      "name" : "test_observationSim" },
     { "cmd"  : check_test_observationSim_output,  # Test obsSim package
       "name" : "test_observationSim: Check output" },
     { "cmd"  : "test_rspgen",  # Test rspgen package
@@ -1352,14 +1352,17 @@ def run_test(cmd, options):
     results = [status]
     # If the test command is a string, it represents a shell
     # command. Otherwise, it is the name of a function to call.
+    test_head_string = ""
     if type(cmd) == str:
-        f.write("Test %d: shell command '%s'\n" % (nTest, cmd))
+        test_head_string = f"Test {nTest}: shell command '{cmd}'\n"
+        f.write(test_head_string)
         try:
             check_call(cmd, shell = True, stdout = tmp, stderr = STDOUT)
         except CalledProcessError as e:
             status = e.returncode
     else:
-        f.write("Test %d: function %s()\n" % (nTest, cmd.__name__))
+        test_head_string = f"Test {nTest}: function {cmd.__name__}()\n"
+        f.write(test_head_string)
         stdout_orig = sys.stdout # Should be console
         stderr_orig = sys.stderr # Should be console
         sys.stdout = tmp           # Send stdout to file
@@ -1382,6 +1385,10 @@ def run_test(cmd, options):
     
     results[0] = status
     results.append(testoutput)
+
+    if options.warn and status != OK:
+        print(test_head_string)
+        print(testoutput)
     
     # Close the test log and tmp file.
     f.close()

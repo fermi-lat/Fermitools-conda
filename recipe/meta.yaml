@@ -41,8 +41,8 @@ requirements:
     - xerces-c
 
   run:
-    - clhep
     - cfitsio
+    - clhep
     - cppunit
     - f2c 0.0.2.*
     - fermitools-data
@@ -77,7 +77,7 @@ test:
     - tests/ST-unit-test
 
   commands:
-    - tests/ST-unit-test
+    - tests/ST-unit-test -w
     # These tests inspect linkages and libraries. They are very slow, so comment them out
     # for a quicker turnaround when testing
     #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
