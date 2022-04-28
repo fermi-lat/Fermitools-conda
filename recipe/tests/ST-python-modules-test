@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+# $Id: ST-python-modules-test,v 1.1 2010/06/09 17:55:37 elwinter Exp $
+
+# Program to test loading of Fermi Science Tool Python modules.
+
+#******************************************************************************
+
+# Import external modules.
+
+# Standard modules
+import AnalysisBase
+import BinnedAnalysis
+import CompositeLikelihood
+import FluxDensity
+import LikelihoodState
+import PSFMath
+import pyIrfLoader
+import pyLikelihood
+import RootPlot
+import SummedLikelihood
+import UnbinnedAnalysis
+
+#******************************************************************************
+
+# Begin main program.
+if __name__ == "__main__":
+    pass

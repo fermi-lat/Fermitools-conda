@@ -1,0 +1,1477 @@
+#!/usr/bin/env python
+# Program to run Fermi Science Tools unit tests.
+
+#******************************************************************************
+
+# Import external modules.
+
+# Standard modules
+from glob import glob
+from optparse import OptionParser
+from os import environ, sep, times, remove
+from os.path import exists, isdir
+from platform import node
+from astropy.io import fits
+from subprocess import CalledProcessError, STDOUT, check_call
+import timeit
+import sys
+
+# Third-party modules
+from junit_xml import TestSuite, TestCase
+# Project modules
+
+#******************************************************************************
+
+# Constants
+
+# Defaults for program parameters.
+
+# Other program constants.
+
+# Name of log file for tests.
+logFile = "ST-unit-test.log"
+
+# Path to reference data.
+refdata_path = sep.join([environ["CONDA_PREFIX"], "share", "fermitools",  "data"])
+
+# Path to test script data.
+test_data_path = sep.join([environ["CONDA_PREFIX"], "test-scripts"])
+# Path to test script output reference data.
+test_outref_path = sep.join([test_data_path, "outref"])
+# Constants to specify status codes for test pass and fail.
+OK = 0
+FAIL = 1
+
+#******************************************************************************
+
+# Utility functions for tests.
+    
+# Check a list of files for existence. If one or more are not found,
+# return FAIL. Otherwise, return OK.
+def exists_mass(files):
+    status = OK
+    for f in files:
+        print ("Checking for file %s ..." % f,)
+        if exists(f):
+            print ("found.")
+        else:
+            print ("not found!")
+            status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+# Compare 2 binary files using cmp. Return OK on success (cmp returns
+# 0), or the exit code from cmp if non-zero.
+def cmp(f1, f2, *args):
+    status = OK
+    cmd = "cmp"
+    for arg in args:
+        cmd += " %s" % arg
+    cmd += " %s %s" % (f1, f2)
+    try:
+        check_call(cmd, shell = True, stdout = sys.stdout, stderr = STDOUT)
+    except CalledProcessError as e:
+        status = e.returncode
+    return status
+
+# Run cmp on a set of files, with reference versions in path
+# outref. If one or more files fails the comparison, return
+# FAIL. Otherwise, return OK.
+def cmp_mass(files, outref):
+    status = OK
+    for f in files:
+        f1 = f
+        f2 = sep.join([outref, f])
+        print ("Using cmp to compare %s to %s ..." % (f1, f2),)
+        s = cmp(f1, f2, *files[f])
+        if s == OK:
+            print ("passed.")
+        else:
+            print ("failed!")
+            status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+# Compare 2 text files using diff, Return OK on success (diff returns
+# 0), or the exit code from diff if non-zero.
+def diff(f1, f2, *args):
+    status = OK
+    cmd = "diff"
+    for arg in args:
+        cmd += " %s" % arg
+    cmd += " %s %s" % (f1, f2)
+    try:
+        check_call(cmd, shell = True, stdout = sys.stdout, stderr = STDOUT)
+    except CalledProcessError as e:
+        status = e.returncode
+    return status
+
+# Run diff on a set of files, with reference versions in outref. If
+# one or more files fails the comparison, return FAIL. Otherwise,
+# return OK.
+def diff_mass(files, outref):
+    status = OK
+    for f in files:
+        f1 = f
+        f2 = sep.join([outref, f])
+        s = diff(f1, f2, *files[f])
+        print ("Using diff to compare %s to %s ..." % (f1, f2),)
+        if s == OK:
+            print ("passed.")
+        else:
+            print ("failed!")
+            status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+# Compare 2 FITS files using astropy fitsdiff. Return TRUE on success
+# or FALSE otherwise.
+def ftdiff(f1, f2, **kwargs):
+    exclude = []
+    reltol = 0.0
+    tolerance = 0.0
+    for (kw, val) in kwargs.items():
+        if val != "":
+            if kw == 'exclude':
+                exclude = [val]
+            if kw == 'tolerance':
+                tolerance = val
+            if kw == 'reltol':
+                reltol = val
+    fd = fits.FITSDiff(f1, f2, ignore_keywords=exclude, rtol = reltol, atol = tolerance)
+    return fd.identical 
+
+# Run ftdiff on a set of files, with reference versions in outref. If                                                                                                             
+# one or more files fails the comparison, return FAIL. Otherwise,                                                                                                                 
+# return OK.                                                                                                                                                                       
+def ftdiff_mass(fitsFiles, outref):
+    status = OK
+    for f in fitsFiles: 
+        f1 = f
+        f2 = sep.join([outref, f])
+        print ("Using ftdiff to compare %s to %s ..." % (f1, f2),)
+        if not exists(f1):
+            print ("Unable to find output file", f1)
+            return FAIL
+        if not exists(f2):
+            print ("Unable to find outref file", f2)
+            return FAIL
+            
+        s = ftdiff(f1, f2, **fitsFiles[f])
+        if s == OK:
+            print ("passed.")
+        else:
+            print ("failed!")
+            status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+# Compare two text files which are assumed to be identical in format,
+# with only slight numerical differences (at most). The tolerance
+# value is used as a relative tolerance in the comparison, unless one
+# of the values is 0, for which it becomes an absolute tolerance.
+
+def compare_text_data_files(f1, f2, tolerance):
+    status = OK
+
+    # Open and read the files, then close them.
+    file1 = open(f1)
+    file2 = open(f2)
+    lines1 = file1.readlines()
+    lines2 = file2.readlines()
+    file1.close()
+    file2.close()
+
+    # Compare as text on a line-by-line basis.
+    for (line1, line2) in zip(lines1, lines2):
+        if line1 == line2:
+            continue
+        # Line text differs, so compare as parsed strings.
+        fields1 = line1.split()
+        fields2 = line2.split()
+        for (field1, field2) in zip(fields1, fields2):
+            if field1 == field2:
+                continue
+            # Assume fields are numbers at this point.
+            x1 = float(field1.strip(')'))
+            x2 = float(field2.strip(')'))
+            x = min(abs(x1), abs(x2))
+            if x != 0:
+                if abs(x1 - x2) / x > tolerance:
+                    print (x1, "(relatively) !=", x2)
+                    status = FAIL
+            else:
+                if abs(x1 - x2) > tolerance:
+                    print (x1, "(absolutely) !=", x2)
+                    status = FAIL
+    return status
+
+#******************************************************************************
+
+# Individual test functions
+
+#------------------------------------------------------------------------------
+
+def check_environment(options):
+    status = OK
+    environmentVariableNames = [ "CONDA_PREFIX" ]
+    for ev in environmentVariableNames:
+        print ("Checking if environment variable %s is set ..." % ev,)
+        try:
+            val = environ[ev]
+            print ("yes, value is:", val)
+        except KeyError as e:
+            print ("no!")
+            status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_tip_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "tip", "outref"])
+    fitsFiles = {
+        "a1-copy.pha" : {} ,
+        "aeff_DC1-copy.fits" : {} ,
+        "created_image.fits" : {} ,
+        #"created_table.fits" : {} ,
+        "ft1_kwtest.fits" : {} ,
+        "IFileSvc_no_template.fits" : {} ,
+        "IFileSvc_success.fits" : {} ,
+        "new_ft1.fits" : {} ,
+        "new_groD4-dc2v1.fits" : {} ,
+        "new_image2.fits" : {} ,
+        "new_image3.fits" : {} ,
+        "new_image4.fits" : {} ,
+        "new_image.fits" : {} ,
+        "testFitsColumnByMH.fits" : {},
+        "tipfile-copy.fits" : {} ,
+        "tipfile.fits" : {} ,
+        "unsigned_int.fits" : {} ,
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    files = { "IFileSvc_error.fits" : [] } # Bad FITS file.
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if cmp_mass(files, outref) != OK:
+        status = FAIL
+    print ("Checking that TIPTMPDIR exists ...",)
+    if not exists("TIPTMPDIR"):
+        print ("no!")
+        status = FAIL
+    else:
+        print ("it does.")
+    print ("Checking that TIPTMPDIR/ is a directory ...",)
+    if not isdir("TIPTMPDIR"):
+        print ("no!")
+        status = FAIL
+    else:
+        print ("it does.")
+    print ("Checking that TIPTMPDIR/ is empty ...",)
+    if len(glob("TIPTMPDIR/*")):
+        print ("no!")
+        status = FAIL
+    else:
+        print ("it is.")
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_st_stream_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "st_stream", "outref"])
+    files = { "test_st_stream-out" : [] }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff_mass(files, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_write_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "xmlBase", "outref"])
+    files = { "myDoc.xml" : [] }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff_mass(files, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_flux_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "flux", "outref"])
+    files = { "testMgrOutput.out" : [] }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_optimizers_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "optimizers", "outref"])
+    files = { "outputModels.xml" : [] }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff_mass(files, outref) != OK:
+        status = FAIL
+    fitsFiles = { "Mc.fits" : {} }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_genericSources_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "genericSources", "outref"])
+    files = { "test_data.dat" : [] }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_GRBobs_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "GRBobs", "outref"])
+    files = {
+        "BGO_GRBOBS_010101011.lc" : [],
+        "BGO_GRBOBS_010101519.lc" : [],
+        "BGO_GRBOBS_010103456.lc" : [],
+        "BGO_GRBOBS_010103472.lc" : [],
+        "GRBOBS_010101011.DEF" : [],
+        "GRBOBS_010101011_PAR.txt" : [],
+        "GRBOBS_010101519.DEF" : [],
+        "GRBOBS_010101519_PAR.txt" : [],
+        "GRBOBS_010103456.DEF" : [],
+        "GRBOBS_010103456_PAR.txt" : [],
+        "GRBOBS_010103472.DEF" : [],
+        "GRBOBS_010103472_PAR.txt" : [],
+        "NaI_GRBOBS_010101011.lc" : [],
+        "NaI_GRBOBS_010101519.lc" : [],
+        "NaI_GRBOBS_010103456.lc" : [],
+        "NaI_GRBOBS_010103472.lc" : [],
+        "test_GRB.out" : [],
+        }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff_mass(files, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_GRBtemplate_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "GRBtemplate", "outref"])
+    files = {
+        "test_GRB.out" : {},
+        }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff_mass(files, outref) != OK:
+        status = FAIL
+    textDataFiles = {
+        "BGO_GRBTMP_010204722.lc" : [],
+        "BGO_GRBTMP_010311444.lc" : [],
+        "BGO_GRBTMP_010415166.lc" : [],
+        "BGO_GRBTMP_010519888.lc" : [],
+        "GRBTMP_010204722.DEF" : [],
+        "GRBTMP_010311444.DEF" : [],
+        "GRBTMP_010415166.DEF" : [],
+        "GRBTMP_010519888.DEF" : [],
+        "NaI_GRBTMP_010204722.lc" : [],
+        "NaI_GRBTMP_010311444.lc" : [],
+        "NaI_GRBTMP_010415166.lc" : [],
+        "NaI_GRBTMP_010519888.lc" : [],
+        }
+    if exists_mass(textDataFiles.keys()) != OK:
+        status = FAIL
+    tolerance = 1e-4
+    for f1 in textDataFiles:
+        f2 = sep.join([outref, f1])
+        print ("Comparing numbers in %s and %s..." % (f1, f2),)
+        if compare_text_data_files(f1, f2, tolerance) != OK:
+            print ("failed!")
+            status = FAIL
+        else:
+            print ("passed.")
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_catalogAccess_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "catalogAccess", "outref"])
+    fitsFiles = { "test1out.fits" : { "exclude" : "DATASUM"}, }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_evtbin_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "evtbin", "outref"])
+    fitsFiles = {
+        "CM2.fits"              : {},
+        "GBMLC1.lc"             : {},
+        "GBMPHA1.pha"           : {},
+        "LC1.lc"                : {},
+        "merged_spectrum.pha"   : {},
+        "PHA1.pha"              : {},
+        "PHA2.pha"              : {},
+        "separate_spectrum.pha" : {},
+        "test.ccube"            : {},
+    }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_dataSubselector_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "dataSubselector", "outref"])
+    fitsFiles = {
+        "dss_test1.fits" : {},
+        "dss_test2.fits" : {},
+        "filtered_events_2.fits" : {},
+        "filtered_events.fits" : {},
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_map_tools_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "map_tools", "outref"])
+    fitsFiles = {
+        "testCube2.fits" : {},
+        "testCube.fits" : {},
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    print ("HACK: Running 64-bit tests.")
+    f1 = "testCube.fits"
+    f2 = sep.join([outref, "testCube_64bit.fits"])
+    print ("Using ftdiff to compare %s to %s ..." % (f1, f2),)
+    s = ftdiff(f1, f2)
+    if s == OK:
+        print ("passed.")
+    else:
+        print ("failed!")
+        status = FAIL
+    f1 = "testCube2.fits"
+    f2 = sep.join([outref, "testCube2_64bit.fits"])
+    print ("Using ftdiff to compare %s to %s ..." % (f1, f2),)
+    s = ftdiff(f1, f2)
+    if s == OK:
+        print ("passed.")
+    else:
+        print ("failed!")
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_Likelihood_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "Likelihood", "outref"])
+    fitsFiles = {
+        "binnedExposure.fits" : { "exclude" : "DATASUM",
+                                  "reltol" : "1e-2" },
+        "cntsMap.fits" : {},
+        "countsMap.fits" : {},
+        "dataMap.fits" : {},
+        "modelMap.fits" : {},
+        "srcMaps.fits" : {},
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_observationSim_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "observationSim", "outref"])
+    fitsFiles = { "test_events_0000.fits" : {} } 
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    if not exists("test_scData_0000.fits"):
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_rspgen_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "rspgen", "outref"])
+    fitsFiles = {
+        "PHA1.pha" : {},
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    fitsFiles2 = {
+        "test_response1.rsp" : {},
+        "test_response2.rsp" : {},
+        "test_response3.rsp" : {},
+        "test_response4.rsp" : {},
+        "test_response5.rsp" : {},
+        "test_response6.rsp" : {},
+        "test_response7.rsp" : {},
+        "test_response8.rsp" : {},
+        }
+    if exists_mass(fitsFiles2.keys()) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_timeSystem_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "timeSystem", "outref"])
+    files = {
+        "testTimeCorrectorApp_par3.log" : [],
+        "testTimeCorrectorApp_par3.ref" : [],
+        "testTimeCorrectorApp_par4.log" : [],
+        "testTimeCorrectorApp_par4.ref" : [],
+        "testTimeCorrectorApp_par5.log" : [],
+        "testTimeCorrectorApp_par5.ref" : [],
+        "testTimeCorrectorApp_par6.log" : [],
+        "testTimeCorrectorApp_par6.ref" : [],
+        }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff("testTimeCorrectorApp_par3.log",
+            "testTimeCorrectorApp_par3.ref") != OK:
+        status = FAIL
+    if diff("testTimeCorrectorApp_par4.log",
+            "testTimeCorrectorApp_par4.ref") != OK:
+        status = FAIL
+    if diff("testTimeCorrectorApp_par5.log",
+            "testTimeCorrectorApp_par5.ref") != OK:
+        status = FAIL
+    if diff("testTimeCorrectorApp_par6.log",
+            "testTimeCorrectorApp_par6.ref") != OK:
+        status = FAIL
+    fitsFiles = {
+        "testTimeCorrectorApp_par1.fits" : {},
+        "testTimeCorrectorApp_par2.fits" : {},
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_pulsarDb_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "pulsarDb", "outref"])
+    hostSpecificFiles = {
+        "psrdb_all.txt" : [],
+        "test_BtModelEph.tpl" : [],
+        "test_Ell1ModelEph.tpl" : [],
+        "test_FrequencyEph.tpl" : [],
+        "test_HighPrecisionEph.tpl" : [],
+        "test_MssModelEph.tpl" : [],
+        "test_PeriodEph.tpl" : [],
+        "test_SimpleDdEph.tpl" : [],
+        }
+    if exists_mass(hostSpecificFiles.keys()) != OK:
+        status = FAIL
+    computedFiles_out = [
+#        "testBtModelDdEph_fits.out",  # Fails: different output format
+#        "testBtModelDdEph_numeric.out",  # Fails: different output format
+#        "testEll1ModelDdEph_fits.out",  # Fails: different output format
+#        "testEll1ModelDdEph_numeric.out",  # Fails: different output format
+        "testEphComputerApp_par11.log" ,
+        "testEphComputerApp_par12.log" ,
+        "testEphComputerApp_par13.log" ,
+        "testEphComputerApp_par14.log" ,
+#        "testFrequencyEph_fits.out" ,  # Fails: different output format
+        "testFrequencyEph_numeric.out" ,
+#        "testHighPrecisionEph_fits.out" ,  # Fails: different output format
+        "testHighPrecisionEph_numeric.out" ,
+#        "testMssModelDdEph_fits.out" ,  # Fails: different output format
+#        "testMssModelDdEph_numeric.out" ,  # Fails: different output format
+#        "testPeriodEph_fits.out" ,  # Fails: different output format
+        "testPeriodEph_numeric.out",  # Fails: different output format
+#        "testSimpleDdEph_fits.out" ,  # Fails: different output format
+        "testSimpleDdEph_numeric.out" ,
+        ]
+    if exists_mass(computedFiles_out) != OK:
+        status = FAIL
+    computedFiles_ref = [
+#        "testBtModelDdEph_fits.ref",  # Fails: different output format
+#        "testBtModelDdEph_numeric.ref",  # Fails: different output format
+#        "testEll1ModelDdEph_fits.ref",  # Fails: different output format
+#        "testEll1ModelDdEph_numeric.ref",  # Fails: different output format
+        "testEphComputerApp_par11.ref" ,
+        "testEphComputerApp_par12.ref" ,
+        "testEphComputerApp_par13.ref" ,
+        "testEphComputerApp_par14.ref" ,
+#        "testFrequencyEph_fits.ref" ,  # Fails: different output format
+        "testFrequencyEph_numeric.ref" ,
+#        "testHighPrecisionEph_fits.ref" ,  # Fails: different output format
+        "testHighPrecisionEph_numeric.ref" ,
+#        "testMssModelDdEph_fits.ref" ,  # Fails: different output format
+#        "testMssModelDdEph_numeric.ref" ,  # Fails: different output format
+#        "testPeriodEph_fits.ref" ,  # Fails: different output format
+        "testPeriodEph_numeric.ref" ,  # Fails: different output format
+#        "testSimpleDdEph_fits.ref" ,  # Fails: different output format
+        "testSimpleDdEph_numeric.ref" ,
+        ]
+    if exists_mass(computedFiles_ref) != OK:
+        status = FAIL
+    for (f1, f2) in zip(computedFiles_out, computedFiles_ref):
+        print ("Using diff to compare %s to %s ..." % (f1, f2),)
+        s = diff(f1, f2)
+        if s == OK:
+            print ("passed.")
+        else:
+            print ("failed!")
+            status = FAIL
+    files = {
+        "testdb.txt" : [],
+        "testEphComputerApp_par1.log" : [],
+        "testEphComputerApp_par2.log" : [],
+#        "testEphComputerApp_par3.log" : [], # Slight numeric text diff
+        "testEphComputerApp_par4.log" : [],
+#        "testEphComputerApp_par5.log" : [], # Slight numeric text diff
+        "testEphComputerApp_par6.log" : [],
+        "testEphComputerApp_par7.log" : [],
+        "testEphComputerApp_par8.log" : [],
+        "testEphComputerApp_par9.log" : [],
+        "testEphComputerApp_par10.log" : [],
+        "testEphComputerApp_par15.log" : [],
+        "testEphComputerApp_par16.log" : [],
+#        "testEphComputerApp_par17.log" : [], # Slight numeric text diff
+        }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff_mass(files, outref) != OK:
+        status = FAIL
+    fitsFiles = {
+        "chooser_db.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "crab_db.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "j0323_db.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "noop_db.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "obscodeJ_db.fits" : { "exclude" : "CREATOR" },
+        "okdb_emptyfield.fits" : { "exclude" : "CREATOR" },
+        "okdb_extraescape.fits" : { "exclude" : "CREATOR" },
+        "okdb_extraquote.fits" : { "exclude" : "CREATOR" },
+        "okdb_extraspace.fits" : { "exclude" : "CREATOR" },
+        "okdb_notallcolumn1.fits" : { "exclude" : "CREATOR" },
+        "okdb_notallcolumn2.fits" : { "exclude" : "CREATOR" },
+        "psrdb_all.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "psrdb_append_fermi.fits" : { "exclude" : "CREATOR" },
+        "psrdb_append.fits" : { "exclude" : "CREATOR,DATASUM" },
+         "solar_db.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "testdb.fits" : {},
+        "testPulsarDbApp_par1.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "testPulsarDbApp_par2.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "testPulsarDbApp_par3.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "testPulsarDbApp_par4.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "testPulsarDbApp_par5.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "time_db.fits" : { "exclude" : "CREATOR,DATASUM" },
+        "twice_db.fits" : { "exclude" : "CREATOR,DATASUM" },
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    textDataFiles = {
+#         "testEphComputerApp_par3.log" : {},
+#         "testEphComputerApp_par5.log" : {},
+        }
+    if exists_mass(textDataFiles.keys()) != OK:
+        status = FAIL
+    tolerance = 1e-7
+    for f1 in textDataFiles:
+        f2 = sep.join([outref, f1])
+        print ("Comparing numbers in %s and %s..." % (f1, f2),)
+        if compare_text_data_files(f1, f2, tolerance) != OK:
+            print ("failed!")
+            status = FAIL
+        else:
+            print ("passed.")
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_psearch_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "periodSearch", "outref"])
+    hostSpecificFiles = {
+        "psrdb_summary.txt" : [],
+        }
+    if exists_mass(hostSpecificFiles.keys()) != OK:
+        status = FAIL
+    computedFiles_out = [
+        "testPeriodSearchApp_par2.log" ,
+        "testPeriodSearchApp_par3.log" ,
+        "testPeriodSearchApp_par4.log" ,
+        "testPowerSpectrumApp_par2.log" ,
+        "testPowerSpectrumApp_par3.log" ,
+        "testPowerSpectrumApp_par4.log" ,
+        ]
+    if exists_mass(computedFiles_out) != OK:
+        status = FAIL
+    computedFiles_ref = [
+        "testPeriodSearchApp_par2.ref" ,
+        "testPeriodSearchApp_par3.ref" ,
+        "testPeriodSearchApp_par4.ref" ,
+        "testPowerSpectrumApp_par2.ref" ,
+        "testPowerSpectrumApp_par3.ref" ,
+        "testPowerSpectrumApp_par4.ref" ,
+        ]
+    if exists_mass(computedFiles_ref) != OK:
+        status = FAIL
+    for (f1, f2) in zip(computedFiles_out, computedFiles_ref):
+        print ("Using diff to compare %s to %s ..." % (f1, f2),)
+        s = diff(f1, f2)
+        if s == OK:
+            print ("passed.")
+        else:
+            print ("failed!")
+            status = FAIL
+    fitsFiles = {
+        "artificial-chi-sq.fits" : {},
+        "artificial-fourier.fits" : {},
+        "psrb0540-chi-sq.fits" : {},
+        "psrb0540-fourier.fits" : {},
+        "psrb0540-h.fits" : {},
+        "psrb0540-pdot-chi-sq.fits" : {},
+        "psrb0540-pdot-fourier.fits" : {},
+        "psrb0540-pdot-h.fits" : {},
+        "psrb0540-pdot-rayleigh.fits" : {},
+        "psrb0540-pdot-z2n.fits" : {},
+        "psrb0540-rayleigh.fits" : {},
+        "psrb0540-z2n.fits" : {},
+        "testPeriodicityTestApp_par1.fits" : {},
+        "testPeriodSearchApp_par1.fits" : {},
+        "testPowerSpectrumApp_par1.fits" : {},
+        }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    textDataFiles = {
+        "testPeriodicityTestApp_par1.log" : [],
+        "testPeriodSearchApp_par1.log" : [],
+        }
+    if exists_mass(textDataFiles.keys()) != OK:
+        status = FAIL
+    tolerance = 1e-4
+    for f1 in textDataFiles:
+        f2 = sep.join([outref, f1])
+        print ("Comparing numbers in %s and %s..." % (f1, f2),)
+        if compare_text_data_files(f1, f2, tolerance) != OK:
+            print ("failed!")
+            status = FAIL
+        else:
+            print ("passed.")
+    textDataFiles_existOnly = {
+        "testPowerSpectrumApp_par1.log" : [],
+        }
+    if exists_mass(textDataFiles.keys()) != OK:
+        status = FAIL
+    fitsFiles_existOnly = {
+        "artificial-h.fits" : {},
+        "artificial-rayleigh.fits" : {},
+        "artificial-z2n.fits" : {},
+        }
+    if exists_mass(fitsFiles_existOnly.keys()) != OK:
+        status = FAIL
+
+    return status
+
+#------------------------------------------------------------------------------
+
+def check_test_pulsePhase_output(options):
+    status = OK
+    outref = sep.join([refdata_path, "pulsePhase", "outref"])
+    hostSpecificFiles = { "psrdb_summary.txt" : [], }
+    if exists_mass(hostSpecificFiles.keys()) != OK:
+        status = FAIL
+    files = {
+        "testOrbitalPhaseApp_par2.log" : [],
+        "testOrbitalPhaseApp_par3.log" : [],
+        "testOrbitalPhaseApp_par4.log" : [],
+        "testPulsePhaseApp_par2c.log" : [],
+        "testPulsePhaseApp_par5.log" : [],
+        "testPulsePhaseApp_par6.log" : [],
+        "testPulsePhaseApp_par7.log" : [],
+        "testPulsePhaseApp_par8.log" : [],
+        "testPulsePhaseApp_par9.log" : [],
+        "testPulsePhaseApp_par10.log" : [],
+    }
+    if exists_mass(files.keys()) != OK:
+        status = FAIL
+    if diff_mass(files, outref) != OK:
+        status = FAIL
+    computedFiles_out = [
+        "testOrbitalPhaseApp_par5.log",
+        "testOrbitalPhaseApp_par6.log",
+        "testOrbitalPhaseApp_par7.log",
+        "testOrbitalPhaseApp_par10.log",
+        "testPulsePhaseApp_par11.log",
+        "testPulsePhaseApp_par12.log",
+        "testPulsePhaseApp_par13.log",
+        ]
+    if exists_mass(computedFiles_out) != OK:
+        status = FAIL
+    computedFiles_ref = [
+        "testOrbitalPhaseApp_par5.ref",
+        "testOrbitalPhaseApp_par6.ref",
+        "testOrbitalPhaseApp_par7.ref",
+        "testOrbitalPhaseApp_par10.ref",
+        "testPulsePhaseApp_par11.ref",
+        "testPulsePhaseApp_par12.ref",
+        "testPulsePhaseApp_par13.ref",
+        ]
+    if exists_mass(computedFiles_ref) != OK:
+        status = FAIL
+    for (f1, f2) in zip(computedFiles_out, computedFiles_ref):
+        print ("Using diff to compare %s to %s ..." % (f1, f2),)
+        s = diff(f1, f2)
+        if s == OK:
+            print ("passed.")
+        else:
+            print ("failed!")
+            status = FAIL
+    fitsFiles = {
+        "testOrbitalPhaseApp_par1a.fits" : {},
+        "testOrbitalPhaseApp_par1b.fits" : {},
+        "testOrbitalPhaseApp_par1c.fits" : {},
+        "testOrbitalPhaseApp_par2.fits" : {},
+        "testOrbitalPhaseApp_par3.fits" : {},
+        "testOrbitalPhaseApp_par4.fits" : {},
+        "testOrbitalPhaseApp_par5.fits" : {},
+        "testOrbitalPhaseApp_par6.fits" : {},
+        "testOrbitalPhaseApp_par7.fits" : {},
+        "testOrbitalPhaseApp_par8.fits" : {},
+        "testOrbitalPhaseApp_par9.fits" : {},
+        "testOrbitalPhaseApp_par10.fits" : {},
+        "testPulsePhaseApp_par1a.fits" : {},
+        "testPulsePhaseApp_par1b.fits" : {},
+        "testPulsePhaseApp_par1c.fits" : {},
+        "testPulsePhaseApp_par2a.fits" : {},
+        "testPulsePhaseApp_par2b.fits" : {},
+        "testPulsePhaseApp_par2c.fits" : {},
+        "testPulsePhaseApp_par3a.fits" : {},
+        "testPulsePhaseApp_par3b.fits" : {},
+        "testPulsePhaseApp_par3c.fits" : {},
+        "testPulsePhaseApp_par4a.fits" : {},
+        "testPulsePhaseApp_par4b.fits" : {},
+        "testPulsePhaseApp_par4c.fits" : {},
+        "testPulsePhaseApp_par4d.fits" : {},
+        "testPulsePhaseApp_par5.fits" : {},
+        "testPulsePhaseApp_par6.fits" : {},
+        "testPulsePhaseApp_par7.fits" : {},
+        "testPulsePhaseApp_par8.fits" : {},
+        "testPulsePhaseApp_par9.fits" : {},
+        "testPulsePhaseApp_par10.fits" : {},
+        "testPulsePhaseApp_par11.fits" : {},
+        "testPulsePhaseApp_par12.fits" : {},
+        "testPulsePhaseApp_par13.fits" : {},
+    }
+    if exists_mass(fitsFiles.keys()) != OK:
+        status = FAIL
+    if ftdiff_mass(fitsFiles, outref) != OK:
+        status = FAIL
+    return status
+
+#------------------------------------------------------------------------------
+
+# Module import tests
+
+def check_import_readline(options):
+    status = OK
+    try:
+        import readline
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_hashlib(options):
+    status = OK
+    try:
+        import hashlib
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_pyfits(options):
+    status = OK
+    try:
+        import pyfits
+    except ImportError:
+        try:
+            import astropy.io.fits
+        except ImportError:
+            status = FAIL
+    return status
+
+def check_import_pywcs(options):
+    status = OK
+    try:
+        import pywcs
+    except ImportError:
+        try:
+            import astropy.wcs
+        except ImportError:
+            status = FAIL
+    return status
+
+def check_import_Pmw(options):
+    status = OK
+    try:
+        import Pmw
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_numpy(options):
+    status = OK
+    try:
+        import numpy
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_pylab(options):
+    status = OK
+    try:
+        import pylab
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_matplotlib(options):
+    status = OK
+    try:
+        import matplotlib
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_GtApp(options):
+    status = OK
+    try:
+        import GtApp
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_gt_apps(options):
+    status = OK
+    try:
+        import gt_apps
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_AnalysisBase(options):
+    status = OK
+    try:
+        import AnalysisBase
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_BinnedAnalysis(options):
+    status = OK
+    try:
+        import BinnedAnalysis
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_CompositeLikelihood(options):
+    status = OK
+    try:
+        import CompositeLikelihood
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_FluxDensity(options):
+    status = OK
+    try:
+        import FluxDensity
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_LikelihoodState(options):
+    status = OK
+    try:
+        import LikelihoodState
+    except ImportError:
+        status = FAIL
+    return status
+
+#def check_import_PSFMath(options):
+#    status = OK
+#    try:
+#        import PSFMath
+#    except ImportError:
+#        status = FAIL
+#    return status
+
+def check_import_pyIrfLoader(options):
+    status = OK
+    try:
+        import pyIrfLoader
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_pyLikelihood(options):
+    status = OK
+    try:
+        import pyLikelihood
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_ROOT(options):
+    status = OK
+    try:
+        import ROOT
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_RootPlot(options):
+    status = OK
+    try:
+        import rootplot
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_SummedLikelihood(options):
+    status = OK
+    try:
+        import SummedLikelihood
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_UnbinnedAnalysis(options):
+    status = OK
+    try:
+        import UnbinnedAnalysis
+    except ImportError:
+        status = FAIL
+    return status
+
+def check_import_gtburst(options):
+    status = OK
+    try:
+        import gtburst
+    except ImportError:
+        status = FAIL
+    return status
+    
+#def check_import_pyds9(options):
+#	status = OK
+#	try:
+#		import pyds9
+#	except ImportError:
+#		status = FAIL
+#	return status
+
+#------------------------------------------------------------------------------
+
+# List of unit tests to run when ROOT is not available. The "cmd"
+# entry should contain the complete invocation string for a command to
+# run on the command line, or the name of a function to be
+# invoked. Either should return 0 on success, or non-0 on failure. The
+# standard output and standard error of the test will be saved in the
+# output log for this script.
+
+unitTestsWithoutRoot = [
+    { "cmd"  : check_environment,
+      "name" : "Checking environment variables" },
+    { "cmd"  : "test_embed_python",  # Test embed_python package
+      "name" : "test_embed_python" },
+    { "cmd"  : "test_env", # Test facilities package
+      "name" : "test_env" },
+    { "cmd"  : "test_time", # Test facilities package
+      "name" : "test_time" },
+    { "cmd"  : "test_Util", # Test facilities package
+      "name" : "test_Util" },
+    { "cmd"  : "test_tip", # Test tip package
+      "name" : "test_tip" },
+    { "cmd"  : check_test_tip_output, # Test tip package
+      "name" : "test_tip: Check output" },
+    { "cmd"  : "test_astro",  # Test astro package
+      "name" : "test_astro" },
+    { "cmd"  : "test_st_facilities",  # Test st_facilities package
+      "name" : "test_st_facilities" },
+    { "cmd"  : "test_st_stream",  # Test st_stream package
+      "name" : "test_st_stream" },
+    { "cmd"  : check_test_st_stream_output,  # Test st_stream package
+      "name" : "test_st_stream: Check output" },
+    { "cmd"  : "test_st_graph",  # Test st_graph package
+      "name" : "test_st_graph" },
+    { "cmd"  : "test_st_app",  # Test st_app package
+      "name" : "test_st_app" },
+    { "cmd"  : "entity_test",  # Test xmlBase package
+      "name" : "entity_test" },
+    { "cmd"  : "test_mem",  # Test xmlBase package
+      "name" : "test_mem" },
+    { "cmd"  : "test_write",  # Test xmlBase package
+      "name" : "test_write" },
+    { "cmd"  : check_test_write_output,  # Test xmlBase package
+      "name" : "test_write: Check output" },
+    { "cmd"  : "test_xmlBase",  # Test xmlBase package
+      "name" : "test_xmlBase" },
+    { "cmd"  : "test_irfLoader",  # Test irfs/irfLoader package
+      "name" : "test_irfLoader" },
+    { "cmd"  : "test_irfInterface",  # Test irfs/irfInterface package
+      "name" : "test_irfInterface" },
+    { "cmd"  : "test_latResponse",  # Test irfs/latResponse package
+      "name" : "test_latResponse" },
+    { "cmd"  : "test_irfUtil",	# Test irfs/irfUtil Package
+      "name" : "test_irfUtil" },   
+    { "cmd"  : "test_healpix",  # Test healpix package
+      "name" : "test_healpix" },
+    { "cmd"  : "test_flux",  # Test flux package
+      "name" : "test_flux" },
+    { "cmd"  : check_test_flux_output,  # Test flux package
+      "name" : "test_flux: Check output" },
+    { "cmd"  : "test_optimizers",  # Test optimizers package
+      "name" : "test_optimizers" },
+    { "cmd"  : check_test_optimizers_output,  # Test optimizers package
+      "name" : "test_optimizers: Check output" },
+    { "cmd"  : "test_celestialSources",  # Test celestialSources package
+      "name" : "test_celestialSources" },
+    { "cmd"  : "test_eblAtten", # Test celestialSources/eblAtten package
+      "name" : "test_eblAtten" },
+    { "cmd"  : "test_genericSources", # Test celestialSources/genericSources
+      "name" : "test_genericSources" },
+    { "cmd"  : check_test_genericSources_output, # Test celestialSources/
+      "name" : "test_genericSources: Check output" }, # genericSources
+    { "cmd"  : "test_microQuasar",  # Test celestialSourcesmicroQuasar
+      "name" : "test_microQuasar" },
+    { "cmd"  : "test_catalogAccess", # Test catalogAccess package
+      "name" : "test_catalogAccess" },
+    { "cmd"  : check_test_catalogAccess_output, # Test catalogAccess package
+      "name" : "test_catalogAccess: Check output" },
+    { "cmd"  : "test_evtbin",  # Test evtbin package
+      "name" : "test_evtbin" },
+    { "cmd"  : check_test_evtbin_output,  # Test evtbin package
+      "name" : "test_evtbin: Check output" },
+    { "cmd"  : "test_burstFit",  # Test burstFit package
+      "name" : "test_burstFit" },
+    { "cmd"  : "test_dataSubselector",  # Test dataSubselector package
+      "name" : "test_dataSubselector" },
+    { "cmd"  : check_test_dataSubselector_output, # Test dataSubselector package
+      "name" : "test_dataSubselector: Check output" },
+    { "cmd"  : "test_map_tools",  # Test map_tools package
+      "name" : "test_map_tools" },
+    { "cmd"  : check_test_map_tools_output,  # Test map_tools package
+      "name" : "test_map_tools: Check output" },
+    { "cmd"  : "test_Likelihood",  # Test Likelihood package
+      "name" : "test_Likelihood" },
+    { "cmd"  : check_test_Likelihood_output,  # Test Likelihood package
+      "name" : "test_Likelihood: Check output" },
+    # { "cmd"  : "test_fitsGen",  # Test fitsGen package
+    #   "name" : "test_fitsGen" },
+    # { "cmd"  : "test_observationSim",  # Test obsSim package
+    #   "name" : "test_observationSim" },
+    { "cmd"  : check_test_observationSim_output,  # Test obsSim package
+      "name" : "test_observationSim: Check output" },
+    { "cmd"  : "test_rspgen",  # Test rspgen package
+      "name" : "test_rspgen" },
+    { "cmd"  : check_test_rspgen_output,  # Test rspgen package
+      "name" : "test_rspgen: Check output" },
+    { "cmd"  : "test_timeSystem",  # Test timeSystem package
+      "name" : "test_timeSystem" },
+    { "cmd"  : check_test_timeSystem_output,
+      "name" : "test_timeSystem: Check output" },
+    { "cmd"  : "test_pulsarDb",  # Test pulsarDb package
+      "name" : "test_pulsarDb" },
+    { "cmd"  : check_test_pulsarDb_output,  # Test pulsarDb package
+      "name" : "test_pulsarDb: Check output" },
+    { "cmd"  : "test_pulsePhase",  # Test pulsePhase package
+      "name" : "test_pulsePhase" },
+    { "cmd"  : check_test_pulsePhase_output,
+      "name" : "test_pulsePhase: Check output" },
+    { "cmd"  : check_import_readline,
+      "name" : "test_import_readline: Check for proper module import" },
+    { "cmd"  : check_import_hashlib,
+      "name" : "test_import_hashlib: Check for proper module import" },
+    { "cmd"  : check_import_pyfits,
+      "name" : "test_import_pyfits: Check for proper module import" },
+    { "cmd"  : check_import_pywcs,
+      "name" : "test_import_pywcs: Check for proper module import" }, 
+    { "cmd"  : check_import_Pmw,
+      "name" : "test_import_Pmw: Check for proper module import" },
+    { "cmd"  : check_import_numpy,
+      "name" : "test_import_numpy: Check for proper module import" },
+    { "cmd"  : check_import_pylab,
+      "name" : "test_import_pylab: Check for proper module import" },
+    { "cmd"  : check_import_matplotlib,
+      "name" : "test_import_matplotlib: Check for proper module import" },
+    { "cmd"  : check_import_GtApp,
+      "name" : "test_import_GtApp: Check for proper module import" },
+    { "cmd"  : check_import_gt_apps,
+      "name" : "test_import_gt_apps: Check for proper module import" },
+    { "cmd"  : check_import_AnalysisBase,
+      "name" : "test_import_AnalysisBase: Check for proper module import" },
+    { "cmd"  : check_import_BinnedAnalysis,
+      "name" : "test_import_BinnedAnalysis: Check for proper module import" },
+    { "cmd"  : check_import_CompositeLikelihood,
+      "name" : "test_import_CompositeLikelihood: Check for proper module import" },
+    { "cmd"  : check_import_FluxDensity,
+      "name" : "test_import_FluxDensity: Check for proper module import" },
+    { "cmd"  : check_import_LikelihoodState,
+      "name" : "test_import_LikelihoodState: Check for proper module import" },
+    { "cmd"  : check_import_pyIrfLoader,
+      "name" : "test_import_pyIrfLoader: Check for proper module import" },
+    { "cmd"  : check_import_pyLikelihood,
+      "name" : "test_import_pyLikelihood: Check for proper module import" },
+    { "cmd"  : check_import_SummedLikelihood,
+      "name" : "test_import_SummedLikelihood: Check for proper module import" },
+    { "cmd"  : check_import_UnbinnedAnalysis,
+      "name" : "test_import_UnbinnedAnalysis: Check for proper module import" },
+    { "cmd"  : check_import_gtburst,
+      "name" : "test_import_gtburst: Check for proper module import" },
+    ]
+
+Root_unit_tests = [ 
+    { "cmd"  : "test_GRBobs", # Test celestialSources/GRBobs
+      "name" : "test_GRBobs" },
+    { "cmd"  : check_test_GRBobs_output, # Test celestialSources/GRBobs
+      "name" : "test_GRBobs: Check output" },
+    { "cmd"  : "test_GRBtemplate", # Test celestialSources/GRBtemplate
+      "name" : "test_GRBtemplate" },
+    { "cmd"  : check_test_GRBtemplate_output, # Test celestialSources/
+      "name" : "test_GRBtemplate: Check output" }, # GRBtemplate
+    { "cmd"  : check_import_ROOT,
+      "name" : "test_import_ROOT: Check for proper module import" },
+]
+
+#******************************************************************************
+
+# Process the program command line to extract options and arguments.
+
+def getCommandLineOptions():
+
+    # Create the command line option parser.
+    optionParser = OptionParser()
+
+    # Specify allowed command-line options.
+    optionParser.add_option("-d", "--debug", action = "store_true",
+                            default = False,
+                            help = "print debugging information")
+    optionParser.add_option("-v", "--verbose", action = "store_true",
+                            default = False,
+                            help = "print verbose output")
+    optionParser.add_option("-w", "--warn", action = "store_true",
+                            default = False,
+                            help = "print warning messages as needed")
+    optionParser.add_option("", "--root-tests", action = "store_true",
+                            default = False,
+                            help = "run ROOT-dependent tests")
+
+    # Parse the command-line options.
+    (options, args) = optionParser.parse_args()
+
+    # Return the options.
+    return (options, args)
+
+#******************************************************************************
+
+# Use these globals to keep track of the number of the current test,
+# starting at 1 (to be compatible with the Perl ok() function), and
+# the number of passed and failed tests.
+nTest = 0
+nPass = 0
+nFail = 0
+
+# Run a test command. A test command can be a string (indicating a
+# shell command), or a function object (indicating a Python
+# function). Both should return 0 (defined as OK) on success, and
+# non-0 on failure. In either case, stdout and stderr are redirected
+# to the test log file for post-run analysis.
+
+def run_test(cmd, options):
+    global nTest
+
+    # Open the test log to append the results from this test.
+    f = open(logFile, "a")
+    f.write("*" * 80 + "\n")
+
+    # Open a temporary file to act as a pseudobuffer to hold
+    # the stdout stream so that it can be redirected to two
+    # locations
+    tmp = open("tmpFile", "w+") 
+    
+ 
+    # Initialize the status to 0 (success).
+    status = OK
+
+    results = [status]
+    # If the test command is a string, it represents a shell
+    # command. Otherwise, it is the name of a function to call.
+    if type(cmd) == str:
+        f.write("Test %d: shell command '%s'\n" % (nTest, cmd))
+        try:
+            check_call(cmd, shell = True, stdout = tmp, stderr = STDOUT)
+        except CalledProcessError as e:
+            status = e.returncode
+    else:
+        f.write("Test %d: function %s()\n" % (nTest, cmd.__name__))
+        stdout_orig = sys.stdout # Should be console
+        stderr_orig = sys.stderr # Should be console
+        sys.stdout = tmp           # Send stdout to file
+        sys.stderr = tmp           # Send stderr to file
+        status = cmd(options)
+        sys.stdout = stdout_orig # Back to console
+        sys.stderr = stderr_orig # Back to console
+
+    # Make sure stdout/stderr are returned
+    #results = [status,sys.stdout,sys.stderr]
+
+    # Close and reopen tmp to make sure that the stream is fully
+    # written out
+    tmp.close()
+    tmp = open("tmpFile", "r")
+
+    testoutput = tmp.read()
+    
+    f.write(testoutput)
+    
+    results[0] = status
+    results.append(testoutput)
+    
+    # Close the test log and tmp file.
+    f.close()
+    tmp.close()
+    
+    # Return the test status.
+    return results
+
+#******************************************************************************
+
+# Run a single unit test. If it succeeds (returns a value of 0), print
+# the 'ok' message. Otherwise, print the 'not ok' message.
+
+def ok(testCmd, testName, options):
+    global nTest
+    global nPass
+    global nFail
+    nTest += 1
+    status = run_test(testCmd, options)
+    if status[0] == OK:
+        print ("ok %s - %s" % (nTest, testName))
+        nPass += 1
+    else:
+        print ("not ok %s - %s" % (nTest, testName))
+        nFail += 1
+        status[0] = FAIL
+    return status
+
+#******************************************************************************
+
+# Begin main program.
+if __name__ == "__main__":
+
+    # Process the command line.
+    (options, args) = getCommandLineOptions()
+    if options.debug:
+        print ("options = %s" % options)
+        print ("args = %s" % args)
+
+    #--------------------------------------------------------------------------
+
+    # Prepend the syspfiles directory from the ScienceTools
+    # installation to the PFILES path.
+    environ['PFILES'] = environ['CONDA_PREFIX'] + '/share/fermitools/syspfiles' + ':' + \
+                        environ['PFILES']
+    
+    # Fetch the test start time.
+    tStart = times()[4]
+    if options.debug: print ("tStart = %s" % tStart)
+
+    test_cases = []
+    # Run each unit test.
+    test_suite = unitTestsWithoutRoot
+    if options.root_tests:
+        test_suite += Root_unit_tests
+    for unitTest in test_suite:
+        testStart = times()[4]
+        result = ok(unitTest["cmd"], unitTest["name"], options)
+        testEnd = times()[4]
+
+        tc = TestCase(unitTest["name"],unitTest["cmd"],testEnd-testStart,result[1])
+        
+        if result[0] != OK:
+            tc.add_failure_info("### Test Failure! ###\n Log Dump:\n"+result[1])
+
+        test_cases.append(tc)
+    
+    ts = TestSuite("ST-unit-test-output", test_cases)
+    
+    with open('ST-unit-test-Output.xml', 'w') as f:
+            TestSuite.to_file(f, [ts], prettyprint=True)
+    
+    # Fetch the test stop time.
+    tStop = times()[4]
+    if options.debug: print ("tStop = %s" % tStop)
+
+    # Compute the elapsed time for the tests.
+    tElapsed = tStop - tStart
+    if options.debug: print ("tElapsed = %s" % tElapsed)
+
+    # Fetch the name of the testing machine.
+    hostname = node()
+    if options.debug: print ("hostname = %s" % hostname)
+
+    # Print the test summary.
+    print ("Total run time: %s s on %s" % (tElapsed, hostname))
+    print ("1..%d" % nTest)
+    if nFail > 0:
+        print ("# Looks like you failed %d %s of %d" % \
+              (nFail, "test" if nFail == 1 else "tests", nTest))
+
+    # Remove tmpFile
+    remove("tmpFile")

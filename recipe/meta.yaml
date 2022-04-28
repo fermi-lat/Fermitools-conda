@@ -8,6 +8,7 @@ package:
 source:
   git_url: https://github.com/fermi-lat/Sciencetools.git
   git_rev: cmake-update
+  # path: ../../ScienceTools
 
 build:
   number: 0
@@ -26,11 +27,11 @@ requirements:
     - clhep
     - cmake >=3.18
     - cppunit
-    - f2c
+    - f2c 0.0.2.*
     - fftw
     - gsl
-    - healpix_cxx 3.31
-    - minuit2
+    - healpix_cxx 3.31.*
+    - minuit2_standalone
     # - pmw
     - pkg-config
     - python 3.9.*
@@ -43,31 +44,40 @@ requirements:
     - clhep
     - cfitsio
     - cppunit
-    - f2c
+    - f2c 0.0.2.*
+    - fermitools-data
     - fftw
     - gsl
     - healpix_cxx 3.31.*
-    - python 3.9.*
+    - minuit2_standalone
     - readline
     - wcslib
     - xerces-c
 
-    #### Python Libraries
+    #### Python Libraries ####
+    - astropy
+    - matplotlib
     - numpy
-    # - pmw
+    - pmw
+    - python 3.9.*
     - pyyaml
-
-  # host:
-  #   - python 3.9.* 
 
 
 test:
- imports:
-   - py_facilities
-   - pyLikelihood
-   - UnbinnedAnalysis
+  imports:
+    - py_facilities
+    - pyLikelihood
+    - UnbinnedAnalysis
 
-  # commands:
+  requires:
+    - fermitools-test-scripts-data
+    - junit-xml
+
+  files:
+    - tests/ST-unit-test
+
+  commands:
+    - tests/ST-unit-test
     # These tests inspect linkages and libraries. They are very slow, so comment them out
     # for a quicker turnaround when testing
     #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
