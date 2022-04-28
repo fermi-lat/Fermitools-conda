@@ -1166,8 +1166,8 @@ unitTestsWithoutRoot = [
       "name" : "test_irfLoader" },
     { "cmd"  : "test_irfInterface",  # Test irfs/irfInterface package
       "name" : "test_irfInterface" },
-    { "cmd"  : "test_latResponse",  # Test irfs/latResponse package
-      "name" : "test_latResponse" },
+    # { "cmd"  : "test_latResponse",  # Test irfs/latResponse package
+    #   "name" : "test_latResponse" },
     { "cmd"  : "test_irfUtil",	# Test irfs/irfUtil Package
       "name" : "test_irfUtil" },   
     { "cmd"  : "test_healpix",  # Test healpix package
@@ -1222,10 +1222,10 @@ unitTestsWithoutRoot = [
       "name" : "test_rspgen" },
     { "cmd"  : check_test_rspgen_output,  # Test rspgen package
       "name" : "test_rspgen: Check output" },
-    { "cmd"  : "test_timeSystem",  # Test timeSystem package
-      "name" : "test_timeSystem" },
-    { "cmd"  : check_test_timeSystem_output,
-      "name" : "test_timeSystem: Check output" },
+    # { "cmd"  : "test_timeSystem",  # Test timeSystem package
+    #   "name" : "test_timeSystem" },
+    # { "cmd"  : check_test_timeSystem_output,
+    #   "name" : "test_timeSystem: Check output" },
     { "cmd"  : "test_pulsarDb",  # Test pulsarDb package
       "name" : "test_pulsarDb" },
     { "cmd"  : check_test_pulsarDb_output,  # Test pulsarDb package
