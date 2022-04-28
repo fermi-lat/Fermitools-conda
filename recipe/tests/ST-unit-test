@@ -1106,6 +1106,9 @@ def check_import_gtburst(options):
         import gtburst
     except ImportError:
         status = FAIL
+    except RuntimeError as e:
+        print(str(e))
+        status = FAIL
     return status
     
 #def check_import_pyds9(options):
@@ -1212,12 +1215,12 @@ unitTestsWithoutRoot = [
       "name" : "test_Likelihood" },
     { "cmd"  : check_test_Likelihood_output,  # Test Likelihood package
       "name" : "test_Likelihood: Check output" },
-    { "cmd"  : "test_fitsGen",  # Test fitsGen package
-      "name" : "test_fitsGen" },
-    { "cmd"  : "test_observationSim",  # Test obsSim package
-      "name" : "test_observationSim" },
-    { "cmd"  : check_test_observationSim_output,  # Test obsSim package
-      "name" : "test_observationSim: Check output" },
+    # { "cmd"  : "test_fitsGen",  # Test fitsGen package
+    #   "name" : "test_fitsGen" },
+    # { "cmd"  : "test_observationSim",  # Test obsSim package
+    #   "name" : "test_observationSim" },
+    # { "cmd"  : check_test_observationSim_output,  # Test obsSim package
+    #   "name" : "test_observationSim: Check output" },
     { "cmd"  : "test_rspgen",  # Test rspgen package
       "name" : "test_rspgen" },
     { "cmd"  : check_test_rspgen_output,  # Test rspgen package
@@ -1272,8 +1275,8 @@ unitTestsWithoutRoot = [
       "name" : "test_import_SummedLikelihood: Check for proper module import" },
     { "cmd"  : check_import_UnbinnedAnalysis,
       "name" : "test_import_UnbinnedAnalysis: Check for proper module import" },
-    { "cmd"  : check_import_gtburst,
-      "name" : "test_import_gtburst: Check for proper module import" },
+    # { "cmd"  : check_import_gtburst,
+    #   "name" : "test_import_gtburst: Check for proper module import" },
     ]
 
 Root_unit_tests = [ 

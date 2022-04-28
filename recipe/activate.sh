@@ -35,7 +35,7 @@ export CALDB=$FERMI_DIR/data/caldb
 
 
 # The new path to check or add
-NEW_FERMI_PATH=$CONDA_PREFIX/bin/${condaname}:${CONDA_PREFIX}/lib/python2.7/site-packages/fermitools/GtBurst/commands/
+NEW_FERMI_PATH=$CONDA_PREFIX/bin/${condaname}
 
 # Check that the new path is not already a member of the $PATH
 if [[ ${PATH} != *"${NEW_FERMI_PATH}"* ]]; then
@@ -84,11 +84,9 @@ fi
 
 # Add aliases for python executables
 #TODO Make these entrypoints
-sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-
-alias gtburst="python $sitepackagesdir/${condaname}/gtburst.py"
-alias ModelEditor="python $sitepackagesdir/${condaname}/ModelEditor.py"
-alias ObsSim="python $sitepackagesdir/${condaname}/ObsSim.py"
+# sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+# alias ModelEditor="python $sitepackagesdir/${condaname}/ModelEditor.py"
+# alias ObsSim="python $sitepackagesdir/${condaname}/ObsSim.py"
 
 # Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
 

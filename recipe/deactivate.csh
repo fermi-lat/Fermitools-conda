@@ -1,7 +1,5 @@
 #!/bin/tcsh
 
-set condaname="fermitools"
-
 if ($?INST_DIR) then
     unset INST_DIR
 endif
@@ -30,7 +28,3 @@ endif
 unset CALDBALIAS
 unset CALDBCONFIG
 unset CALDBROOT
-
-unalias gtburst
-unalias ModelEditor
-unalias ObsSim

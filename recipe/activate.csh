@@ -31,7 +31,7 @@ setenv CALDB $FERMI_DIR/data/caldb
 
 
 # Add path for the ST binaries
-setenv PATH ${CONDA_PREFIX}/bin/${condaname}:${CONDA_PREFIX}/lib/python2.7/site-packages/fermitools/GtBurst/commands/:${PATH}
+setenv PATH ${CONDA_PREFIX}/bin/${condaname}:${PATH}
 
 # Setup PFILES
 
@@ -58,36 +58,6 @@ else
     endif
 endif
 
-# Make sure there is no ROOTSYS (which would confuse ROOT)
-unsetenv ROOTSYS
-
-# Check whether the .rootrc file exists in the user home,
-# if not create it
-
-if ( -f ${HOME}/.rootrc ) then
-
-    # Make it read/write
-    chmod u+rw ${HOME}/.rootrc
-
-else
-
-    # File does not exist. Copy the system.rootrc file
-    cp ${CONDA_PREFIX}/etc/root/system.rootrc ${HOME}/.rootrc
-    
-    # Make it read/write
-    chmod u+rw ${HOME}/.rootrc
-
-endif
-
-
-# Add aliases for python executables
-#TODO make these entrypoints
-set sitepackagesdir=`python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"`
-
-alias gtburst "python $sitepackagesdir/$condaname/gtburst.py"
-alias ModelEditor "python $sitepackagesdir/$condaname/ModelEditor.py"
-alias ObsSim "python $sitepackagesdir/$condaname/ObsSim.py"
- 
 # # Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
 
 if ($?LD_LIBRARY_PATH) then 

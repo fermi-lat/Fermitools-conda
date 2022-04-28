@@ -6,13 +6,41 @@ package:
   version: {{ version }}
 
 source:
-  git_url: https://github.com/fermi-lat/Sciencetools.git
-  git_rev: cmake-update
-  # path: ../../ScienceTools
+  # git_url: https://github.com/fermi-lat/Sciencetools.git
+  # git_rev: cmake-update
+  path: ../../ScienceTools
 
 build:
   number: 0
   skip: true  # [win]
+  entry_points:
+    - gtburst            = {{ name|lower }}.gtburst:main
+    - fits2png           = {{ name|lower }}.GtBurst.commands.fits2png:__main__
+    - fromLogToScript    = {{ name|lower }}.GtBurst.commands.fromLogToScript:__main__
+    - gtbuildxmlmodel    = {{ name|lower }}.GtBurst.commands.gtbuildxmlmodel:__main__
+    - gtburstInstTest    = {{ name|lower }}.GtBurst.commands.gtburstInstTest:__main__
+    - gtconvertxmlmodel  = {{ name|lower }}.GtBurst.commands.gtconvertxmlmodel:__main__
+    - gtdocountsmap      = {{ name|lower }}.GtBurst.commands.gtdocountsmap:__main__
+    - gtdolike           = {{ name|lower }}.GtBurst.commands.gtdolike:__main__
+    - gtdosed            = {{ name|lower }}.GtBurst.commands.gtdosed:__main__
+    - gtdosimulation     = {{ name|lower }}.GtBurst.commands.gtdosimulation:__main__
+    - gtdotsmap          = {{ name|lower }}.GtBurst.commands.gtdotsmap:__main__
+    - gtdownloadGBMdata  = {{ name|lower }}.GtBurst.commands.gtdownloadGBMdata:__main__
+    - gtdownloadLATdata  = {{ name|lower }}.GtBurst.commands.gtdownloadLATdata:__main__
+    - gtdownloadLLEdata  = {{ name|lower }}.GtBurst.commands.gtdownloadLLEdata:__main__
+    - gteditxmlmodel.py  = {{ name|lower }}.GtBurst.commands.gteditxmlmodel:__main__
+    - gteditxmlmodelsim  = {{ name|lower }}.GtBurst.commands.gteditxmlmodelsim:__main__
+    - gtinteractiveRaDec = {{ name|lower }}.GtBurst.commands.gtinteractiveRaDec:__main__
+    - gtllebin           = {{ name|lower }}.GtBurst.commands.gtllebin:__main__
+    - gtllebindef        = {{ name|lower }}.GtBurst.commands.gtllebindef:__main__
+    - gtllebkg           = {{ name|lower }}.GtBurst.commands.gtllebkg:__main__
+    - gtllebkgbindef     = {{ name|lower }}.GtBurst.commands.gtllebkgbindef:__main__
+    - gtllebkgGUI        = {{ name|lower }}.GtBurst.commands.gtllebkgGUI:__main__
+    - gtllesrc           = {{ name|lower }}.GtBurst.commands.gtllesrc:__main__
+    - gtllesrcbindef     = {{ name|lower }}.GtBurst.commands.gtllesrcbindef:__main__
+    # - ModelEditor        = {{ name|lower }}.ModelEditor:main
+    # - ObsSim             = {{ name|lower }}.ObsSim:main
+
 
 
 requirements:
@@ -41,6 +69,7 @@ requirements:
     - xerces-c
 
   run:
+    - astropy
     - cfitsio
     - clhep
     - cppunit
@@ -49,18 +78,16 @@ requirements:
     - fftw
     - gsl
     - healpix_cxx 3.31.*
-    - minuit2_standalone
-    - readline
-    - wcslib
-    - xerces-c
-
-    #### Python Libraries ####
-    - astropy
     - matplotlib
+    - minuit2_standalone
     - numpy
     - pmw
-    - python 3.9.*
+    - python >=3.8
     - pyyaml
+    - readline
+    - scipy
+    - wcslib
+    - xerces-c
 
 
 test:
@@ -68,6 +95,7 @@ test:
     - py_facilities
     - pyLikelihood
     - UnbinnedAnalysis
+    - gtburst
 
   requires:
     - fermitools-test-scripts-data
