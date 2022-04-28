@@ -6,9 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  # git_url: https://github.com/fermi-lat/Sciencetools.git
-  # git_rev: cmake-update
-  path: ../../ScienceTools
+  git_url: https://github.com/fermi-lat/Sciencetools.git
+  git_rev: cmake-update
 
 build:
   number: 0
