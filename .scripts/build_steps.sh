@@ -27,10 +27,10 @@ CONDARC
 echo -e "\n\nInstalling conda-build and boa."
 mamba install --update-specs --quiet --yes --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
-  ruamel_yaml
+  ruamel_yaml git ssh
 mamba update --update-specs --yes --quiet --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
-  ruamel_yaml
+  ruamel_yaml git ssh
 
 echo -e "\n\nRunning the build setup script."
 source ${SCRIPT_DIR}/build_setup_linux.sh
@@ -39,19 +39,13 @@ source ${SCRIPT_DIR}/build_setup_linux.sh
 
 conda mambabuild -c fermi -c conda-forge "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" 
 
-# ( startgroup "Validating outputs" ) 2> /dev/null
-#
-# validate_recipe_outputs "${FEEDSTOCK_NAME}"
-#
-# ( endgroup "Validating outputs" ) 2> /dev/null
-#
-# ( startgroup "Uploading packages" ) 2> /dev/null
-#
-# if [[ "${UPLOAD_PACKAGES}" != "False" ]] && [[ "${IS_PR_BUILD}" == "False" ]]; then
-#     upload_package --validate --feedstock-name="${FEEDSTOCK_NAME}"  "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
-# fi
-#
-# ( endgroup "Uploading packages" ) 2> /dev/null
+( startgroup "Uploading packages" ) 2> /dev/null
+
+if [[ "${UPLOAD_PACKAGES}" != "False" ]] && [[ "${IS_PR_BUILD}" == "False" ]]; then
+  find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" -exec anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force \{\} \;
+fi
+
+( endgroup "Uploading packages" ) 2> /dev/null
 
 ( startgroup "Final checks" ) 2> /dev/null
 

@@ -28,7 +28,8 @@ cmake -S . \
   -DCMAKE_INSTALL_PREFIX=${PREFIX}
 
 
-cmake --build Release --verbose --target=install --parallel ${CPU_COUNT:-2}
+cmake --build Release --verbose --target=facilities --parallel ${CPU_COUNT:-2}
+cmake --install Release --verbose
 
 # Copy the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d
