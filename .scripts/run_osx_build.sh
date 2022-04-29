@@ -26,10 +26,10 @@ conda activate base
 echo -e "\n\nInstalling conda-build and boa."
 mamba install --update-specs --quiet --yes --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
-  ruamel_yaml git ssh cctools=949.*
+  ruamel_yaml git cctools=949.*
 mamba update --update-specs --yes --quiet --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
-  ruamel_yaml git ssh cctools=949.*
+  ruamel_yaml git cctools=949.*
 
 # echo -e "\n\nMangling homebrew in the CI to avoid conflicts."
 # source .scripts/mangle_homebrew.sh
