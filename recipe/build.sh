@@ -26,11 +26,18 @@ cmake -S . \
   -DCMAKE_PREFIX_PATH=${PKG_CONFIG_PATH} \
   -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=On \
   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+  -DPython3_EXECUTABLE="$PYTHON" \
+  -DCMAKE_INSTALL_LIBDIR=lib \
   ${CMAKE_ARGS}
 
 
-cmake --build Release --verbose --target=facilities --parallel ${CPU_COUNT:-2}
-cmake --install Release/facilities --verbose
+
+cmake --build Release --verbose --parallel ${CPU_COUNT:-2} \
+  --target=facilities --target=py_facilities --target=test_env --target=test_time --target=test_Util
+
+
+cmake --install "Release/facilities"
+
 
 # Copy the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d

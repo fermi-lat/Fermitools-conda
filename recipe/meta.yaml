@@ -50,11 +50,12 @@ requirements:
     - {{ compiler('c') }}
     - openmp  # [linux]
     - llvm-openmp  # [osx]
+    - cmake >=3.18
+    - make
 
   host:
     - cfitsio
     - clhep
-    - cmake >=3.18
     - cppunit
     - f2c 0.0.2.*
     - fftw
@@ -93,19 +94,15 @@ requirements:
 test:
   imports:
     - py_facilities
-    - pyLikelihood
-    - UnbinnedAnalysis
-
-  requires:
-    - fermitools-test-scripts-data
-    - junit-xml
-
-  files:
-    - tests/ST-unit-test
-
-  commands:
-    - tests/ST-unit-test -w
-    # These tests inspect linkages and libraries. They are very slow, so comment them out
-    # for a quicker turnaround when testing
-    #- conda inspect linkages -p $PREFIX {{ name }}  # [not win]
-    #- conda inspect objects -p $PREFIX {{ name }}  # [osx]
+  #   - pyLikelihood
+  #   - UnbinnedAnalysis
+  #
+  # requires:
+  #   - fermitools-test-scripts-data
+  #   - junit-xml
+  #
+  # files:
+  #   - tests/ST-unit-test
+  #
+  # commands:
+  #   - tests/ST-unit-test -w
