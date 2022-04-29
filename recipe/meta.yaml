@@ -94,15 +94,15 @@ requirements:
 test:
   imports:
     - py_facilities
-  #   - pyLikelihood
-  #   - UnbinnedAnalysis
-  #
-  # requires:
-  #   - fermitools-test-scripts-data
-  #   - junit-xml
-  #
-  # files:
-  #   - tests/ST-unit-test
-  #
-  # commands:
-  #   - tests/ST-unit-test -w
+    - pyLikelihood
+    - UnbinnedAnalysis
+
+  requires:
+    - fermitools-test-scripts-data
+    - junit-xml
+
+  files:
+    - tests/ST-unit-test
+
+  commands:
+    - tests/ST-unit-test -w

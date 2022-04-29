@@ -32,11 +32,7 @@ cmake -S . \
 
 
 
-cmake --build Release --verbose --parallel ${CPU_COUNT:-2} \
-  --target=facilities --target=py_facilities --target=test_env --target=test_time --target=test_Util
-
-
-cmake --install "Release/facilities"
+cmake --build Release --verbose --parallel ${CPU_COUNT:-2} --target=install
 
 
 # Copy the activate and deactivate scripts
