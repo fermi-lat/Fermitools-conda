@@ -25,11 +25,12 @@ cmake -S . \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH=${PKG_CONFIG_PATH} \
   -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=On \
-  -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+  ${CMAKE_ARGS}
 
 
 cmake --build Release --verbose --target=facilities --parallel ${CPU_COUNT:-2}
-cmake --install Release --verbose
+cmake --install Release/facilities --verbose
 
 # Copy the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d
