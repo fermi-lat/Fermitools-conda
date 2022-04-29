@@ -65,6 +65,7 @@ requirements:
     - gsl
     - healpix_cxx 3.31.*
     - minuit2_standalone
+    - python 3.9.*
     - readline
     - wcslib
     - xerces-c
