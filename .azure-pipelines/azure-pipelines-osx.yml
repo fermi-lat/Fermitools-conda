@@ -1,39 +1,39 @@
 # -*- mode: yaml -*-
 
 jobs:
-- job: osx
-  pool:
-    vmImage: macOS-10.15
-  displayName: 'Build the Fermitools'
-  strategy:
-    matrix:
-      osx_64_:
-        CONFIG: osx_64_
-        UPLOAD_PACKAGES: 'True'
-      osx_arm64_:
-        CONFIG: osx_arm64_
-        UPLOAD_PACKAGES: 'True'
-  timeoutInMinutes: 360
-  variables:
-  - name: KNOWNHOST
-    value: github.com,192.30.253.112 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
-  steps:
-    - script: |
-       export CI=azure
-       export OSX_FORCE_SDK_DOWNLOAD="1"
-       export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
-       ./.scripts/run_osx_build.sh
-      displayName: Run OSX build
+  - job: osx
+    pool:
+      vmImage: macOS-10.15
+    displayName: 'Build the Fermitools'
+    strategy:
+      matrix:
+        osx_64_:
+          CONFIG: osx_64_
+          UPLOAD_PACKAGES: 'True'
+        osx_arm64_:
+          CONFIG: osx_arm64_
+          UPLOAD_PACKAGES: 'True'
+    timeoutInMinutes: 360
+    variables:
+      - name: KNOWNHOST
+        value: github.com,192.30.253.112 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+    steps:
+      - script: |
+          export CI=azure
+          export OSX_FORCE_SDK_DOWNLOAD="1"
+          export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+          ./.scripts/run_osx_build.sh
+        displayName: Run OSX build
 
-    # - bash: |
-    #     anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-*
-    #   displayName: 'Upload build to Anaconda Cloud'
-    - task: DownloadSecureFile@1
-      name: sshkey
-      inputs:
-        secureFile: Azure_MacOS
-    - task: InstallSSHKey@0
-      inputs:
-        knownHostsEntry: $(KNOWNHOST)
-        sshKeySecureFile: Azure_MacOS
-      displayName: 'Install SSH Key'
+      # - bash: |
+      #     anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=$(TagName) --label=$(Build.SourceBranchName) --force /usr/local/miniconda/conda-bld/osx-64/fermitools-*
+      #   displayName: 'Upload build to Anaconda Cloud'
+      - task: DownloadSecureFile@1
+        name: sshkey
+        inputs:
+          secureFile: Azure_MacOS
+      - task: InstallSSHKey@0
+        inputs:
+          knownHostsEntry: $(KNOWNHOST)
+          sshKeySecureFile: Azure_MacOS
+        displayName: 'Install SSH Key'

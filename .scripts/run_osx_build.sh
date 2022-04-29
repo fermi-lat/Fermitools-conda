@@ -27,12 +27,6 @@ echo -e "\n\nInstalling conda-build and boa."
 mamba install --update-specs --quiet --yes --channel conda-forge conda-build pip boa
 mamba update --update-specs --yes --quiet --channel conda-forge conda-build pip boa
 
-
-echo -e "\n\nSetting up the condarc and mangling the compiler."
-conda config --env --remove channels defaults
-conda config --env --add channels conda-forge
-conda config --env --add channels fermi
-
 echo -e "\n\nMangling homebrew in the CI to avoid conflicts."
 source .scripts/mangle_homebrew.sh
 
@@ -41,7 +35,7 @@ source .scripts/build_setup_osx.sh
 
 ( endgroup "Configuring conda" ) 2> /dev/null
 
-conda mambabuild ./recipe -m ./.ci_support/${CONFIG}.yaml
+conda mambabuild -c fermi -c conda-forge ./recipe -m ./.ci_support/${CONFIG}.yaml
 
 # ( startgroup "Validating outputs" ) 2> /dev/null
 #

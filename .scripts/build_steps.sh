@@ -28,20 +28,14 @@ echo -e "\n\nInstalling conda-build and boa."
 mamba install --update-specs --quiet --yes --channel conda-forge conda-build pip boa
 mamba update --update-specs --yes --quiet --channel conda-forge conda-build pip boa
 
-# set up the condarc
-# setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
-echo -e "\n\nSetting up the condarc and mangling the compiler."
-conda config --env --remove channels defaults
-conda config --env --add channels conda-forge
-conda config --env --add channels fermi
-
 # source run_conda_forge_build_setup
 echo -e "\n\nRunning the build setup script."
 source ${SCRIPT_DIR}/build_setup_linux.sh
 
 ( endgroup "Configuring conda" ) 2> /dev/null
 
-conda mambabuild "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" 
+conda mambabuild -c fermi -c conda-forge "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" 
+
 # ( startgroup "Validating outputs" ) 2> /dev/null
 #
 # validate_recipe_outputs "${FEEDSTOCK_NAME}"
