@@ -1,0 +1,52 @@
+# -*- mode: yaml -*-
+
+jobs:
+  - job: linux
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      matrix:
+        linux_64_:
+          CONFIG: linux_64_
+          UPLOAD_PACKAGES: 'True'
+          DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        linux_aarch64_:
+          CONFIG: linux_aarch64_
+          UPLOAD_PACKAGES: 'True'
+          DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
+    timeoutInMinutes: 360
+    variables:
+    - name: KNOWNHOST
+      value: github.com,192.30.253.112 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+
+    steps:
+      - script: |
+          rm -rf /opt/ghc
+          df -h
+        displayName: Manage disk space
+
+      # configure qemu binfmt-misc running.  This allows us to run docker containers
+      # embedded qemu-static
+      - script: |
+          docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
+          ls /proc/sys/fs/binfmt_misc/
+        condition: not(startsWith(variables['CONFIG'], 'linux_64'))
+        displayName: Configure binfmt_misc
+
+      - script: |
+          export CI=azure
+          export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+          .scripts/run_docker_build.sh
+        displayName: Run docker build
+
+#     - bash: anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --label=cmake-$(TagName) --label=$(Build.SourceBranchName) --force /usr/share/miniconda/conda-bld/linux-64/fermitools-*
+#       displayName: 'Upload build to Anaconda Cloud'
+      - task: DownloadSecureFile@1
+        name: sshkey
+        inputs:
+          secureFile: Azure_MacOS
+      - task: InstallSSHKey@0
+        inputs:
+          knownHostsEntry: $(KNOWNHOST)
+          sshKeySecureFile: Azure_MacOS
+        displayName: 'Install SSH Key'
