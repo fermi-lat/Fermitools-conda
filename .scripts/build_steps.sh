@@ -32,7 +32,8 @@ mamba update --update-specs --yes --quiet --channel conda-forge conda-build pip 
 # setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 echo -e "\n\nSetting up the condarc and mangling the compiler."
 conda config --env --remove channels defaults
-conda config --env --add channels fermi conda-forge
+conda config --env --add channels conda-forge
+conda config --env --add channels fermi
 
 # source run_conda_forge_build_setup
 echo -e "\n\nRunning the build setup script."

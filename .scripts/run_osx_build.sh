@@ -30,7 +30,8 @@ mamba update --update-specs --yes --quiet --channel conda-forge conda-build pip 
 
 echo -e "\n\nSetting up the condarc and mangling the compiler."
 conda config --env --remove channels defaults
-conda config --env --add channels fermi conda-forge
+conda config --env --add channels conda-forge
+conda config --env --add channels fermi
 
 echo -e "\n\nMangling homebrew in the CI to avoid conflicts."
 source .scripts/mangle_homebrew.sh
