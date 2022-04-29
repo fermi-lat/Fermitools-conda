@@ -53,6 +53,7 @@ requirements:
     - cmake >=3.18
     - make
     - pkg-config
+    - python 3.9.*
     - swig
 
   host:
@@ -64,7 +65,6 @@ requirements:
     - gsl
     - healpix_cxx 3.31.*
     - minuit2_standalone
-    - python 3.9.*
     - readline
     - wcslib
     - xerces-c
