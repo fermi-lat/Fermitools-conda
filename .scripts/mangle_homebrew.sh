@@ -1,5 +1,5 @@
 /usr/bin/sudo mkdir /usr/local/mangled
-/usr/bin/sudo find /usr/local/ \
+/usr/bin/sudo find /usr/local \
   -type d \
   -depth 1 \
   ! -name miniconda \
