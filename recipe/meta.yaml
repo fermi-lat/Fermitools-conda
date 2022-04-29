@@ -94,7 +94,6 @@ test:
     - py_facilities
     - pyLikelihood
     - UnbinnedAnalysis
-    - gtburst
 
   requires:
     - fermitools-test-scripts-data
