@@ -37,12 +37,23 @@ source ${SCRIPT_DIR}/build_setup_linux.sh
 
 ( endgroup "Configuring conda" ) 2> /dev/null
 
+( startgroup "Building Fermitools" ) 2> /dev/null
+
 conda mambabuild -c fermi -c conda-forge "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" 
+
+( endgroup "Building Fermitools" ) 2> /dev/null
 
 ( startgroup "Uploading packages" ) 2> /dev/null
 
-if [[ "${UPLOAD_PACKAGES}" != "False" ]] && [[ "${IS_PR_BUILD}" == "False" ]]; then
-  find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" -exec anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force \{\} \;
+if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
+  echo -e "Uploading Packages"
+  find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" 
+
+  find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" -exec anaconda -v -t ${ANACONDA_TOKEN} upload -u fermi --label=dev --force \{\} \;
+
+  echo -e "$?"
+else
+  echo -e "Skipping Upload."
 fi
 
 ( endgroup "Uploading packages" ) 2> /dev/null

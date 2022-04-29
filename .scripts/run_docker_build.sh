@@ -12,10 +12,6 @@ PROVIDER_DIR="$(basename $THISDIR)"
 FEEDSTOCK_ROOT="$( cd "$( dirname "$0" )/.." >/dev/null && pwd )"
 RECIPE_ROOT="${FEEDSTOCK_ROOT}/recipe"
 
-if [ -z ${FEEDSTOCK_NAME} ]; then
-    export FEEDSTOCK_NAME=$(basename ${FEEDSTOCK_ROOT})
-fi
-
 docker info
 
 # In order for the conda-build process in the container to write to the mounted
@@ -70,7 +66,6 @@ fi
 ( startgroup "Start Docker" ) 2> /dev/null
 
 export UPLOAD_PACKAGES="${UPLOAD_PACKAGES:-True}"
-export IS_PR_BUILD="${IS_PR_BUILD:-False}"
 docker pull "${DOCKER_IMAGE}"
 docker run ${DOCKER_RUN_ARGS} \
            -v "${RECIPE_ROOT}":/home/conda/recipe_root:rw,z,delegated \
@@ -78,17 +73,11 @@ docker run ${DOCKER_RUN_ARGS} \
            -e CONFIG \
            -e HOST_USER_ID \
            -e UPLOAD_PACKAGES \
-           -e IS_PR_BUILD \
            -e GIT_BRANCH \
            -e UPLOAD_ON_BRANCH \
            -e CI \
-           -e FEEDSTOCK_NAME \
            -e CPU_COUNT \
-           -e BUILD_WITH_CONDA_DEBUG \
-           -e BUILD_OUTPUT_ID \
-           -e BINSTAR_TOKEN \
-           -e FEEDSTOCK_TOKEN \
-           -e STAGING_BINSTAR_TOKEN \
+           -e ANACONDA_TOKEN \
            "${DOCKER_IMAGE}" \
            bash \
            "/home/conda/feedstock_root/${PROVIDER_DIR}/build_steps.sh"

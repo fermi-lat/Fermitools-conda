@@ -39,12 +39,25 @@ source .scripts/build_setup_osx.sh
 
 ( endgroup "Configuring conda" ) 2> /dev/null
 
+( startgroup "Building Fermitools" ) 2> /dev/null
+
 conda mambabuild -c fermi -c conda-forge ./recipe -m ./.ci_support/${CONFIG}.yaml
+
+( endgroup "Building Fermitools" ) 2> /dev/null
 
 ( startgroup "Uploading packages" ) 2> /dev/null
 
-if [[ "${UPLOAD_PACKAGES}" != "False" ]] && [[ "${IS_PR_BUILD}" == "False" ]]; then
-  find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" -exec anaconda -v -t $(Jasercion-Anaconda-Api) upload -u fermi --label=dev --force \{\} \;
+if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
+
+  echo -e "Uploading Packages"
+
+  find ${MINIFORGE_HOME} -name "fermitools-*.tar.bz2" 
+
+  find ${MINIFORGE_HOME} -name "fermitools-*.tar.bz2" -exec anaconda -v -t ${ANACONDA_TOKEN} upload -u fermi --label=dev --force \{\} \;
+
+  echo -e "$?"
+else
+  echo -e "Skipping Upload."
 fi
 
 ( endgroup "Uploading packages" ) 2> /dev/null

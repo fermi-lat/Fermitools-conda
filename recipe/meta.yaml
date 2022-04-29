@@ -52,6 +52,8 @@ requirements:
     - llvm-openmp  # [osx]
     - cmake >=3.18
     - make
+    - pkg-config
+    - swig
 
   host:
     - cfitsio
@@ -62,10 +64,8 @@ requirements:
     - gsl
     - healpix_cxx 3.31.*
     - minuit2_standalone
-    - pkg-config
     - python 3.9.*
     - readline
-    - swig
     - wcslib
     - xerces-c
 
