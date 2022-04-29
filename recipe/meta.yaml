@@ -13,9 +13,9 @@ build:
   number: {{ environ.get('BUILD_NUMBER', 0)}}
   skip: true  # [win]
   run_exports:
-    - {{ pin_subpackage('cfitsio', max_pin='x.x.x') }}
-    - {{ pin_subpackage('f2c', max_pin='x') }}
-    - {{ pin_subpackage('healpix_cxx', max_pin='x.x') }}
+    - {{ pin_compatible('cfitsio', max_pin='x.x.x') }}
+    - {{ pin_compatible('f2c', max_pin='x') }}
+    - {{ pin_compatible('healpix_cxx', max_pin='x.x') }}
   entry_points:
     - gtburst            = {{ name|lower }}.gtburst:main
     - fits2png           = {{ name|lower }}.GtBurst.commands.fits2png:__main__
