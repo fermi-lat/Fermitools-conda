@@ -82,12 +82,6 @@ else
 
 fi
 
-# Add aliases for python executables
-#TODO Make these entrypoints
-# sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-# alias ModelEditor="python $sitepackagesdir/${condaname}/ModelEditor.py"
-# alias ObsSim="python $sitepackagesdir/${condaname}/ObsSim.py"
-
 # Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
 
 if [ -z ${LD_LIBRARY_PATH+x} ]; then

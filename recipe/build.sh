@@ -1,4 +1,4 @@
-
+# -*- mode: sh -*-
 
 export condaname="fermitools"
 
@@ -16,7 +16,6 @@ cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="${PREFIX}" \
-  -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=On \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
