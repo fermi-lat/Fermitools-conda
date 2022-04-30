@@ -1,33 +1,25 @@
 
 
 export condaname="fermitools"
-# sed -i -E 's|("timestamp": [0-9]+)\.|\1|' $CONDA_PREFIX/conda-meta/*.json
-
-# Add optimization
-export CFLAGS="${CFLAGS}"
-export CXXFLAGS="${CXXFLAGS}"
-
-# Add rpaths needed for our compilation
-export LDFLAGS="${LDFLAGS} -Wl,-rpath,${PREFIX}/lib/${condaname}:${PREFIX}/lib:${CONDA_BUILD_SYSROOT}/usr/lib:${CONDA_BUILD_SYSROOT}/usr/local/lib:${CONDA_BUILD_SYSROOT}/usr/lib/system"
 
 
 if [ "$(uname)" == "Darwin" ]; then
-
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
-    export CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} ${CFLAGS}"
-    export CXXFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} -mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
-    export LDFLAGS="${LDFLAGS} -L${CONDA_BUILD_SYSROOT}/usr/lib -headerpad_max_install_names"
-
+    export CXXFLAGS="-mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}"
+    export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
+    export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
+else
+    export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-linux.cmake"
 fi
 
 cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH=${PKG_CONFIG_PATH} \
+  -DCMAKE_PREFIX_PATH=${BUILD_PREFIX};${PKG_CONFIG_PATH} \
   -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=On \
   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-  -DPython3_EXECUTABLE="$PYTHON" \
-  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DPython3_EXECUTABLE="${PYTHON}" \
+  -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
   ${CMAKE_ARGS}
 
 
