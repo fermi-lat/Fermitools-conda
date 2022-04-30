@@ -2,7 +2,7 @@
 set(CMAKE_SYSTEM_NAME Darwin)
 set(CMAKE_PLATFORM Darwin)
 #this one not so much
-set(CMAKE_SYSTEM_VERSION 1)
+set(CMAKE_SYSTEM_VERSION 10.15)
 
 # specify the cross compiler
 set(CMAKE_C_COMPILER $ENV{CC})

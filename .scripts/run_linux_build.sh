@@ -39,7 +39,15 @@ source ${SCRIPT_DIR}/build_setup_linux.sh
 
 ( startgroup "Building Fermitools" ) 2> /dev/null
 
-conda mambabuild -c fermi -c conda-forge "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" 
+if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]] && [[ "${HOST_PLATFORM}" != linux-* ]]; then
+    EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --no-test"
+fi
+
+conda mambabuild \
+  -c fermi \
+  -c conda-forge \
+  "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" \
+  ${EXTRA_CB_OPTIONS:-} 
 
 ( endgroup "Building Fermitools" ) 2> /dev/null
 

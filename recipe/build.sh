@@ -22,7 +22,7 @@ cmake -S . \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
   ${CMAKE_ARGS}
 
-cmake --build Release --verbose --parallel ${CPU_COUNT:-2} --target=install
+cmake --build Release --parallel ${CPU_COUNT:-2} --target=install
 
 
 # Copy the activate and deactivate scripts
