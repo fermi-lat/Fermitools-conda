@@ -24,6 +24,7 @@ fi
 
 source ${SCRIPT_DIR}/cross_compile_support.sh
 source ${SCRIPT_DIR}/download_osx_sdk.sh
+source ${SCRIPT_DIR}/increment_build_number.sh
 
 if [[ "$MACOSX_DEPLOYMENT_TARGET" == 10.* && "${USING_SYSTEM_SDK_DIR:-}" == "1" ]]; then
   # set minimum sdk version to our target
@@ -39,9 +40,6 @@ if [ ! -z "$CONFIG" ]; then
     fi
     cat ${CI_SUPPORT}/${CONFIG}.yaml
 fi
-
-export VERSION=$(cat ${RECIPE_DIR}/meta.yaml | shyaml get-value version.0 0)
-export BUILD_NUMBER="${BUILD_NUMBER:-$(conda search -c fermi/label/dev/osx-64  fermitools=${VERSION} --info --json | jq -r .fermitools'[0]'.build_number+1)}"
 
 conda info
 conda config --env --show-sources
