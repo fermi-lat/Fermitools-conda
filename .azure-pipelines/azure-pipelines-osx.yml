@@ -14,6 +14,8 @@ jobs:
           CONFIG: osx_arm64_
           UPLOAD_PACKAGES: 'True'
     timeoutInMinutes: 360
+    variables:
+      - group: DevOps Access Keys
     steps:
       - script: |
           export CI=azure

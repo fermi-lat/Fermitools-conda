@@ -11,9 +11,9 @@ trigger:
   tags:
     exclude:
       - '*'
-#
-# variables:
-#   - group: DevOps Access Keys
+
+variables:
+  - group: DevOps Access Keys
 #   - name: version
 #     value: $(grep -i 'set version' meta.yaml | awk '{ print $5}' | sed 's/"//g')
 #   - name: TagName

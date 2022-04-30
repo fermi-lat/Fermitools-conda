@@ -16,6 +16,8 @@ jobs:
         #   UPLOAD_PACKAGES: 'True'
         #   DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
     timeoutInMinutes: 360
+    variables:
+      - group: DevOps Access Keys
     steps:
       - script: |
           rm -rf /opt/ghc
