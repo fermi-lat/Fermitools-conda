@@ -16,13 +16,12 @@ cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH=${PKG_CONFIG_PATH} \
+  -DCMAKE_SYSTEM_PREFIX_PATH=${BUILD_PREFIX} \
   -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=On \
   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   -DPython3_EXECUTABLE="${PYTHON}" \
   -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
   ${CMAKE_ARGS}
-
-
 
 cmake --build Release --verbose --parallel ${CPU_COUNT:-2} --target=install
 
