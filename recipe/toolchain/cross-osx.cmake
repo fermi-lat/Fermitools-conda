@@ -1,6 +1,6 @@
 # this one is important
-set(CMAKE_SYSTEM_NAME Apple)
-set(CMAKE_PLATFORM Apple)
+set(CMAKE_SYSTEM_NAME Darwin)
+set(CMAKE_PLATFORM Darwin)
 #this one not so much
 set(CMAKE_SYSTEM_VERSION 1)
 
