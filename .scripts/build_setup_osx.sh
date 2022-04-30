@@ -1,8 +1,9 @@
 export CPU_COUNT="${CPU_COUNT:-2}"
 export PYTHONUNBUFFERED=1
 
-SCRIPT_DIR=$PWD/.scripts
 CI_SUPPORT=$PWD/.ci_support
+SCRIPT_DIR=$PWD/.scripts
+RECIPE_DIR=$PWD/recipe
 
 conda config --env --set show_channel_urls true
 conda config --env --set auto_update_conda false
@@ -38,6 +39,9 @@ if [ ! -z "$CONFIG" ]; then
     fi
     cat ${CI_SUPPORT}/${CONFIG}.yaml
 fi
+
+export VERSION=$(cat ${RECIPE_DIR}/meta.yaml | shyaml get-value version.0 0)
+export BUILD_NUMBER="${BUILD_NUMBER:-$(conda search -c fermi/label/dev/osx-64  fermitools=${VERSION} --info --json | jq -r .fermitools'[0]'.build_number+1)}"
 
 conda info
 conda config --env --show-sources
