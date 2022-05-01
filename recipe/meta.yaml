@@ -60,7 +60,7 @@ requirements:
     - cfitsio
     - clhep
     - cppunit
-    - f2c 0.0.2.*
+    - f2c
     - fftw
     - gsl
     - healpix_cxx 3.31.*
@@ -75,7 +75,7 @@ requirements:
     - cfitsio
     - clhep
     - cppunit
-    - f2c 0.0.2.*
+    - f2c
     - fermitools-data
     - fftw
     - gsl
