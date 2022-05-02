@@ -24,7 +24,8 @@ fi
 
 source ${SCRIPT_DIR}/cross_compile_support.sh
 source ${SCRIPT_DIR}/download_osx_sdk.sh
-source ${SCRIPT_DIR}/increment_build_number.sh
+source ${SCRIPT_DIR}/increment_fermi_version.sh
+# source ${SCRIPT_DIR}/increment_build_number.sh
 
 if [[ "$MACOSX_DEPLOYMENT_TARGET" == 10.* && "${USING_SYSTEM_SDK_DIR:-}" == "1" ]]; then
   # set minimum sdk version to our target
