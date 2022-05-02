@@ -8,6 +8,6 @@ export BUILD_NUMBER="${BUILD_NUMBER:-$(conda search \
   -c fermi/label/dev/osx-arm64 \
   -c fermi/label/dev/linux-aarch64 \
   -c fermi/label/dev/linux-64 \
-  fermitools=${FERMITOOLS_VERSION} --info --json | jq -r '.fermitools | (max .build_number)+1')}"
+  fermitools=${FERMITOOLS_VERSION} --info --json | jq -r '.fermitools | [.[] | .build_number] | max + 1')}"
 
 echo -e "Version Build Number: ${BUILD_NUMBER}"
