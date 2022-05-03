@@ -42,7 +42,7 @@ build:
     - gtllebkgGUI        = {{ name|lower }}.GtBurst.commands.gtllebkgGUI:__main__
     - gtllesrc           = {{ name|lower }}.GtBurst.commands.gtllesrc:__main__
     - gtllesrcbindef     = {{ name|lower }}.GtBurst.commands.gtllesrcbindef:__main__
-    - modeleditor        = {{ name|lower }}.ModelEditor:__main__
+    - modeleditor        = {{ name|lower }}.ModelEditor:main
     # - ObsSim             = {{ name|lower }}.ObsSim:main
 
 requirements:
