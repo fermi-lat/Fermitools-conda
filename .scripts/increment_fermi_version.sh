@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source .scripts/increment_version.sh
-source .scripts/version_lessthan.sh
+source ${SCRIPT_DIR}/increment_version.sh
+source ${SCRIPT_DIR}/version_lessthan.sh
 
 export RECIPE_DIR=${RECIPE_DIR:- "$1"}
 
