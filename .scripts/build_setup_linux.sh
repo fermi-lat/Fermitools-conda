@@ -32,6 +32,7 @@ fi
 set -u
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+RECIPE_DIR=${RECIPE_DIR:-${RECIPE_ROOT}}
 source ${SCRIPT_DIR}/cross_compile_support.sh
 # source ${SCRIPT_DIR}/increment_build_number.sh
 source ${SCRIPT_DIR}/increment_fermi_version.sh
