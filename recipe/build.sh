@@ -13,15 +13,15 @@ else
 fi
 
 cmake -S . \
-  -B Release \
-  -DCMAKE_BUILD_TYPE=Release \
+  -B Debug \
+  -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_PREFIX_PATH="${PREFIX}" \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
   ${CMAKE_ARGS}
 
-cmake --build Release --parallel ${CPU_COUNT:-2} --target=install
+cmake --build Debug --parallel ${CPU_COUNT:-2} --target=install
 
 
 # Copy the activate and deactivate scripts
