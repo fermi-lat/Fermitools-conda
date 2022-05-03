@@ -3,8 +3,6 @@
 source ${SCRIPT_DIR}/increment_version.sh
 source ${SCRIPT_DIR}/version_lessthan.sh
 
-export RECIPE_DIR=${RECIPE_DIR:- "$1"}
-
 export META_VERSION=$(cat ${RECIPE_DIR}/meta.yaml | \
   grep '{% set version =' | awk '{ print $5 }' | tr -d \")
 
