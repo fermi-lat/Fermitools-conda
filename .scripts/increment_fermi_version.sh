@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# export RECIPE_DIR=${RECIPE_DIR:-$1}
+#
 source ${SCRIPT_DIR}/increment_version.sh
 source ${SCRIPT_DIR}/version_lessthan.sh
 
@@ -15,7 +17,7 @@ export LATEST_DEV_VERSION=$(conda search \
   -c fermi/label/dev/osx-arm64 \
   -c fermi/label/dev/linux-aarch64 \
   -c fermi/label/dev/linux-64 \
-  fermitools --info --json | jq -r '.fermitools | [.[] | .version] | max')
+  fermitools --info --json | jq -r '.fermitools | .[] | .version ' | sort -V | tail -1)
 
 echo -e "Fermitools latest dev Version: ${LATEST_DEV_VERSION}"
 
