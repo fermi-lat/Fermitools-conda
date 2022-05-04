@@ -15,8 +15,16 @@ build:
   run_exports:
     - {{ pin_compatible('cfitsio', max_pin='x.x.x') }}
     - {{ pin_compatible('clhep', max_pin='x.x.x.x') }}
+    - {{ pin_compatible('cppunit', max_pin='x.x.x') }}
     - {{ pin_compatible('f2c', max_pin='x') }}
+    - {{ pin_compatible('fftw', max_pin='x.x') }}
+    - {{ pin_compatible('gsl', max_pin='x.x') }}
     - {{ pin_compatible('healpix_cxx', max_pin='x.x') }}
+    - {{ pin_compatible('minuit2_standalone', max_pin='x.x.x') }}
+    - {{ pin_compatible('python', max_pin='x.x.x') }}
+    - {{ pin_compatible('readline', max_pin='x.x.x') }}
+    - {{ pin_compatible('wcslib', max_pin='x.x.x') }}
+    - {{ pin_compatible('xerces-c', max_pin='x.x.x') }}
   entry_points:
     - gtburst            = {{ name|lower }}.gtburst:main
     - fits2png           = {{ name|lower }}.GtBurst.commands.fits2png:__main__
