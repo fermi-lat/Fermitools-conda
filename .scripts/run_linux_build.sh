@@ -57,7 +57,7 @@ if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
   echo -e "Uploading Packages"
   find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" 
 
-  find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" -exec anaconda -v -t ${ANACONDA_TOKEN} upload -u fermi --label=dev --force \{\} \;
+  find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" -exec anaconda -v -t ${ANACONDA_TOKEN} upload -u fermi --label=dev --no-progress --force \{\} \;
 
   echo -e "$?"
 else
@@ -65,6 +65,8 @@ else
 fi
 
 ( endgroup "Uploading packages" ) 2> /dev/null
+
+echo -e "Uploaded ${FERMITOOLS_VERSION}"
 
 ( startgroup "Final checks" ) 2> /dev/null
 

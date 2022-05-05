@@ -62,7 +62,7 @@ if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
 
   find ${MINIFORGE_HOME}/conda-bld -name "fermitools-*.tar.bz2" 
 
-  find ${MINIFORGE_HOME}/conda-bld -name "fermitools-*.tar.bz2" -exec anaconda -v -t ${ANACONDA_TOKEN} upload -u fermi --label=dev --force \{\} \;
+  find ${MINIFORGE_HOME}/conda-bld -name "fermitools-*.tar.bz2" -exec anaconda -v -t ${ANACONDA_TOKEN} upload -u fermi --label=dev --no-progress --force \{\} \;
 
   echo -e "$?"
 else
@@ -70,3 +70,5 @@ else
 fi
 
 ( endgroup "Uploading packages" ) 2> /dev/null
+
+echo -e "Uploaded ${FERMITOOLS_VERSION}"
