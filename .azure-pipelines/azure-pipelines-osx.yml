@@ -4,7 +4,7 @@ jobs:
   - job: osx
     pool:
       vmImage: macOS-10.15
-    displayName: 'Build the Fermitools'
+    displayName: 'Build Fermitools'
     strategy:
       matrix:
         osx_64_:

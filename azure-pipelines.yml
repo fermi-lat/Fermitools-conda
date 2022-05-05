@@ -8,14 +8,13 @@ trigger:
   paths:
     exclude:
       - azure-pipelines.yml
+      - conda_build_config.yaml
+      - .azure-pipelines
+      - .ci_support
+      - .scripts
   tags:
     exclude:
       - '*'
-stages:
-
-  ### Build Stage ###
-  - stage: build_stage
-    displayName: 'Build Stage'
-    jobs:
-      - template: ./.azure-pipelines/azure-pipelines-linux.yml
-      - template: ./.azure-pipelines/azure-pipelines-osx.yml
+jobs:
+  - template: ./.azure-pipelines/azure-pipelines-linux.yml
+  - template: ./.azure-pipelines/azure-pipelines-osx.yml

@@ -4,7 +4,7 @@ jobs:
   - job: linux
     pool:
       vmImage: ubuntu-latest
-    displayName: 'Build the Fermitools'
+    displayName: 'Build Fermitools'
     strategy:
       matrix:
         linux_64_:
