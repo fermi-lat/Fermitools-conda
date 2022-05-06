@@ -58,14 +58,14 @@ else
     endif
 endif
 
-# # Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
+# Issue warnings if PYTHONPATH, LD_LIBRARY_PATH, or DYLD_LIBRARY_PATH are set
 
-if ($?LD_LIBRARY_PATH) then 
-    # Issue warning
-    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermi ST"
+if ($?DYLD_LIBRARY_PATH) then 
+    echo "You have DYLD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermitools."
 endif
-
+if ($?LD_LIBRARY_PATH) then 
+    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermitools."
+endif
 if ($?PYTHONPATH) then 
-    # Issue warning
-    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermi ST"
+    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermitools."
 endif

@@ -82,26 +82,20 @@ else
 
 fi
 
-# Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
-
-if [ -z ${LD_LIBRARY_PATH+x} ]; then
-
-    :
-
-else
-
-    # Issue warning
-    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermi ST"
-
+# Issue warnings if PYTHONPATH, LD_LIBRARY_PATH, or DYLD_LIBRARY_PATH are set
+if [ ! -z ${DYLD_LIBRARY_PATH+x} ]; then
+    echo "You have DYLD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermitools."
 fi
-
-if [ -z ${PYTHONPATH+x} ]; then
-
-    :
-
-else
-
-    # Issue warning
-    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermi ST"
-
+if [ ! -z ${LD_LIBRARY_PATH+x} ]; then
+    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermitools."
 fi
+if [ ! -z ${PYTHONPATH+x} ]; then
+    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermitools."
+fi
+### This looping construction works in bash, but not zsh.
+# for env_var in "DYLD_LIBRARY_PATH" "LD_LIBRARY_PATH" "PYTHONPATH"
+# do
+#   if [ ! -z ${!env_var+x} ]; then
+#       echo "You have ${env_var} set. This might interfere with the correct functioning of conda and the Fermitools"
+#   fi
+# done
