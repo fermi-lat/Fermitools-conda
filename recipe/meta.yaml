@@ -72,7 +72,7 @@ requirements:
     - f2c >1.0
     - fftw
     - gsl
-    - healpix_cxx 3.31.*
+    - healpix_cxx 3.31
     - minuit2_standalone
     - python 3.9.*
     - readline
@@ -88,12 +88,12 @@ requirements:
     - fermitools-data
     - fftw
     - gsl
-    - healpix_cxx 3.31.*
+    - healpix_cxx 3.31
     - matplotlib
     - minuit2_standalone
     - numpy
     - pmw
-    - python >=3.8
+    - python 3.9.*
     - pyyaml
     - readline
     - scipy
