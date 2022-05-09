@@ -9,6 +9,7 @@ trigger:
     exclude:
       - azure-pipelines.yml
       - conda_build_config.yaml
+      - .travis.yml
       - .azure-pipelines
       - .ci_support
       - .scripts
