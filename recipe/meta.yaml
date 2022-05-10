@@ -116,3 +116,9 @@ test:
 
   commands:
     - tests/ST-unit-test -w
+
+about:
+  home: https://github.com/fermi-lat/Fermitools-conda
+  license: BSD-3-Clause
+  license_file: LICENSE
+  summary: Conda recipe files for the Fermi Sciencetools analysis package: Fermitools
