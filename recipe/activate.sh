@@ -10,6 +10,7 @@ function string_replace {
 
 export INST_DIR=$CONDA_PREFIX/share/${condaname}
 export FERMI_DIR=$INST_DIR
+export FERMI_INST_DIR=$INST_DIR
 export BASE_DIR=$INST_DIR
 export EXTFILESSYS=$CONDA_PREFIX/share/${condaname}/refdata/fermi
 export GENERICSOURCESDATAPATH=$CONDA_PREFIX/share/${condaname}/data/genericSources
@@ -34,7 +35,7 @@ export CALDB=$FERMI_DIR/data/caldb
 
 
 # The new path to check or add
-NEW_FERMI_PATH=$CONDA_PREFIX/bin/${condaname}:${CONDA_PREFIX}/lib/python2.7/site-packages/fermitools/GtBurst/commands/
+NEW_FERMI_PATH=$CONDA_PREFIX/bin/${condaname}
 
 # Check that the new path is not already a member of the $PATH
 if [[ ${PATH} != *"${NEW_FERMI_PATH}"* ]]; then
@@ -81,77 +82,20 @@ else
 
 fi
 
-# Make sure there is no ROOTSYS (which would confuse ROOT)
-unset ROOTSYS
-
-# Check whether the .rootrc file exists in the user home,
-# if not create it
-#if [ -f "${HOME}/.rootrc" ]; then
-        
-    # Make it read/write
-#    chmod u+rw ${HOME}/.rootrc
-
-#else
-        
-    # File does not exist. Copy the system.rootrc file
-#    cp ${CONDA_PREFIX}/etc/root/system.rootrc ${HOME}/.rootrc
-    
-    # Make it read/write
-#    chmod u+rw ${HOME}/.rootrc
-
-#fi
-
-# We need to make sure that the path to the ST library dir is
-# contained in the paths that ROOT will search for libraries, 
-# because the dynamic loader of ROOT does not honor RPATH
-
-cat << EOF | root -b -l
-// I am using "default" as default value because I was having problems
-// using the empty string.
-TString old_value=gEnv->GetValue("Unix.*.Root.DynamicPath", "default");
-
-// The formatting with the { at the end of the line is NECESSARY
-// for this to work properly (as this is input for the stdin of
-// root)
-if(!old_value.Contains("lib/")) { 
-    TString new_value = old_value + TString(":${CONDA_PREFIX}/lib/${condaname}/:${CONDA_PREFIX}/lib/");
-
-    gEnv->SetValue("Unix.*.Root.DynamicPath", new_value);
-
-    gEnv->SaveLevel(kEnvUser);
-}
-
-exit(0);
-
-EOF
-
-# Add aliases for python executables
-sitepackagesdir=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-
-alias gtburst="python $sitepackagesdir/${condaname}/gtburst.py"
-alias ModelEditor="python $sitepackagesdir/${condaname}/ModelEditor.py"
-alias ObsSim="python $sitepackagesdir/${condaname}/ObsSim.py"
-
-# Issue warnings if PYTHONPATH and/or LD_LIBRARY_PATH are set
-
-if [ -z ${LD_LIBRARY_PATH+x} ]; then
-
-    :
-
-else
-
-    # Issue warning
-    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermi ST"
-
+# Issue warnings if PYTHONPATH, LD_LIBRARY_PATH, or DYLD_LIBRARY_PATH are set
+if [ ! -z ${DYLD_LIBRARY_PATH+x} ]; then
+    echo "You have DYLD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermitools."
 fi
-
-if [ -z ${PYTHONPATH+x} ]; then
-
-    :
-
-else
-
-    # Issue warning
-    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermi ST"
-
+if [ ! -z ${LD_LIBRARY_PATH+x} ]; then
+    echo "You have LD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermitools."
 fi
+if [ ! -z ${PYTHONPATH+x} ]; then
+    echo "You have PYTHONPATH set. This might interfere with the correct functioning of conda and the Fermitools."
+fi
+### This looping construction works in bash, but not zsh.
+# for env_var in "DYLD_LIBRARY_PATH" "LD_LIBRARY_PATH" "PYTHONPATH"
+# do
+#   if [ ! -z ${!env_var+x} ]; then
+#       echo "You have ${env_var} set. This might interfere with the correct functioning of conda and the Fermitools"
+#   fi
+# done

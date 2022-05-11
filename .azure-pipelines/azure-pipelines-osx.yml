@@ -1,0 +1,27 @@
+# -*- mode: yaml -*-
+
+jobs:
+  - job: osx
+    pool:
+      vmImage: macOS-10.15
+    displayName: 'Build Fermitools'
+    strategy:
+      matrix:
+        osx_64_:
+          CONFIG: osx_64_
+          UPLOAD_PACKAGES: 'True'
+        osx_arm64_:
+          CONFIG: osx_arm64_
+          UPLOAD_PACKAGES: 'True'
+    timeoutInMinutes: 360
+    variables:
+      - group: DevOps Access Keys
+    steps:
+      - script: |
+          export CI=azure
+          export OSX_FORCE_SDK_DOWNLOAD="1"
+          export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+          ./.scripts/run_osx_build.sh
+        displayName: Run OSX build
+        env:
+          ANACONDA_TOKEN: $(Jasercion-Anaconda-Api)

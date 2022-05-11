@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export condaname="fermitools"
-
 if [ -z ${INST_DIR+x} ]; then : ; else unset INST_DIR; fi
 if [ -z ${BASE_DIR+x} ]; then : ; else unset BASE_DIR; fi
 
@@ -39,7 +37,3 @@ fi
 unset CALDBALIAS
 unset CALDBCONFIG
 unset CALDBROOT
-
-unalias gtburst
-unalias ModelEditor
-unalias ObsSim

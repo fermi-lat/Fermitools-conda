@@ -1,0 +1,123 @@
+{% set name = "fermitools" %}
+{% set version = "2.1.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ environ.get('FERMITOOLS_VERSION', version) }}
+
+source:
+  git_url: https://github.com/fermi-lat/Sciencetools.git
+
+build:
+  number: {{ environ.get('BUILD_NUMBER', 0)}}
+  skip: true  # [win]
+  run_exports:
+    - {{ pin_compatible('cfitsio', max_pin='x.x.x') }}
+    - {{ pin_compatible('clhep', max_pin='x.x.x.x') }}
+    - {{ pin_compatible('cppunit', max_pin='x.x.x') }}
+    - {{ pin_compatible('f2c', max_pin='x') }}
+    - {{ pin_compatible('fftw', max_pin='x.x') }}
+    - {{ pin_compatible('gsl', max_pin='x.x') }}
+    - {{ pin_compatible('healpix_cxx', max_pin='x.x') }}
+    - {{ pin_compatible('minuit2_standalone', max_pin='x.x') }}
+    - {{ pin_compatible('python', max_pin='x.x') }}
+    - {{ pin_compatible('readline', max_pin='x.x') }}
+    - {{ pin_compatible('wcslib', max_pin='x.x') }}
+    - {{ pin_compatible('xerces-c', max_pin='x.x') }}
+  entry_points:
+    - gtburst            = {{ name|lower }}.gtburst:main
+    - fits2png           = {{ name|lower }}.GtBurst.commands.fits2png:__main__
+    - fromLogToScript    = {{ name|lower }}.GtBurst.commands.fromLogToScript:__main__
+    - gtbuildxmlmodel    = {{ name|lower }}.GtBurst.commands.gtbuildxmlmodel:__main__
+    - gtburstInstTest    = {{ name|lower }}.GtBurst.commands.gtburstInstTest:__main__
+    - gtconvertxmlmodel  = {{ name|lower }}.GtBurst.commands.gtconvertxmlmodel:__main__
+    - gtdocountsmap      = {{ name|lower }}.GtBurst.commands.gtdocountsmap:__main__
+    - gtdolike           = {{ name|lower }}.GtBurst.commands.gtdolike:__main__
+    - gtdosed            = {{ name|lower }}.GtBurst.commands.gtdosed:__main__
+    - gtdosimulation     = {{ name|lower }}.GtBurst.commands.gtdosimulation:__main__
+    - gtdotsmap          = {{ name|lower }}.GtBurst.commands.gtdotsmap:__main__
+    - gtdownloadGBMdata  = {{ name|lower }}.GtBurst.commands.gtdownloadGBMdata:__main__
+    - gtdownloadLATdata  = {{ name|lower }}.GtBurst.commands.gtdownloadLATdata:__main__
+    - gtdownloadLLEdata  = {{ name|lower }}.GtBurst.commands.gtdownloadLLEdata:__main__
+    - gteditxmlmodel.py  = {{ name|lower }}.GtBurst.commands.gteditxmlmodel:__main__
+    - gteditxmlmodelsim  = {{ name|lower }}.GtBurst.commands.gteditxmlmodelsim:__main__
+    - gtinteractiveRaDec = {{ name|lower }}.GtBurst.commands.gtinteractiveRaDec:__main__
+    - gtllebin           = {{ name|lower }}.GtBurst.commands.gtllebin:__main__
+    - gtllebindef        = {{ name|lower }}.GtBurst.commands.gtllebindef:__main__
+    - gtllebkg           = {{ name|lower }}.GtBurst.commands.gtllebkg:__main__
+    - gtllebkgbindef     = {{ name|lower }}.GtBurst.commands.gtllebkgbindef:__main__
+    - gtllebkgGUI        = {{ name|lower }}.GtBurst.commands.gtllebkgGUI:__main__
+    - gtllesrc           = {{ name|lower }}.GtBurst.commands.gtllesrc:__main__
+    - gtllesrcbindef     = {{ name|lower }}.GtBurst.commands.gtllesrcbindef:__main__
+    - modeleditor        = {{ name|lower }}.ModelEditor:main
+    # - ObsSim             = {{ name|lower }}.ObsSim:main
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
+    - libgomp  # [linux]
+    - llvm-openmp  # [osx]
+    - cmake >=3.18
+    - make
+    - pkg-config
+    - python 3.9.*
+    - swig
+
+  host:
+    - cfitsio
+    - clhep
+    - cppunit
+    - f2c >1.0
+    - fftw
+    - gsl
+    - healpix_cxx 3.31
+    - minuit2_standalone
+    - python 3.9.*
+    - readline
+    - wcslib
+    - xerces-c
+
+  run:
+    - astropy
+    - cfitsio
+    - clhep
+    - cppunit
+    - f2c >1.0
+    - fermitools-data
+    - fftw
+    - gsl
+    - healpix_cxx 3.31
+    - matplotlib
+    - minuit2_standalone
+    - numpy
+    - pmw
+    - python 3.9.*
+    - pyyaml
+    - readline
+    - scipy
+    - wcslib
+    - xerces-c
+
+
+test:
+  imports:
+    - py_facilities
+    - pyLikelihood
+    - UnbinnedAnalysis
+
+  requires:
+    - fermitools-test-scripts-data
+    - junit-xml
+
+  files:
+    - tests/ST-unit-test
+
+  commands:
+    - tests/ST-unit-test -w
+
+about:
+  home: https://github.com/fermi-lat/Sciencetools
+  license: BSD-3-Clause
+  summary: Conda recipe files for the Fermi Sciencetools analysis package Fermitools
+  license_file: LICENSE.txt
