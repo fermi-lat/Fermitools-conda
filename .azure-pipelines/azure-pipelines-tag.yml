@@ -11,9 +11,8 @@ jobs:
           CONFIG: linux_64_
     timeoutInMinutes: 15
     steps:
-      - bash: |
-          echo "##vso[task.prependpath]$CONDA/bin"
-          # git config --global user.email ""
+      - script: |
+          export CI=azure
           git config --global user.name "FermiCI"
           export RECIPE_DIR=$(Build.SourcesDirectory)/recipe/
           export SCRIPT_DIR=$(Build.SourcesDirectory)/.scripts/
@@ -21,19 +20,14 @@ jobs:
           echo -e "Azure Fermitools Version: ${FERMITOOLS_VERSION}"
           git clone -b $(Build.SourceBranchName) --recurse-submodules  git@github.com:fermi-lat/ScienceTools.git
           cd ScienceTools
-          git submodule foreach "git tag -m 'Automatic tag from Azure Pipeline' Fermitools-${FERMITOOLS_VERSION}"
-          git submodule foreach "git push --tags --force"
+          git submodule foreach "git tag -m 'Automatic tag from Azure Pipeline' Fermitools-${FERMITOOLS_VERSION} ||:"
+          git submodule foreach "git push --tags --force ||:"
           git tag -m "Automatic tag from Azure Pipeline" "Fermitools-${FERMITOOLS_VERSION}"
           git push --tags --force
           cd ..
-          git clone -b $(Build.SourceBranchName) git@github.com:fermi-lat/Fermitools-conda.git
-          cd Fermitools-conda
-          git tag -m "Automatic tag from Azure Pipeline" "Fermitools-${FERMITOOLS_VERSION}"
-          git push --tags --force
-          cd ..
-        displayName: 'Tag The Fermitools Git Repository'
+        displayName: 'Tag The ScienceTools Git Repositories'
       - task: DownloadSecureFile@1
-        name: sshkey # The name with which to reference the secure file's path on the agent, like $(mySecureFile.secureFilePath)
+        name: sshkey
         inputs:
           secureFile: azure_github
       - task: InstallSSHKey@0
