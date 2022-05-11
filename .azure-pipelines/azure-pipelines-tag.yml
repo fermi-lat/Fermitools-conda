@@ -13,14 +13,12 @@ jobs:
     steps:
       - bash: |
           echo "##vso[task.prependpath]$CONDA/bin"
-          git config --global user.email "joseph.a.asercion@nasa.gov"
-          git config --global user.name "jasercion"
+          # git config --global user.email ""
+          git config --global user.name "FermiCI"
           export RECIPE_DIR=$(Build.SourcesDirectory)/recipe/
           export SCRIPT_DIR=$(Build.SourcesDirectory)/.scripts/
           source ${SCRIPT_DIR}/increment_fermi_version.sh
           echo -e "Azure Fermitools Version: ${FERMITOOLS_VERSION}"
-        displayName: 'Get Fermitools_version'
-      - bash: |
           git clone -b $(Build.SourceBranchName) --recurse-submodules  git@github.com:fermi-lat/ScienceTools.git
           cd ScienceTools
           git submodule foreach "git tag -m 'Automatic tag from Azure Pipeline' Fermitools-${FERMITOOLS_VERSION}"
@@ -28,14 +26,12 @@ jobs:
           git tag -m "Automatic tag from Azure Pipeline" "Fermitools-${FERMITOOLS_VERSION}"
           git push --tags --force
           cd ..
-        displayName: 'Tag The ScienceTools Git Repositories'
-      - bash: |
           git clone -b $(Build.SourceBranchName) git@github.com:fermi-lat/Fermitools-conda.git
           cd Fermitools-conda
           git tag -m "Automatic tag from Azure Pipeline" "Fermitools-${FERMITOOLS_VERSION}"
           git push --tags --force
           cd ..
-        displayName: 'Tag The Fermitools-conda Git Repository'
+        displayName: 'Tag The Fermitools Git Repository'
       - task: DownloadSecureFile@1
         name: sshkey # The name with which to reference the secure file's path on the agent, like $(mySecureFile.secureFilePath)
         inputs:
