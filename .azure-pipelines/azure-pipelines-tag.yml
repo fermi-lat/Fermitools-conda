@@ -23,9 +23,9 @@ jobs:
           git clone -b $(Build.SourceBranchName) --recurse-submodules  git@github.com:fermi-lat/ScienceTools.git
           git submodule foreach 'git remote -v set-url origin git@github.com:fermi-lat/$(basename $(pwd)).git ||:'
           cd ScienceTools
-          git submodule foreach "git tag -m 'Automatic tag from Azure Pipeline' Fermitools-${FERMITOOLS_VERSION} ||:"
+          git submodule foreach "git tag -f -m 'Automatic tag from Azure Pipeline' Fermitools-${FERMITOOLS_VERSION} ||:"
           git submodule foreach "git push --tags --force ||:"
-          git tag -m "Automatic tag from Azure Pipeline" "Fermitools-${FERMITOOLS_VERSION}"
+          git tag -f -m "Automatic tag from Azure Pipeline" "Fermitools-${FERMITOOLS_VERSION}"
           git push --tags --force
           cd ..
         displayName: 'Tag The ScienceTools Git Repositories'
