@@ -4,7 +4,6 @@ trigger:
   branches:
     include:
       - master
-      - cmake-update
   paths:
     exclude:
       - azure-pipelines.yml
