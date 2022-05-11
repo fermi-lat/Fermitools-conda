@@ -16,14 +16,7 @@ trigger:
   tags:
     exclude:
       - '*'
-stages:
-- stage: conda_build
-  displayName: 'Conda Build Stage'
-  jobs:
-    - template: ./.azure-pipelines/azure-pipelines-linux.yml
-    - template: ./.azure-pipelines/azure-pipelines-osx.yml
-
-- stage: misc
-  displayName: 'Misc CI support'
-  jobs:
-    - template: ./.azure-pipelines/azure-pipelines-tag.yml
+jobs:
+  - template: ./.azure-pipelines/azure-pipelines-linux.yml
+  - template: ./.azure-pipelines/azure-pipelines-osx.yml
+  - template: ./.azure-pipelines/azure-pipelines-tag.yml
