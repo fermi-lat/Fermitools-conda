@@ -1,7 +1,7 @@
 # -*- mode: yaml -*-
 
 jobs:
-  - job: linux
+  - job: tag
     pool:
       vmImage: ubuntu-latest
     displayName: 'Tag Repositories'
