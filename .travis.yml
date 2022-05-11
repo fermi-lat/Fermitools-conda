@@ -10,4 +10,4 @@ matrix:
 script:
   - export CI=travis
   - export GIT_BRANCH="$TRAVIS_BRANCH"
-  - if [[ ${PLATFORM} =~ .*linux.* ]]; then CONDA_FORGE_DOCKER_RUN_ARGS="--network=host --security-opt=seccomp=unconfined" ./.scripts/run_docker_build.sh; fi
+  # - if [[ ${PLATFORM} =~ .*linux.* ]]; then CONDA_FORGE_DOCKER_RUN_ARGS="--network=host --security-opt=seccomp=unconfined" ./.scripts/run_docker_build.sh; fi
