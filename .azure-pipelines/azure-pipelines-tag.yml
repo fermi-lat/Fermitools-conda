@@ -1,0 +1,81 @@
+# -*- mode: yaml -*-
+
+jobs:
+  - job: linux
+    pool:
+      vmImage: ubuntu-latest
+    displayName: 'Tag Repositories'
+    strategy:
+      matrix:
+        linux_64_:
+          CONFIG: linux_64_
+    timeoutInMinutes: 15
+    steps:
+      - bash: |
+          echo "##vso[task.prependpath]$CONDA/bin"
+          git config --global user.email "joseph.a.asercion@nasa.gov"
+          git config --global user.name "jasercion"
+          git config --global url."git@github.com:".insteadOf "https://github.com/"
+          git clone -b $(Build.SourceBranchName) --recurse-submodules  git@github.com:fermi-lat/ScienceTools.git
+          export RECIPE_DIR=$(Build.SourcesDirectory)/recipe/
+          export SCRIPT_DIR=$(Build.SourcesDirectory)/.scripts/
+          bash ${SCRIPT_DIR}/increment_fermi_version.sh
+          echo -e "New Fermitools Version: ${FERMITOOLS_VERSION}"
+        displayName: 'Set up environment'
+
+      # # - bash: |
+      # #     git checkout -B $(Build.SourceBranchName)
+      # #   displayName: 'Download Sources'
+      # # - bash: mamba create --yes --quiet -n pipeline_bld_deps -c conda-forge -c fermi fermitools-build-deps=$VERSION
+      # #   displayName: 'Download Build Dependencies'
+      # #
+      # # # Use conda list to create a correctly formatted deps file.
+      # # # DO NOT USE MAMBA; it adds a decorative header which breaks the file.
+      # # - bash: conda list -n pipeline_bld_deps --explicit > Fermitools-explicit-build-deps-linux/explicit-deps.txt
+      # #   displayName: 'List Explicit Build Dependencies'
+      #
+      # - bash: |
+      #     cd Fermitools-explicit-build-deps-linux
+      #     git config --global user.email "joseph.a.asercion@nasa.gov"
+      #     git config --global user.name "jasercion"
+      #     git config --global url."git@github.com:".insteadOf "https://github.com/"
+      #     git add explicit-deps.txt
+      #     git commit -m "Automatic commit from Azure Pipeline"
+      #     git tag -m "Automatic tag from Azure Pipeline" $(TagName)
+      #     git push --all --force
+      #     git push --tags --force
+      #   displayName: 'Save Explicit Build Dependencies list'
+      # - task: DownloadSecureFile@1
+      #   name: sshkey # The name with which to reference the secure file's path on the agent, like $(mySecureFile.secureFilePath)
+      #   inputs:
+      #     secureFile: azure_github
+      # - task: InstallSSHKey@0
+      #   inputs:
+      #     knownHostsEntry: HTZ7yceIQn0CcPv/4tDqeUSvt3I=|m+NvUHSs9Lu4Y9e4W1WLU/eEfgI= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+      #     sshKeySecureFile: azure_github
+      #
+      # # -bash: |
+      # #     git clone -b 
+      #   
+      #   displayName: Manage disk space
+      #
+      # - script: |
+      #     rm -rf /opt/ghc
+      #     df -h
+      #   displayName: Manage disk space
+      #
+      # # configure qemu binfmt-misc running. This allows us to run docker containers
+      # # embedded qemu-static
+      # - script: |
+      #     docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
+      #     ls /proc/sys/fs/binfmt_misc/
+      #   condition: not(startsWith(variables['CONFIG'], 'linux_64'))
+      #   displayName: Configure binfmt_misc
+      #
+      # - script: |
+      #     export CI=azure
+      #     export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+      #     .scripts/run_docker_build.sh
+      #   displayName: Run docker build
+      #   env:
+      #     ANACONDA_TOKEN: $(Jasercion-Anaconda-Api)
