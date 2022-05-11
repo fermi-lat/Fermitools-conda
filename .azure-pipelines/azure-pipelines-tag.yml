@@ -13,12 +13,15 @@ jobs:
     steps:
       - script: |
           export CI=azure
-          git config --global user.name "FermiCI"
           export RECIPE_DIR=$(Build.SourcesDirectory)/recipe/
           export SCRIPT_DIR=$(Build.SourcesDirectory)/.scripts/
           source ${SCRIPT_DIR}/increment_fermi_version.sh
           echo -e "Azure Fermitools Version: ${FERMITOOLS_VERSION}"
+          git config --global user.email "joseph.a.asercion@nasa.gov"
+          git config --global user.name "jasercion"
+          git config --global --add url."git@github.com:".insteadOf "https://github.com/"
           git clone -b $(Build.SourceBranchName) --recurse-submodules  git@github.com:fermi-lat/ScienceTools.git
+          git submodule foreach 'git remote -v set-url origin git@github.com:fermi-lat/$(basename $(pwd)).git ||:'
           cd ScienceTools
           git submodule foreach "git tag -m 'Automatic tag from Azure Pipeline' Fermitools-${FERMITOOLS_VERSION} ||:"
           git submodule foreach "git push --tags --force ||:"
