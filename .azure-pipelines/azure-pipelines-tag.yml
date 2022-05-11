@@ -19,7 +19,7 @@ jobs:
           git clone -b $(Build.SourceBranchName) --recurse-submodules  git@github.com:fermi-lat/ScienceTools.git
           export RECIPE_DIR=$(Build.SourcesDirectory)/recipe/
           export SCRIPT_DIR=$(Build.SourcesDirectory)/.scripts/
-          bash ${SCRIPT_DIR}/increment_fermi_version.sh
+          source ${SCRIPT_DIR}/increment_fermi_version.sh
           echo -e "New Fermitools Version: ${FERMITOOLS_VERSION}"
         displayName: 'Set up environment'
 
