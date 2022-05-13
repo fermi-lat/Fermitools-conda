@@ -1,0 +1,39 @@
+# -*- mode: yaml -*-
+
+jobs:
+  - job: tag
+    pool:
+      vmImage: ubuntu-latest
+    displayName: 'Tag Repositories'
+    strategy:
+      matrix:
+        linux_64_:
+          CONFIG: linux_64_
+    timeoutInMinutes: 15
+    steps:
+      - script: |
+          export CI=azure
+          export RECIPE_DIR=$(Build.SourcesDirectory)/recipe/
+          export SCRIPT_DIR=$(Build.SourcesDirectory)/.scripts/
+          source ${SCRIPT_DIR}/increment_fermi_version.sh
+          echo -e "Azure Fermitools Version: ${FERMITOOLS_VERSION}"
+          git config --global user.email "joseph.a.asercion@nasa.gov"
+          git config --global user.name "jasercion"
+          git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+          git clone -b $(Build.SourceBranchName) --recurse-submodules  git@github.com:fermi-lat/ScienceTools.git
+          git submodule foreach 'git remote -v set-url origin git@github.com:fermi-lat/$(basename $(pwd)).git ||:'
+          cd ScienceTools
+          git submodule foreach "git tag -f -m 'Automatic tag from Azure Pipeline' Fermitools-${FERMITOOLS_VERSION} ||:"
+          git submodule foreach "git push --tags --force ||:"
+          git tag -f -m "Automatic tag from Azure Pipeline" "Fermitools-${FERMITOOLS_VERSION}"
+          git push --tags --force
+          cd ..
+        displayName: 'Tag The ScienceTools Git Repositories'
+      - task: DownloadSecureFile@1
+        name: sshkey
+        inputs:
+          secureFile: azure_github
+      - task: InstallSSHKey@0
+        inputs:
+          knownHostsEntry: HTZ7yceIQn0CcPv/4tDqeUSvt3I=|m+NvUHSs9Lu4Y9e4W1WLU/eEfgI= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+          sshKeySecureFile: azure_github
