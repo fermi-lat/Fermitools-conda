@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "2.1.30" %}
+{% set version = "2.1.36" %}
 
 package:
   name: {{ name|lower }}
@@ -19,7 +19,6 @@ build:
     - {{ pin_compatible('fftw', max_pin='x.x') }}
     - {{ pin_compatible('gsl', max_pin='x.x') }}
     - {{ pin_compatible('healpix_cxx', max_pin='x.x') }}
-    - {{ pin_compatible('minuit2_standalone', max_pin='x.x') }}
     - {{ pin_compatible('python', max_pin='x.x') }}
     - {{ pin_compatible('readline', max_pin='x.x') }}
     - {{ pin_compatible('wcslib', max_pin='x.x') }}
@@ -72,7 +71,6 @@ requirements:
     - fftw
     - gsl
     - healpix_cxx 3.31
-    - minuit2_standalone
     - python 3.9.*
     - readline
     - wcslib
@@ -89,7 +87,6 @@ requirements:
     - gsl
     - healpix_cxx 3.31
     - matplotlib
-    - minuit2_standalone
     - numpy
     - pmw
     - python 3.9.*
