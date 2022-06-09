@@ -19,7 +19,8 @@ cmake -S . \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
-  ${CMAKE_ARGS}
+  ${CMAKE_ARGS} \
+  -DBUILD_SHARED_LIBS=OFF
 
 cmake --build Release --parallel ${CPU_COUNT:-2} --target=install
 
