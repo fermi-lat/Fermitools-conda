@@ -71,6 +71,7 @@ requirements:
     - fftw
     - gsl
     - healpix_cxx 3.31
+    - numpy
     - python 3.9.*
     - readline
     - wcslib
