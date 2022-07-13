@@ -7,6 +7,7 @@ package:
 
 source:
   git_url: https://github.com/fermi-lat/Sciencetools.git
+  git_rev: Issue18
 
 build:
   number: {{ environ.get('BUILD_NUMBER', 0)}}
