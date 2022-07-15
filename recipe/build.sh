@@ -18,6 +18,7 @@ cmake -S . \
   -DCMAKE_PREFIX_PATH="${PREFIX}" \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
+  -DPython3_NumPy_INCLUDE_DIR="${SP_DIR}/numpy/core/include" \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
   ${CMAKE_ARGS}
 
