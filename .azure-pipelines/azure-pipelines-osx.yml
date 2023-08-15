@@ -15,7 +15,7 @@ jobs:
           UPLOAD_PACKAGES: 'True'
     timeoutInMinutes: 360
     variables:
-      - group: DevOps Access Keys
+      - group: Build Parameters
     steps:
       - script: |
           export CI=azure
@@ -24,4 +24,4 @@ jobs:
           ./.scripts/run_osx_build.sh
         displayName: Run OSX build
         env:
-          ANACONDA_TOKEN: $(Jasercion-Anaconda-Api)
+          ANACONDA_TOKEN: $(Anaconda_Token)
