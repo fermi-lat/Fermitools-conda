@@ -71,7 +71,7 @@ requirements:
     - f2c >1.0
     - fftw
     - gsl
-    - healpix_cxx 3.31
+    - healpix_cxx 3.31 h6503426_1007
     - numpy
     - python 3.9.*
     - readline
@@ -87,7 +87,7 @@ requirements:
     - fermitools-data
     - fftw
     - gsl
-    - healpix_cxx 3.31
+    - healpix_cxx 3.31 h6503426_1007
     - matplotlib
     - numpy
     - pmw
