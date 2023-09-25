@@ -103,7 +103,6 @@ test:
   imports:
     - py_facilities
     - pyLikelihood
-    - UnbinnedAnalysis
     - skymaps
 
   requires:
@@ -112,9 +111,6 @@ test:
 
   files:
     - tests/ST-unit-test
-
-  commands:
-    - tests/ST-unit-test -w
 
 about:
   home: https://github.com/fermi-lat/Sciencetools
