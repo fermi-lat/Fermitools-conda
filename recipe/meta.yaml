@@ -103,6 +103,7 @@ test:
   imports:
     - py_facilities
     - pyLikelihood
+    - UnbinnedAnalysis
     - skymaps
 
   requires:
