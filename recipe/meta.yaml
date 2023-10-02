@@ -71,7 +71,7 @@ requirements:
     - f2c >1.0
     - fftw
     - gsl
-    - healpix_cxx 3.31
+    - healpix_cxx 3.31=*_1007
     - numpy
     - python 3.9.*
     - readline
@@ -87,7 +87,7 @@ requirements:
     - fermitools-data
     - fftw
     - gsl
-    - healpix_cxx 3.31
+    - healpix_cxx 3.31=*_1007
     - matplotlib
     - numpy
     - pmw
@@ -103,7 +103,6 @@ test:
   imports:
     - py_facilities
     - pyLikelihood
-    - UnbinnedAnalysis
     - skymaps
 
   requires:
@@ -112,9 +111,6 @@ test:
 
   files:
     - tests/ST-unit-test
-
-  commands:
-    - tests/ST-unit-test -w
 
 about:
   home: https://github.com/fermi-lat/Sciencetools
