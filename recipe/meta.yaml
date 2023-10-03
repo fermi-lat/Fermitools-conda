@@ -62,7 +62,7 @@ requirements:
     - make
     - pkg-config
     - python 3.9.*
-    - swig
+    - swig 4.0.2
 
   host:
     - cfitsio
