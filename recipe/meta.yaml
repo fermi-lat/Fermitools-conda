@@ -58,7 +58,6 @@ requirements:
     - {{ compiler('c') }}
     - libgomp  # [linux]
     - llvm-openmp  # [osx]
-    - numpy # [osx]
     - cmake >=3.18
     - make
     - pkg-config
@@ -73,8 +72,8 @@ requirements:
     - fftw
     - gsl
     - healpix_cxx 3.31=*_1007
-    - numpy
     - python 3.9.*
+    - numpy
     - readline
     - wcslib
     - xerces-c
