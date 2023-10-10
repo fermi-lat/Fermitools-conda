@@ -50,6 +50,8 @@ echo "PYTHONPATH: "
 echo $PYTHONPATH
 echo "which python: "
 which python
+echo "python version: "
+python --version
 
 conda mambabuild \
   -c fermi \
