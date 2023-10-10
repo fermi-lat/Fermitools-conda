@@ -58,6 +58,7 @@ requirements:
     - {{ compiler('c') }}
     - libgomp  # [linux]
     - llvm-openmp  # [osx]
+    - numpy # [osx]
     - cmake >=3.18
     - make
     - pkg-config
