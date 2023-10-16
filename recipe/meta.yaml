@@ -61,7 +61,7 @@ requirements:
     - cmake >=3.18
     - make
     - pkg-config
-    - python 3.9.*
+    - python 3.11.*
     - swig 4.0.2
 
   host:
@@ -72,8 +72,8 @@ requirements:
     - fftw
     - gsl
     - healpix_cxx 3.31=*_1007
-    - numpy
-    - python 3.9.*
+    - python 3.11.*
+    - numpy >=1.21
     - readline
     - wcslib
     - xerces-c
@@ -89,9 +89,9 @@ requirements:
     - gsl
     - healpix_cxx 3.31=*_1007
     - matplotlib
-    - numpy
+    - numpy >=1.21
     - pmw
-    - python 3.9.*
+    - python 3.11.*
     - pyyaml
     - readline
     - scipy
