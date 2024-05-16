@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "2.1.0" %}
+{% set version = "2.2.29" %}
 
 package:
   name: {{ name|lower }}
@@ -20,7 +20,7 @@ build:
     - {{ pin_compatible('fftw', max_pin='x.x') }}
     - {{ pin_compatible('gsl', max_pin='x.x') }}
     - {{ pin_compatible('healpix_cxx', max_pin='x.x') }}
-    - {{ pin_compatible('minuit2_standalone', max_pin='x.x') }}
+    - {{ pin_compatible('numpy', lower_bound='1.18', upper_bound='2.0') }}
     - {{ pin_compatible('python', max_pin='x.x') }}
     - {{ pin_compatible('readline', max_pin='x.x') }}
     - {{ pin_compatible('wcslib', max_pin='x.x') }}
@@ -62,8 +62,8 @@ requirements:
     - cmake >=3.18
     - make
     - pkg-config
-    - python 3.9.*
-    - swig
+    - python 3.11.*
+    - swig 4.0.2
 
   host:
     - cfitsio
@@ -72,9 +72,9 @@ requirements:
     - f2c >1.0
     - fftw
     - gsl
-    - healpix_cxx 3.31
-    - minuit2_standalone
-    - python 3.9.*
+    - healpix_cxx 3.31=*_1007
+    - python 3.11.*
+    - numpy >=1.21
     - readline
     - wcslib
     - xerces-c
@@ -88,12 +88,11 @@ requirements:
     - fermitools-data
     - fftw
     - gsl
-    - healpix_cxx 3.31
+    - healpix_cxx 3.31=*_1007
     - matplotlib
-    - minuit2_standalone
-    - numpy
+    - numpy >=1.21
     - pmw
-    - python 3.9.*
+    - python 3.11.*
     - pyyaml
     - readline
     - scipy
@@ -106,6 +105,7 @@ test:
     - py_facilities
     - pyLikelihood
     - UnbinnedAnalysis
+    - skymaps
 
   requires:
     - fermitools-test-scripts-data

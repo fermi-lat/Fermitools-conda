@@ -13,7 +13,7 @@ jobs:
           DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
     timeoutInMinutes: 360
     variables:
-      - group: DevOps Access Keys
+      - group: Build Parameters
     steps:
       - script: |
           rm -rf /opt/ghc
@@ -34,4 +34,4 @@ jobs:
           .scripts/run_docker_build.sh
         displayName: Run docker build
         env:
-          ANACONDA_TOKEN: $(Jasercion-Anaconda-Api)
+          ANACONDA_TOKEN: $(Anaconda_Token)

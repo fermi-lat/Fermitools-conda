@@ -12,12 +12,22 @@ else
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-linux.cmake"
 fi
 
+######
+echo "PYTHONPATH: "
+echo $PYTHONPATH
+echo "which python: "
+which python
+echo "python version: "
+python --version
+######
+
 cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="${PREFIX}" \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
+  -DPython3_NumPy_INCLUDE_DIR="${SP_DIR}/numpy/core/include" \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
   ${CMAKE_ARGS}
 

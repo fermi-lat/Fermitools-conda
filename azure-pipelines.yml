@@ -5,6 +5,8 @@ trigger:
     include:
       - master
   paths:
+    include:
+      - recipe/meta.yaml
     exclude:
       - azure-pipelines.yml
       - conda_build_config.yaml
