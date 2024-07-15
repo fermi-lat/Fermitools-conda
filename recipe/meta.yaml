@@ -1,5 +1,5 @@
 {% set name = "fermitools" %}
-{% set version = "2.2.29" %}
+{% set version = "2.2.43" %}
 
 package:
   name: {{ name|lower }}
@@ -74,7 +74,7 @@ requirements:
     - gsl
     - healpix_cxx 3.31=*_1007
     - python 3.11.*
-    - numpy >=1.21
+    - numpy >=1.21,<2.0
     - readline
     - wcslib
     - xerces-c
@@ -90,7 +90,7 @@ requirements:
     - gsl
     - healpix_cxx 3.31=*_1007
     - matplotlib
-    - numpy >=1.21
+    - numpy >=1.21,<2.0
     - pmw
     - python 3.11.*
     - pyyaml
