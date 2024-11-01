@@ -65,6 +65,7 @@ requirements:
     - swig 4.0.2
 
   host:
+    - {{ compiler('cxx') }}
     - cfitsio
     - clhep
     - cppunit
