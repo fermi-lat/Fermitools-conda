@@ -50,7 +50,7 @@ build:
     - gtllesrc           = {{ name|lower }}.GtBurst.commands.gtllesrc:__main__
     - gtllesrcbindef     = {{ name|lower }}.GtBurst.commands.gtllesrcbindef:__main__
     - modeleditor        = {{ name|lower }}.ModelEditor:main
-    # - ObsSim             = {{ name|lower }}.ObsSim:main
+    - ObsSim             = {{ name|lower }}.ObsSim:main
 
 requirements:
   build:
