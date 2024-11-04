@@ -1,5 +1,5 @@
 CONDA_BUILD_SYSROOT:
-  - /opt/MacOSX15.sdk #[osx]
+  - /opt/MacOSX11.3.sdk #[osx]
   - /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk  #[osx]
 
 numpy:
