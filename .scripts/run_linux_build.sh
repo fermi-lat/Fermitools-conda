@@ -53,6 +53,8 @@ conda mambabuild \
 
 ( startgroup "Uploading packages" ) 2> /dev/null
 
+export UPLOAD_PACKAGES="TRUE"
+
 if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
   echo -e "Uploading Packages"
   find ${FEEDSTOCK_ROOT} -name "fermitools-*.tar.bz2" 
