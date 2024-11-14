@@ -9,7 +9,7 @@ if [ "$(uname)" == "Darwin" ]; then
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
     echo "Commandline tools:" 
-    ls /Library/Developer/CommandLineTools/SDKs/MacOSX15.sdk/usr/include/c++/v1/
+    ls /Library/Developer/CommandLineTools/SDKs/
 else
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-linux.cmake"
 fi
