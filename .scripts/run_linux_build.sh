@@ -53,8 +53,8 @@ conda mambabuild \
 
 ( startgroup "Uploading packages" ) 2> /dev/null
 
-echo -e ${UPLOAD_PACKAGES}
-export UPLOAD_PACKAGES="TRUE"
+echo -e "Upload Packages? ${UPLOAD_PACKAGES}"
+#export UPLOAD_PACKAGES="TRUE"
 
 if [[ "${UPLOAD_PACKAGES}" != "False" ]]; then
   echo -e "Uploading Packages"
