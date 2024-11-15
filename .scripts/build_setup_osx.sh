@@ -20,6 +20,7 @@ echo "OSX SDK DIR 1: ${OSX_SDK_DIR}"
 
 if [[ "${OSX_SDK_DIR:-}" == "" ]]; then
   OSX_SDK_DIR="$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs"
+  ls $OSX_SDK_DIR
   USING_SYSTEM_SDK_DIR=1
 fi
 
