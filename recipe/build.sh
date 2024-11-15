@@ -5,7 +5,7 @@ export condaname="fermitools"
 
 if [ "$(uname)" == "Darwin" ]; then
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
-    export CXXFLAGS="-mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} -stdlib=libc++ ${CXXFLAGS} -I/Library/Developer/CommandLineTools/SDKs/MacOSX15.sdk/usr/include/c++/v1/"
+    export CXXFLAGS="-mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} -stdlib=libc++ ${CXXFLAGS} -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/"
     export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
     echo "Commandline tools:" 
