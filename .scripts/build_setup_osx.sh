@@ -20,11 +20,11 @@ echo "OSX SDK DIR 1: ${OSX_SDK_DIR}"
 
 if [[ "${OSX_SDK_DIR:-}" == "" ]]; then
   OSX_SDK_DIR="$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs"
-  ls $OSX_SDK_DIR
   USING_SYSTEM_SDK_DIR=1
 fi
 
 echo "OSX SDK DIR 2: ${OSX_SDK_DIR}"
+ls $OSX_SDK_DIR
 
 source ${SCRIPT_DIR}/cross_compile_support.sh
 source ${SCRIPT_DIR}/download_osx_sdk.sh
