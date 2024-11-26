@@ -45,6 +45,9 @@ if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]]; then
     EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --no-test"
 fi
 
+echo -e "g++ version:" 
+g++ --version
+
 conda mambabuild \
   -c fermi \
   -c conda-forge \
