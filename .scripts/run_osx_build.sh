@@ -48,6 +48,11 @@ fi
 echo -e "g++ version:" 
 g++ --version
 
+conda install --yes conda-forge::cxx-compiler
+
+echo -e "Post-conda install g++ version:" 
+g++ --version
+
 conda mambabuild \
   -c fermi \
   -c conda-forge \
