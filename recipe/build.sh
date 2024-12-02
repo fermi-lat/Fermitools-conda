@@ -8,6 +8,8 @@ if [ "$(uname)" == "Darwin" ]; then
     export CXXFLAGS="-mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} ${CXXFLAGS}" 
     # -I/Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1/"
     export LDFLAGS="${LDFLAGS}  -lstdc++ -headerpad_max_install_names"
+    echo "LD FLAGS:"
+    echo $LDFLAGS
     # -L/Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1/
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
     echo "Commandline tools:" 
