@@ -23,6 +23,9 @@ echo "python version: "
 python --version
 ######
 
+echo "g++ build.sh version:"
+g++ --version
+
 cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
