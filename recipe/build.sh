@@ -14,8 +14,8 @@ if [ "$(uname)" == "Darwin" ]; then
     echo $LDFLAGS
     # -L/Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1/
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
-    echo "Commandline tools:" 
-    ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1
+    # echo "Commandline tools:" 
+    # ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1
 else
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-linux.cmake"
 fi
