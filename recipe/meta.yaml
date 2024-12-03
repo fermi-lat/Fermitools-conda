@@ -54,8 +54,8 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
     - libgomp  # [linux]
     - llvm-openmp  # [osx]
     - cmake >=3.18
