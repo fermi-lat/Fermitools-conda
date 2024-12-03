@@ -1,5 +1,5 @@
 MACOSX_DEPLOYMENT_TARGET:
-  - '13'
+  - '11.3'
 c_compiler:
   - clang
 c_compiler_version:
