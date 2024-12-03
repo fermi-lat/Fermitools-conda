@@ -31,11 +31,11 @@ echo "python version: "
 python --version
 ######
 
-echo "g++ build.sh version:"
-g++ --version
-
 echo "SDK dir:"
 ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+
+echo "g++ build.sh version:"
+g++ --version
 
 cmake -S . \
   -B Release \
