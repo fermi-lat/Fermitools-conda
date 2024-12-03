@@ -32,6 +32,9 @@ python --version
 echo "g++ build.sh version:"
 g++ --version
 
+echo "SDK dir:"
+ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+
 cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
