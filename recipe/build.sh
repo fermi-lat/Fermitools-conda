@@ -16,6 +16,8 @@ if [ "$(uname)" == "Darwin" ]; then
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
     # echo "Commandline tools:" 
     # ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1
+    export CC="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+    export CXX="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
 else
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-linux.cmake"
 fi
