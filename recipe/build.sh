@@ -6,12 +6,12 @@ export condaname="fermitools"
 if [ "$(uname)" == "Darwin" ]; then
     # If Mac OSX then set sysroot flag (see conda_build_config.yaml)
     export CXXFLAGS="-mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET} -std=c++11 ${CXXFLAGS}" 
-    echo "CXX FLAGS:"
-    echo $CXXFLAGS
+    #echo "CXX FLAGS:"
+    #echo $CXXFLAGS
     # -I/Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1/"
     export LDFLAGS="${LDFLAGS}  -lstdc++ -headerpad_max_install_names"
-    echo "LD FLAGS:"
-    echo $LDFLAGS
+    #echo "LD FLAGS:"
+    #echo $LDFLAGS
     # -L/Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1/
     export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
     # echo "Commandline tools:" 
@@ -23,22 +23,22 @@ else
 fi
 
 ######
-echo "PYTHONPATH: "
-echo $PYTHONPATH
-echo "which python: "
-which python
-echo "python version: "
-python --version
+#echo "PYTHONPATH: "
+#echo $PYTHONPATH
+#echo "which python: "
+#which python
+#echo "python version: "
+#python --version
 ######
 
-echo "SDK dir:"
-ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+#echo "SDK dir:"
+#ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
 
-echo "Install conda-forge cxx compiler directly:"
-conda install --yes conda-forge::cxx-compiler
+#echo "Install conda-forge cxx compiler directly:"
+#conda install --yes conda-forge::cxx-compiler
 
-echo "g++ build.sh version:"
-g++ --version
+#echo "g++ build.sh version:"
+#g++ --version
 
 cmake -S . \
   -B Release \
