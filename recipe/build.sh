@@ -35,7 +35,7 @@ echo "SDK dir:"
 ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
 
 echo "Install conda-forge cxx compiler directly:"
-conda install conda-forge::cxx-compiler
+conda install --yes conda-forge::cxx-compiler
 
 echo "g++ build.sh version:"
 g++ --version
