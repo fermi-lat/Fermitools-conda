@@ -1,17 +1,17 @@
 MACOSX_DEPLOYMENT_TARGET:
-  - '11.3'
+  - '14.5'
 c_compiler:
   - clang
 c_compiler_version:
-  - '13'
+  - '14'
 cxx_compiler:
   - clangxx
 cxx_compiler_version:
-  - '13'
+  - '14'
 llvm_openmp:
-  - '13'
+  - '14'
 macos_machine:
-  - x86_64-apple-darwin13.4.0
+  - x86_64-apple-darwin14.5.0
 target_platform:
   - osx-64
 zip_keys:
