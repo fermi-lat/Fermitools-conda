@@ -1,15 +1,15 @@
 MACOSX_DEPLOYMENT_TARGET:
-  - '11.0'
+  - '20.0'
 c_compiler:
   - clang
 c_compiler_version:
-  - '13'
+  - '20'
 cxx_compiler:
   - clangxx
 cxx_compiler_version:
-  - '13'
+  - '20'
 llvm_openmp:
-  - '13'
+  - '20'
 macos_machine:
   - arm64-apple-darwin20.0.0
 target_platform:
