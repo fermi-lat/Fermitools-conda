@@ -26,10 +26,12 @@ fi
 echo "OSX SDK DIR 2: ${OSX_SDK_DIR}"
 ls $OSX_SDK_DIR
 
+echo "SDK Path:"
+ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+
 source ${SCRIPT_DIR}/cross_compile_support.sh
 source ${SCRIPT_DIR}/download_osx_sdk.sh
-# echo "SDK Path:"
-# ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk
+
 source ${SCRIPT_DIR}/increment_fermi_version.sh
 # source ${SCRIPT_DIR}/increment_build_number.sh
 
