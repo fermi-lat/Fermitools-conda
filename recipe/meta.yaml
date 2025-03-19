@@ -61,7 +61,7 @@ requirements:
     - cmake >=3.18
     - make
     - pkg-config
-    - python >=3.10
+    - python >=3.9
     - swig 4.0.2
 
   host:
@@ -91,7 +91,7 @@ requirements:
     - matplotlib
     - numpy
     - pmw
-    - python 3.11.*
+    - python >=3.9
     - readline
     - scipy
     - wcslib
