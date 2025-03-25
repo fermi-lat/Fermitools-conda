@@ -1,9 +1,10 @@
 # -*- mode: yaml -*-
-
 jobs:
   - job: linux
     pool:
       vmImage: ubuntu-latest
+    workspace:
+      clean: outputs | resources | all
     displayName: 'Build Fermitools'
     strategy:
       matrix:
