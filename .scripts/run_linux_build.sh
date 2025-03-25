@@ -31,6 +31,7 @@ mamba install --update-specs --quiet --yes --channel conda-forge \
 mamba update --update-specs --yes --quiet --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
   ruamel_yaml git
+mamba clean --all
 
 echo -e "\n\nRunning the build setup script."
 source ${SCRIPT_DIR}/build_setup_linux.sh
