@@ -44,6 +44,7 @@ if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]] && [[ "${HOST_PLATFORM}" != l
     EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --no-test"
 fi
 
+mamba clean --all
 conda mambabuild \
   -c fermi \
   -c conda-forge \
