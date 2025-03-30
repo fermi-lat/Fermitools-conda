@@ -45,6 +45,10 @@ if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]] && [[ "${HOST_PLATFORM}" != l
 fi
 
 mamba clean --all
+
+conda config --show channels
+ 
+# mamba config --add channels defaults
 conda mambabuild \
   -c fermi \
   -c conda-forge \

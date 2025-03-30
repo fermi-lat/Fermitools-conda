@@ -64,9 +64,9 @@ cp $RECIPE_DIR/activate.csh $PREFIX/etc/conda/activate.d/activate_${condaname}.c
 cp $RECIPE_DIR/deactivate.csh $PREFIX/etc/conda/deactivate.d/deactivate_${condaname}.csh
 
 # Determine which conda env we are in. If it's base than we could "exit" conda.
-echo "Conda env ${CONDA_PREFIX}"
+echo "Conda env $ENV{CONDA_PREFIX}"
 # activate.sh:export INST_DIR=$CONDA_PREFIX/share/${condaname}
-echo "Conda name ${INST_DIR}"
+echo "Conda name $ENV{INST_DIR}"
 echo "List Conda env"
 conda env list --json
 # Play it safe
