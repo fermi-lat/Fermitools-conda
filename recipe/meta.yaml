@@ -88,7 +88,7 @@ requirements:
     - fftw
     - gsl
     - healpix_cxx 3.31=*_1007
-    - matplotlib
+    - matplotlib <3.8
     - numpy
     - pmw
     - python 3.11.*
