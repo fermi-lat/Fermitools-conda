@@ -58,6 +58,7 @@ requirements:
     - {{ compiler('c') }}
     - libgomp  # [linux]
     - llvm-openmp  # [osx]
+    - aplpy >=2
     - cmake >=3.18
     - make
     - pkg-config
@@ -65,6 +66,7 @@ requirements:
     - swig 4.0.2
 
   host:
+    - aplpy >=2
     - cfitsio
     - clhep
     - cppunit
@@ -79,6 +81,7 @@ requirements:
     - xerces-c
 
   run:
+    - aplpy >=2
     - astropy
     - cfitsio
     - clhep
