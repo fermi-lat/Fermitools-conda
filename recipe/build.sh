@@ -71,3 +71,5 @@ echo "List Conda env"
 conda env list --json
 # Play it safe
 conda deactivate
+# Try to recover some drive space.
+conda clean -a
