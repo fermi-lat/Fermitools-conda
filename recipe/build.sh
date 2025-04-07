@@ -48,10 +48,10 @@ cmake -S . \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
   -DPython3_NumPy_INCLUDE_DIR="${SP_DIR}/numpy/core/include" \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
+  --clean-first \
   ${CMAKE_ARGS}
 
-cmake --build Release --parallel ${CPU_COUNT:-2} --target=install
-
+cmake --build Release --parallel ${CPU_COUNT:-2} --target=install 
 
 # Copy the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d
@@ -62,6 +62,9 @@ cp $RECIPE_DIR/deactivate.sh $PREFIX/etc/conda/deactivate.d/deactivate_${condana
 
 cp $RECIPE_DIR/activate.csh $PREFIX/etc/conda/activate.d/activate_${condaname}.csh
 cp $RECIPE_DIR/deactivate.csh $PREFIX/etc/conda/deactivate.d/deactivate_${condaname}.csh
+
+# Delete the cmake build directory
+rm -rf Release 
 
 # Determine which conda env we are in. If it's base than we could "exit" conda.
 echo "Conda env $CONDA_PREFIX"
