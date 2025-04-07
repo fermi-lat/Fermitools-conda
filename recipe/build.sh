@@ -48,10 +48,9 @@ cmake -S . \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
   -DPython3_NumPy_INCLUDE_DIR="${SP_DIR}/numpy/core/include" \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
-  --clean-first \
   ${CMAKE_ARGS}
 
-cmake --build Release --parallel ${CPU_COUNT:-2} --target=install 
+cmake --build Release --clean-first --parallel ${CPU_COUNT:-2} --target=install 
 
 # Copy the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d
