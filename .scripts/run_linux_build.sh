@@ -79,3 +79,5 @@ echo -e "Uploaded ${FERMITOOLS_VERSION}"
 ( startgroup "Final checks" ) 2> /dev/null
 
 touch "${FEEDSTOCK_ROOT}/build_artifacts/conda-forge-build-done-${CONFIG}"
+
+mamba clean -a
