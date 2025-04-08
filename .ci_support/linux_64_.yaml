@@ -9,7 +9,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '13'
 docker_image:
-- rockylinux:9
+- quay.io/condaforge/linux-anvil-cos7-x86_64
 target_platform:
 - linux-64
 zip_keys:
