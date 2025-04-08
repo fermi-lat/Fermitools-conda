@@ -79,7 +79,7 @@ requirements:
     - xerces-c
 
   run:
-    #- aplpy >=2
+    - aplpy >=2
     - astropy
     - cfitsio
     - clhep
