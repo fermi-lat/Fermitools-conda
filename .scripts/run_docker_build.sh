@@ -43,11 +43,11 @@ if [ -z "${DOCKER_IMAGE}" ]; then
         echo "WARNING: DOCKER_IMAGE variable not set and shyaml not installed. Trying to parse with coreutils"
         DOCKER_IMAGE=$(cat .ci_support/${CONFIG}.yaml | grep '^docker_image:$' -A 1 | tail -n 1 | cut -b 3-)
         if [ "${DOCKER_IMAGE}" = "" ]; then
-            echo "No docker_image entry found in ${CONFIG}. Falling back to rockylinux:9"
-            DOCKER_IMAGE="rockylinux:9"
+            echo "No docker_image entry found in ${CONFIG}. Falling back to quay.io/condaforge/linux-anvil-cos7-x86_64"
+            DOCKER_IMAGE="quay.io/condaforge/linux-anvil-cos7-x86_64"
         fi
     else
-        DOCKER_IMAGE="$(cat "${FEEDSTOCK_ROOT}/.ci_support/${CONFIG}.yaml" | shyaml get-value docker_image.0 rockylinux:9 )"
+        DOCKER_IMAGE="$(cat "${FEEDSTOCK_ROOT}/.ci_support/${CONFIG}.yaml" | shyaml get-value docker_image.0 quay.io/condaforge/linux-anvil-cos7-x86_64 )"
     fi
 fi
 
