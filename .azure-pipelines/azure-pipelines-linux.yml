@@ -11,8 +11,8 @@ jobs:
         linux_64_:
           CONFIG: linux_64_
           UPLOAD_PACKAGES: 'True'
-          DOCKER_IMAGE: rockylinux:9
-        #  DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        #  DOCKER_IMAGE: rockylinux:9
+          DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
         # linux_aarch64_:
         #  CONFIG: linux_aarch64_
         #  UPLOAD_PACKAGES: 'True'
