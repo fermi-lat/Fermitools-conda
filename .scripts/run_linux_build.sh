@@ -25,13 +25,13 @@ conda-build:
 CONDARC
 
 echo -e "\n\nInstalling conda-build and boa."
-mamba install --update-specs --quiet --yes --channel conda-forge \
+conda install --update-specs --quiet --yes --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
   ruamel_yaml git
-mamba update --update-specs --yes --quiet --channel conda-forge \
+conda update --update-specs --yes --quiet --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
   ruamel_yaml git
-mamba clean --all
+conda clean --all
 
 echo -e "\n\nRunning the build setup script."
 source ${SCRIPT_DIR}/build_setup_linux.sh
@@ -44,7 +44,7 @@ if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]] && [[ "${HOST_PLATFORM}" != l
     EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --no-test"
 fi
 
-mamba clean --all
+conda clean --all
 
 conda config --show channels
  
