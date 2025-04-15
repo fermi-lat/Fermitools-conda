@@ -57,6 +57,7 @@ else
 
 fi
 
+chmod u+x $CONDA_PREFIX/lib/python3.11/site-packages/fermitools/GtBurst/gtapps_mp/*.py
 # # Issue warnings if PYTHONPATH, LD_LIBRARY_PATH, or DYLD_LIBRARY_PATH are set
 # if [ ! -z ${DYLD_LIBRARY_PATH+x} ]; then
 #     echo "You have DYLD_LIBRARY_PATH set. This might interfere with the correct functioning of conda and the Fermitools."
