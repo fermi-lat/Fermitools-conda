@@ -57,6 +57,7 @@ else
 
 fi
 
+# Temporary change to address a permissions issue with pyburstanalysisgui (GtBurst)
 chmod u+x $CONDA_PREFIX/lib/python3.11/site-packages/fermitools/GtBurst/gtapps_mp/*.py
 # # Issue warnings if PYTHONPATH, LD_LIBRARY_PATH, or DYLD_LIBRARY_PATH are set
 # if [ ! -z ${DYLD_LIBRARY_PATH+x} ]; then
