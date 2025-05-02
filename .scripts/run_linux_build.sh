@@ -52,7 +52,7 @@ conda config --show channels
 conda mambabuild \
   -c fermi \
   -c conda-forge \
-  -c jascersion \
+  -c jasercion \
   "${RECIPE_ROOT}" -m "${CI_SUPPORT}/${CONFIG}.yaml" \
   ${EXTRA_CB_OPTIONS:-} 
 
