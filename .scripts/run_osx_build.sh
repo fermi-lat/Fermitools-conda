@@ -24,10 +24,14 @@ source ${MINIFORGE_HOME}/etc/profile.d/conda.sh
 conda activate base
 
 echo -e "\n\nInstalling conda-build and boa."
-mamba install --update-specs --quiet --yes --channel conda-forge \
+
+# Remove --update-specs JSA 05/2025
+mamba install  --quiet --yes --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
   ruamel_yaml git cctools=949.*
-mamba update --update-specs --yes --quiet --channel conda-forge \
+
+# Remove --update-specs JSA 05/2025
+mamba update --yes --quiet --channel conda-forge \
   conda-build pip boa jq conda\>=4.3 conda-env anaconda-client shyaml requests \
   ruamel_yaml git cctools=949.*
 
