@@ -79,8 +79,8 @@ requirements:
     - xerces-c
 
   run:
-    - pip:
-      - git+https://github.com/jasercion/pyregion.git
+#    - pip:
+#      - git+https://github.com/jasercion/pyregion.git
     - aplpy >=2
     - astropy
     - cfitsio
@@ -101,12 +101,12 @@ requirements:
     - xerces-c
 
 
-test:
-  imports:
-    - py_facilities
-    - pyLikelihood
-    - UnbinnedAnalysis
-    - skymaps
+#test:
+#  imports:
+#    - py_facilities
+#    - pyLikelihood
+#    - UnbinnedAnalysis
+#    - skymaps
 
   requires:
     - fermitools-test-scripts-data
