@@ -79,7 +79,8 @@ requirements:
     - xerces-c
 
   run:
-    - pyregion >=2.0
+    - pip:
+      - git+https://github.com/jasercion/pyregion.git
     - aplpy >=2
     - astropy
     - cfitsio
