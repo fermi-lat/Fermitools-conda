@@ -81,7 +81,7 @@ requirements:
   run:
 #    - pip:
 #      - git+https://github.com/jasercion/pyregion.git
-    - aplpy >=2
+#    - aplpy >=2
     - astropy
     - cfitsio
     - clhep
