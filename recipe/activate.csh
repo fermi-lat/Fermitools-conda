@@ -55,7 +55,7 @@ else
 endif
 
 # Temporary change to address a permissions issue with pyburstanalysisgui (GtBurst)
-chmod u+x $CONDA_PREFIX/lib/python3.11/site-packages/fermitools/GtBurst/gtapps_mp/*.py
+chmod u+x $CONDA_PREFIX/lib/python3.11/site-packages/fermitools/GtBurst/gtapps_mp/*.py > /dev/null
 
 # Issue warnings if PYTHONPATH, LD_LIBRARY_PATH, or DYLD_LIBRARY_PATH are set
 # if ($?DYLD_LIBRARY_PATH) then 
