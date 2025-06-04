@@ -73,7 +73,6 @@ requirements:
     - gsl
     - healpix_cxx 3.31=*_1007
     - python 3.11.*
-    - numpy
     - readline
     - wcslib
     - xerces-c
@@ -92,7 +91,6 @@ requirements:
     - gsl
     - healpix_cxx 3.31=*_1007
     - matplotlib
-    - numpy
     - pmw
     - python 3.11.*
     - readline
