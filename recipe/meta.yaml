@@ -62,41 +62,18 @@ requirements:
     - make
     - pkg-config
     - python 3.11.*
-    - swig 4.0.2
 
   host:
     - cfitsio
-    - clhep
-    - cppunit
-    - f2c >1.0
-    - fftw
-    - gsl
-    - healpix_cxx 3.31=*_1007
     - python 3.11.*
-    - readline
-    - wcslib
-    - xerces-c
 
   run:
 #    - pip:
 #      - git+https://github.com/jasercion/pyregion.git
 #    - aplpy >=2
-    - astropy
     - cfitsio
-    - clhep
-    - cppunit
-    - f2c >1.0
-    - fermitools-data
-    - fftw
-    - gsl
-    - healpix_cxx 3.31=*_1007
-    - matplotlib
-    - pmw
     - python 3.11.*
-    - readline
-    - scipy
-    - wcslib
-    - xerces-c
+
 
 
 #test:
