@@ -5,16 +5,10 @@ set(CMAKE_PLATFORM Darwin)
 set(CMAKE_SYSTEM_VERSION 10.15)
 
 # specify the cross compiler
-set(CMAKE_C_COMPILER $ENV{CC} CACHE FILEPATH "C compiler")
-set(CMAKE_CXX_COMPILER $ENV{CXX} CACHE FILEPATH "C++ compiler")
+set(CMAKE_C_COMPILER $ENV{CC})
 
 # where is the target environment
 set(CMAKE_FIND_ROOT_PATH $ENV{PREFIX} $ENV{BUILD_PREFIX}/$ENV{HOST}/sysroot)
-set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
-
-# Explicitly use libc++ headers and ensure they take precedence
-# (commented out, may not be necessary)
-#set(CMAKE_CXX_FLAGS_INIT "-isystem /opt/homebrew/opt/llvm/include/c++/v1" CACHE STRING "")
 
 # search for programs in the build host directories
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
