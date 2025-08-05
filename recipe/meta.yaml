@@ -64,13 +64,10 @@ requirements:
     - pkg-config
     - python 3.11.*
     - swig 4.0.2
-    - bzip2
-    - zlib
 
   host:
     - cfitsio
     - python 3.11.*
-    - bzip2
     - zlib
 
   run:
