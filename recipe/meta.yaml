@@ -64,7 +64,7 @@ requirements:
     - pkg-config
     - python 3.11.*
     - swig 4.0.2
-    - zlib
+    - bzip2
 
   host:
     - cfitsio
