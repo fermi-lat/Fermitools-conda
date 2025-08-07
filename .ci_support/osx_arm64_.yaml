@@ -1,17 +1,17 @@
 MACOSX_DEPLOYMENT_TARGET:
-  - '15'
+  - '14'
 c_compiler:
   - clang
 c_compiler_version:
-  - '17'
+  - '14'
 cxx_compiler:
   - clangxx
 cxx_compiler_version:
-  - '17'
+  - '14'
 llvm_openmp:
-  - '17'
+  - '14'
 macos_machine:
-  - arm64-apple-darwin15.0.0
+  - arm64-apple-darwin14.0.0
 target_platform:
   - osx-arm64
 zip_keys:
