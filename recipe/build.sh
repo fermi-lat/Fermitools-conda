@@ -50,8 +50,8 @@ cmake -S . \
   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
   ${CMAKE_ARGS}
 
-cmake --build Release --clean-first --parallel ${CPU_COUNT:-2} --target=install 
-
+#cmake --build Release --clean-first --parallel ${CPU_COUNT:-2} --target=install 
+cmake --build Release --clean-first --target=install --verbose
 # Copy the activate and deactivate scripts
 mkdir -p $PREFIX/etc/conda/activate.d
 mkdir -p $PREFIX/etc/conda/deactivate.d
