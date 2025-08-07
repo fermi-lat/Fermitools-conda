@@ -11,6 +11,10 @@ set(CMAKE_C_COMPILER $ENV{CC})
 set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
 set(CMAKE_FIND_ROOT_PATH $ENV{PREFIX} $ENV{BUILD_PREFIX}/$ENV{HOST}/sysroot)
 
+message("CMAKE_SYSROOT: ${CMAKE_SYSROOT}")
+message("CMAKE_FIND_ROOT_PATH: ${CMAKE_FIND_ROOT_PATH}")
+
+
 # Explicitly use libc++ headers and ensure they take precede
 set(CMAKE_CXX_FLAGS_INIT "-isystem ${CMAKE_OSX_SYSROOT}/usr/include/c++/v1" CACHE STRING "")
 
