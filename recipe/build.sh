@@ -43,11 +43,11 @@ conda install --yes conda-forge::cxx-compiler
 cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
   -DCMAKE_PREFIX_PATH="${PREFIX}" \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
   -DPython3_NumPy_INCLUDE_DIR="${SP_DIR}/numpy/core/include" \
-  -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
   ${CMAKE_ARGS}
 
 #cmake --build Release --clean-first --parallel ${CPU_COUNT:-2} --target=install 
