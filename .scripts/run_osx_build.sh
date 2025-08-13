@@ -56,6 +56,10 @@ g++ --version
 
 #echo -e "Post-conda install g++ version:" 
 #g++ --version
+echo -e "Try to install llvm via brew"
+brew install llvm 
+
+echo -e "Launch mambabuild" 
 
 conda mambabuild \
   -c fermi \
