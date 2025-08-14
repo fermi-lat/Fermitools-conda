@@ -46,7 +46,7 @@ conda install --yes conda-forge::cxx-compiler
 cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_FILE}" \
+  -DCMAKE_TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake" \
   -DCMAKE_PREFIX_PATH="${PREFIX}" \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
