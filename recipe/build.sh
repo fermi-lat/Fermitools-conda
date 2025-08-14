@@ -13,7 +13,7 @@ if [ "$(uname)" == "Darwin" ]; then
     #echo "LD FLAGS:"
     #echo $LDFLAGS
     # -L/Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1/
-    export TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake"
+    export TOOLCHAIN_FILE="$RECIPE_DIR/toolchain/cross-osx.cmake"
     # echo "Commandline tools:" 
     # ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/c++/4.2.1
     # export CC="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
@@ -46,7 +46,7 @@ conda install --yes conda-forge::cxx-compiler
 cmake -S . \
   -B Release \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE="${RECIPE_DIR}/toolchain/cross-osx.cmake" \
+  -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN_FILE \
   -DCMAKE_PREFIX_PATH="${PREFIX}" \
   -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
   -DPython3_EXECUTABLE="${BUILD_PREFIX}/bin/python3" \
