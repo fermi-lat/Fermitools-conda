@@ -6,8 +6,8 @@ set(CMAKE_SYSTEM_VERSION 10.15)
 
 # specify the cross compiler
 #set(CMAKE_C_COMPILER $ENV{CC})
-set(CMAKE_C_COMPILER "/opt/homebrew/opt/llvm/bin/clang" CACHE FILEPATH "C compiler")
-set(CMAKE_CXX_COMPILER "/opt/homebrew/opt/llvm/bin/clang++" CACHE FILEPATH "C++ compiler")
+set(CMAKE_C_COMPILER "/usr/local/opt/llvm/bin/clang" CACHE FILEPATH "C compiler")
+set(CMAKE_CXX_COMPILER "/usr/local/opt/llvm/bin/clang++" CACHE FILEPATH "C++ compiler")
 
 # where is the target environment
 set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
