@@ -23,12 +23,15 @@ else
 fi
 
 ######
-#echo "PYTHONPATH: "
-#echo $PYTHONPATH
-#echo "which python: "
-#which python
-#echo "python version: "
-#python --version
+echo "PYTHONPATH: "
+echo $PYTHONPATH
+echo "which python: "
+which python
+echo "python version: "
+python --version
+echo "PREFIX: "
+echo "${PREFIX}"
+
 ######
 
 #echo "SDK dir:"
