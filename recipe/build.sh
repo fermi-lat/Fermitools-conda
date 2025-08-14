@@ -30,7 +30,7 @@ which python
 echo "python version: "
 python --version
 echo "PREFIX: "
-echo "${PREFIX}"
+echo $PREFIX
 
 ######
 
