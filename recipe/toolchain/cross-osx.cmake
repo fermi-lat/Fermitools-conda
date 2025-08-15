@@ -10,7 +10,8 @@ set(CMAKE_C_COMPILER "/usr/local/opt/llvm/bin/clang" CACHE FILEPATH "C compiler"
 set(CMAKE_CXX_COMPILER "/usr/local/opt/llvm/bin/clang++" CACHE FILEPATH "C++ compiler")
 
 # where is the target environment
-set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
+#set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
+set(CMAKE_SYSROOT "/Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk" CACHE PATH "macOS SDK path")
 #set(CMAKE_FIND_ROOT_PATH $ENV{PREFIX} $ENV{BUILD_PREFIX}/$ENV{HOST}/sysroot)
 
 message("CMAKE_SYSROOT: ${CMAKE_OSX_SYSROOT}")
