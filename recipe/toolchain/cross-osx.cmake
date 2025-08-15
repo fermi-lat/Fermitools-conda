@@ -17,7 +17,7 @@ set(CMAKE_SYSROOT "/Applications/Xcode_15.4.app/Contents/Developer/Platforms/Mac
 message("CMAKE_SYSROOT: ${CMAKE_OSX_SYSROOT}")
 execute_process (
   COMMAND bash "xcrun --sdk macosx --show-sdk-path"
-  COMMAND bash "ls /usr/local/opt/llvm/include/c++/v1"
+  COMMAND bash "ls /usr/local/opt/llvm/include/"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/c++/"
