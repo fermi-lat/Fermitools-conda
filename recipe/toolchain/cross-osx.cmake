@@ -14,7 +14,9 @@ set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
 #set(CMAKE_FIND_ROOT_PATH $ENV{PREFIX} $ENV{BUILD_PREFIX}/$ENV{HOST}/sysroot)
 
 message("CMAKE_SYSROOT: ${CMAKE_OSX_SYSROOT}")
-ls $CMAKE_OSX_SYSROOT/usr/include/c++/v1
+execute_process (
+  ls $CMAKE_OSX_SYSROOT/usr/include/c++/v1
+)
 #message("CMAKE_FIND_ROOT_PATH: ${CMAKE_FIND_ROOT_PATH}")
 
 
