@@ -13,12 +13,13 @@ set(CMAKE_CXX_COMPILER "/usr/local/opt/llvm/bin/clang++" CACHE FILEPATH "C++ com
 set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
 #set(CMAKE_FIND_ROOT_PATH $ENV{PREFIX} $ENV{BUILD_PREFIX}/$ENV{HOST}/sysroot)
 
-#message("CMAKE_SYSROOT: ${CMAKE_SYSROOT}")
+message("CMAKE_SYSROOT: ${CMAKE_OSX_SYSROOT}")
+ls $CMAKE_OSX_SYSROOT/usr/include/c++/v1
 #message("CMAKE_FIND_ROOT_PATH: ${CMAKE_FIND_ROOT_PATH}")
 
 
 # Explicitly use libc++ headers and ensure they take precede
-#set(CMAKE_CXX_FLAGS_INIT "-isystem ${CMAKE_OSX_SYSROOT}/usr/include/c++/v1" CACHE STRING "")
+set(CMAKE_CXX_FLAGS_INIT "-isystem ${CMAKE_OSX_SYSROOT}/usr/include/c++/v1" CACHE STRING "")
 #set(CMAKE_CXX_FLAGS_INIT "-isystem /usr/local/opt/llvm/include/c++/v1" CACHE STRING "")
 
 set(RUN_RESULT "0" CACHE STRING "Result of try_run() for cross-compilation")
