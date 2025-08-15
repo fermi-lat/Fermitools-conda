@@ -27,7 +27,7 @@ execute_process (
 
 
 # Explicitly use libc++ headers and ensure they take precede
-set(CMAKE_CXX_FLAGS_INIT "-isystem ${CMAKE_OSX_SYSROOT}/usr/include/c++/v1" CACHE STRING "")
+set(CMAKE_CXX_FLAGS_INIT "-isystem ${CMAKE_SYSROOT}/usr/include/c++/v1" CACHE STRING "")
 #set(CMAKE_CXX_FLAGS_INIT "-isystem /usr/local/opt/llvm/include/c++/v1" CACHE STRING "")
 
 set(RUN_RESULT "0" CACHE STRING "Result of try_run() for cross-compilation")
