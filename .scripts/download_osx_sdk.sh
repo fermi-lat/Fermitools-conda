@@ -14,6 +14,8 @@ if [ -f ${CI_SUPPORT}/${CONFIG}.yaml ]; then
     fi
 fi
 
+export MACOSX_SDK_VERSION=11.3
+
 if [[ "${MACOSX_SDK_VERSION:-0}" == "0" ]]; then
     export MACOSX_SDK_VERSION=$MACOSX_DEPLOYMENT_TARGET
 fi
