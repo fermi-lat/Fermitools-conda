@@ -15,6 +15,7 @@ set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
 
 message("CMAKE_SYSROOT: ${CMAKE_OSX_SYSROOT}")
 execute_process (
+  COMMAND bash "xcrun --sdk macosx --show-sdk-path"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/"
