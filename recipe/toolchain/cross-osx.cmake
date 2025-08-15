@@ -15,6 +15,10 @@ set(CMAKE_SYSROOT "${CMAKE_OSX_SYSROOT}" CACHE PATH "macOS SDK path")
 
 message("CMAKE_SYSROOT: ${CMAKE_OSX_SYSROOT}")
 execute_process (
+  COMMAND bash "ls ${CMAKE_OSX_SYSROOT}"
+  COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/"
+  COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/"
+  COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/c++/"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/c++/v1"
 )
 #message("CMAKE_FIND_ROOT_PATH: ${CMAKE_FIND_ROOT_PATH}")
