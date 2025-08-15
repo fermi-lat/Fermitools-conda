@@ -17,7 +17,7 @@ set(CMAKE_SYSROOT "/Applications/Xcode_15.4.app/Contents/Developer/Platforms/Mac
 message("CMAKE_SYSROOT: ${CMAKE_OSX_SYSROOT}")
 execute_process (
   COMMAND bash "xcrun --sdk macosx --show-sdk-path"
-  COMMAND bash "ls /Applications/Xcode_15.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
+  COMMAND bash "ls /usr/local/opt/llvm/include/c++/v1"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/"
   COMMAND bash "ls ${CMAKE_OSX_SYSROOT}/usr/include/c++/"
@@ -27,8 +27,8 @@ execute_process (
 
 
 # Explicitly use libc++ headers and ensure they take precede
-set(CMAKE_CXX_FLAGS_INIT "-isystem ${CMAKE_SYSROOT}/usr/include/c++/v1" CACHE STRING "")
-#set(CMAKE_CXX_FLAGS_INIT "-isystem /usr/local/opt/llvm/include/c++/v1" CACHE STRING "")
+#set(CMAKE_CXX_FLAGS_INIT "-isystem ${CMAKE_SYSROOT}/usr/include/c++/v1" CACHE STRING "")
+set(CMAKE_CXX_FLAGS_INIT "-isystem /usr/local/opt/llvm/include/c++/v1" CACHE STRING "")
 
 set(RUN_RESULT "0" CACHE STRING "Result of try_run() for cross-compilation")
 
