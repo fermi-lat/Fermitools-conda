@@ -1,3 +1,5 @@
+# LEGACY REPOSITORY: Superseded by the [ScienceTools Repository](https://github.com/fermi-lat/ScienceTools)
+
 # Fermitools-conda-recipe
 
 The Fermitools are a product of the Fermi-LAT Collaboration.
